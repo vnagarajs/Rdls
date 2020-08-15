@@ -17,7 +17,7 @@
 
     <li class="cart-widgets mobile-cart" id="cart-widgets">      
       <label (click)="opencart()" class="licon lnr  lnr-cart">
-        <span class="cart_qty_cls">{{products.length }}</span> 
+        <span  *ngIf='cart && cart.items && cart.items.length' class="cart_qty_cls">{{cart.items.length }}</span> 
       </label> 
     </li>
    
@@ -81,37 +81,37 @@
      
 
   
-  <ul class="show-div shopping-cart" *ngIf='!products.length'>
+  <ul class="show-div shopping-cart" *ngIf='!cart || !cart.items || !cart.items.length'>
     <h5>Your cart is currently empty.</h5>
   </ul>
-  <ul class="show-div shopping-cart" *ngIf='products.length'>
-    <li *ngFor="let product of products">
+  <ul class="show-div shopping-cart" *ngIf='cart && cart.items && cart.items.length'>
+    <li *ngFor="let cartItem of cart.items">
       <div class="media">
-        <a [routerLink]="['/shop/product/left/sidebar/']">
-          <img style="width:100px;" class="mr-3" [src]="product.images[0].src" [alt]="product?.images[0].alt">
+        <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">
+          <img style="width:100px;" class="mr-3" [src]="cartItem.product.image.url" [alt]="'assets/images/product/placeholder.jpg'">
         </a>
         <div class="media-body">
-          <a [routerLink]="['/shop/product/left/sidebar/']">
-            <h4>{{ product?.title }}</h4>
+          <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">
+            <h4>{{ cartItem.product.name }}</h4>
           </a>
           <h4>
             <span>
-              {{ product?.quantity }} x 
-              {{ product?.price * productService?.Currency.price | discount:product | currency:productService?.Currency.currency:'symbol' }}
+              {{ cartItem?.quantity }} x 
+              {{ cartItem?.price * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
             </span>
           </h4>
         </div>
       </div>
-      <div class="close-circle" (click)="removeItem(product)">
+      <div class="close-circle" (click)="removeItem(cartItem)">
         <a href="javascript:void(0)"><i class="fa fa-times" aria-hidden="true"></i></a>
       </div>
     </li>   
   </ul>
-  <div class="quickcart-bottom">
+  <div class="quickcart-bottom" *ngIf='cart && cart.items && cart.items.length'>
     <ul>
       <li>
         <div class="total">
-          <h5>Cart subtotal : <span>{{ getTotal | async | currency:productService?.Currency.currency:'symbol' }}</span></h5>
+          <h5>Cart subtotal : <span>{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol' }}</span></h5>
         </div>
       </li>
       <li>

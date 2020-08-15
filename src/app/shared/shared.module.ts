@@ -8,6 +8,9 @@ import { BarRatingModule } from "ngx-bar-rating";
 import { LazyLoadImageModule, scrollPreset } from 'ng-lazyload-image';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { TranslateModule } from '@ngx-translate/core';
+import { ApolloModule,  Apollo } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
 // Header and Footer Components
 import { HeaderOneComponent } from './header/header-one/header-one.component';
@@ -55,6 +58,8 @@ import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component'
 
 // Pipes
 import { DiscountPipe } from './pipes/discount.pipe';
+import { DiscountPercentagePipe } from './pipes/discount-percentage';
+
 
 @NgModule({
   declarations: [
@@ -90,7 +95,8 @@ import { DiscountPipe } from './pipes/discount.pipe';
     SkeletonProductBoxComponent,
     LayoutBoxComponent,
     TapToTopComponent,
-    DiscountPipe
+    DiscountPipe,
+    DiscountPercentagePipe
   ],
   imports: [
     CommonModule,
@@ -104,7 +110,9 @@ import { DiscountPipe } from './pipes/discount.pipe';
       // preset: scrollPreset // <-- tell LazyLoadImage that you want to use scrollPreset
     }),
     NgxSkeletonLoaderModule,
-    TranslateModule
+    TranslateModule,    
+    ApolloModule,
+    HttpLinkModule
   ],
   exports: [
     CommonModule,
@@ -145,7 +153,16 @@ import { DiscountPipe } from './pipes/discount.pipe';
     SkeletonProductBoxComponent,
     LayoutBoxComponent,
     TapToTopComponent,
-    DiscountPipe
+    DiscountPipe,
+    DiscountPercentagePipe
   ]
 })
-export class SharedModule { }
+export class SharedModule { 
+  constructor(apollo: Apollo, httpLink: HttpLink) {
+    apollo.create({
+      link: httpLink.create({uri: 'http://localhost:4200/graphql'}),
+      cache: new InMemoryCache()
+    });
+  }
+}
+

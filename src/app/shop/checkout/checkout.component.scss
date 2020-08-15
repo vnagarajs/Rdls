@@ -1,0 +1,167 @@
+.order-review {
+    width:100%;
+    padding:5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background:transparent;
+    // box-shadow: 0 1px 5px 0 gray;
+}
+
+.order-review:hover {
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,.19), 0 8px 17px 0 rgba(0,0,0,.2);
+}
+
+.productheader #product:before {
+    content:'\2713';
+}
+
+#review_step_header {
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 5px;
+}
+
+.productheader h3{color:#999;font-size:1.05em}
+.productheader h3{color:#404040;margin:0}
+.productheader h3{padding:9px 0px 0px 0px;width:100%;height: 45px;font-weight:700;font-size:15px;color:#363636;text-transform:uppercase;margin-left:0;display:inline-block;line-height:35px}
+.productheader h3:before{display:inline-block;width:35px;height:35px;border-radius:50%;vertical-align:middle;text-align:center;line-height:35px;color:#fff;font-size:16px;font-weight:700;margin-right:10px;margin-left:17px;background-color: black;}
+
+.input-box {
+    width: 67%;
+    vertical-align: middle;
+    position: relative;
+    margin: 15px 0 10px;
+    margin-top: 0;
+    display: inline-block;
+}
+
+.input-text {
+    font-size: 15px;
+    padding: 13px 0 0;
+    display: block;
+    width: 100%!important;
+    height: auto!important;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+    font-weight: 500;
+    color: #252525;
+    max-width: 100%;
+}
+
+.actions-button {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+    border-color: #774bc7 !important;
+    color: #000 !important;
+}
+
+#add_coupon_code_button {
+    border: 1px solid;
+    padding: 0 4px;
+    background: none repeat scroll 0 0 transparent;
+    width: 105px;
+    height: 35px;
+    cursor: pointer;
+}
+
+#add_coupon_code_button:hover {
+    border: 2px solid;
+    padding: 0 4px;
+}
+
+.action_secondary:hover, button:hover {
+    border-color: #774bc7 !important;
+    color: #000 !important;
+}
+
+.shipping-address {
+    width:80%;
+    padding:5px;
+    margin: 15px;
+    background:transparent;
+    box-shadow: 0 1px 5px 0 gray;
+}
+
+.shipping-address:hover {
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,.19), 0 8px 17px 0 rgba(0,0,0,.2);
+}
+
+.shippingaddrheader #shippingaddr:before {
+    content:'1';
+}
+
+.shippingaddrheader h3{color:#999;font-size:1.05em}
+.shippingaddrheader h3{color:#404040;margin:0}
+.shippingaddrheader h3{padding:9px 0px 0px 0px;width:100%;height: 45px;font-weight:700;font-size:15px;color:#363636;text-transform:uppercase;margin-left:0;display:inline-block;line-height:35px}
+.shippingaddrheader h3:before{display:inline-block;width:35px;height:35px;border-radius:50%;vertical-align:middle;text-align:center;line-height:35px;color:#fff;font-size:16px;font-weight:700;margin-right:10px;margin-left:17px;background-color: black;}
+
+.shipping-method {
+    width:80%;
+    padding:5px;
+    margin: 15px;
+    background:transparent;
+    box-shadow: 0 1px 5px 0 gray;
+}
+
+.shipping-method:hover {
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,.19), 0 8px 17px 0 rgba(0,0,0,.2);
+}
+
+.shippingmethodheader #shippingmethod:before {
+    content:'2';
+}
+
+.shippingmethodheader h3{color:#999;font-size:1.05em}
+.shippingmethodheader h3{color:#404040;margin:0}
+.shippingmethodheader h3{padding:9px 0px 0px 0px;width:100%;height: 45px;font-weight:700;font-size:15px;color:#363636;text-transform:uppercase;margin-left:0;display:inline-block;line-height:35px}
+.shippingmethodheader h3:before{display:inline-block;width:35px;height:35px;border-radius:50%;vertical-align:middle;text-align:center;line-height:35px;color:#fff;font-size:16px;font-weight:700;margin-right:10px;margin-left:17px;background-color: black;}
+
+.payment {
+    width:80%;
+    padding:5px;
+    margin: 15px;
+    background:transparent;
+    box-shadow: 0 1px 5px 0 gray;
+}
+
+.payment:hover {
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,.19), 0 8px 17px 0 rgba(0,0,0,.2);
+}
+
+.paymentheader #paymentheader:before {
+    content:'3';
+}
+
+.paymentheader h3{color:#999;font-size:1.05em}
+.paymentheader h3{color:#404040;margin:0}
+.paymentheader h3{padding:9px 0px 0px 0px;width:100%;height: 45px;font-weight:700;font-size:15px;color:#363636;text-transform:uppercase;margin-left:0;display:inline-block;line-height:35px}
+.paymentheader h3:before{display:inline-block;width:35px;height:35px;border-radius:50%;vertical-align:middle;text-align:center;line-height:35px;color:#fff;font-size:16px;font-weight:700;margin-right:10px;margin-left:17px;background-color: black;}
+
+
+.edit-osc {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+}
+
+a:hover, .alink:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+button, .action, .cart.table-wrapper .actions-toolbar>.action, .action-gift {
+    height: auto;
+}
+
+.edit-osc:before {
+    content: '\270E'; // 'edc3';
+    display: inline-block;
+    font-family: 'Nucleo Mini';
+    font-weight: 400;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}

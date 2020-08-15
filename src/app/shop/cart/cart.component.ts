@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductService } from "../../shared/services/product.service";
 import { Product } from "../../shared/classes/product";
+//import { Cart, CartItem } from '../../shared/classes/cart';
+import { Cart, Item, CartResponse } from '../../shared/classes/cartGraphQl';
 
 @Component({
   selector: 'app-cart',
@@ -10,10 +12,13 @@ import { Product } from "../../shared/classes/product";
 })
 export class CartComponent implements OnInit {
 
-  public products: Product[] = [];
+  public cart: Cart = {};
 
   constructor(public productService: ProductService) {
-    this.productService.cartItems.subscribe(response => this.products = response);
+    this.productService.cartItems.subscribe(response => {
+      console.log(response);
+      this.cart = response.data.cart;
+    });    
   }
 
   ngOnInit(): void {
@@ -33,8 +38,10 @@ export class CartComponent implements OnInit {
     this.productService.updateCartQuantity(product, qty);
   }
 
-  public removeItem(product: any) {
-    this.productService.removeCartItem(product);
+  public removeItem(cartItem: Item) {
+    this.productService.removeCartItem(cartItem).subscribe(response => {
+      this.cart = response.data.updateCartItems.cart;
+    });  
   }
 
 }

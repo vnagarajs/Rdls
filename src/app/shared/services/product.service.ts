@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, startWith, delay } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../classes/product';
+import { cartRestApi } from '../classes/cartRestApi';
+import { environment } from '../../../environments/environment';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
+import { CartResponse, Data, Item } from '../classes/cartGraphQl';
+import { ApolloQueryResult, ApolloCurrentQueryResult } from 'apollo-client';
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -22,7 +28,8 @@ export class ProductService {
   public Products
 
   constructor(private http: HttpClient,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService, private apollo: Apollo) {
+  }
 
   /*
     ---------------------------------------------
@@ -43,14 +50,40 @@ export class ProductService {
   }
 
   // Get Products By Slug
-  public getProductBySlug(slug: string): Observable<Product> {
-    return this.products.pipe(map(items => { 
-      return items.find((item: any) => { 
-        return item.title.replace(' ', '-') === slug; 
-      }); 
-    }));
+  public getProductBySku(sku: string): Observable<Product> {   
+    return this.http.get<Product>(environment.product_base_url + environment.get_product_url + sku);
   }
 
+  public getQuoteId() {
+    console.log('cont');
+
+    let quoteId: string = localStorage["quoteId"];
+    if (quoteId) {
+      return quoteId;
+    }
+    const httpOptions = {
+      headers: new HttpHeaders()
+    }
+    //httpOptions.headers.set('content-type', 'application/json');
+    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
+    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // this.http.post(environment.product_base_url + environment.add_to_cart_url.replace('{0}', quoteId), null, httpOptions).
+    // subscribe( x =>  console.log(x));
+    // console.log('cont');
+    // return quoteId;
+    this.http.post(environment.product_base_url + environment.get_quote_id_url, null, httpOptions).subscribe(
+      (response) => {
+        quoteId = response.toString();
+        if (quoteId) {
+          localStorage.setItem("quoteId", quoteId);
+        }
+        return quoteId;
+      }
+    );
+
+  }
 
   /*
     ---------------------------------------------
@@ -131,35 +164,93 @@ export class ProductService {
   */
 
   // Get Cart Items
-  public get cartItems(): Observable<Product[]> {
-    const itemsStream = new Observable(observer => {
-      observer.next(state.cart);
-      observer.complete();
-    });
-    return <Observable<Product[]>>itemsStream;
+  public get cartItems(): Observable<ApolloQueryResult<any>> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .query<any>({
+        query: gql`
+        query($id: String!) {
+          cart(cart_id: $id)  {
+            items {
+            id
+            product {
+            name
+            sku
+            image{
+            url
+            }
+            }
+            ... on SimpleCartItem {
+            customizable_options {
+            label
+            id
+            values {
+            id
+            label
+            value
+            price{
+            value
+            }
+            }
+            }
+            }
+            quantity
+            price
+            }
+            shipping_addresses {
+            selected_shipping_method {
+            amount {
+            value
+            currency
+            }
+            carrier_code
+            carrier_title
+            method_code
+            method_title
+            }
+            }
+            applied_coupon {
+            code
+            }
+            prices {
+            grand_total {
+            value
+            }
+            subtotal_excluding_tax{
+            value
+            }
+            applied_taxes{
+            amount{
+            value
+            }
+            label
+            }
+            }
+            }
+        }`,
+        variables: {
+          id: cart_id
+        }
+      });
+    // var quoteId = localStorage["quoteId"];
+    // if (!quoteId){      
+    //   quoteId = this.getQuoteId();
+    // }    
+    // return this.http.get<Cart[]>(environment.product_base_url + environment.get_cart_url.replace('{0}', quoteId));
   }
 
   // Add to Cart
-  public addToCart(product): any {
-    const cartItem = state.cart.find(item => item.id === product.id);
-    const qty = product.quantity ? product.quantity : 1;
-    const items = cartItem ? cartItem : product;
-    const stock = this.calculateStockCounts(items, qty);
-    
-    if(!stock) return false
-
-    if (cartItem) {
-        cartItem.quantity += qty    
-    } else {
-      state.cart.push({
-        ...product,
-        quantity: qty
-      })
+  public addToCart(cart: cartRestApi.Cart): any {
+    const httpOptions = {
+      headers: new HttpHeaders()
     }
-
-    this.OpenCart = true; // If we use cart variation modal
-    localStorage.setItem("cartItems", JSON.stringify(state.cart));
-    return true;
+    httpOptions.headers.set('content-type', 'application/json');
+    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
+    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    return this.http.post(environment.product_base_url + environment.add_to_cart_url.replace('{0}', cart.cartItem.quote_id), cart, httpOptions);
   }
 
   // Update Cart Quantity
@@ -177,37 +268,325 @@ export class ProductService {
     })
   }
 
-    // Calculate Stock Counts
+  // Calculate Stock Counts
   public calculateStockCounts(product, quantity) {
     const qty = product.quantity + quantity
     const stock = product.stock
     if (stock < qty || stock == 0) {
-      this.toastrService.error('You can not add more items than available. In stock '+ stock +' items.');
+      this.toastrService.error('You can not add more items than available. In stock ' + stock + ' items.');
       return false
     }
     return true
   }
 
   // Remove Cart items
-  public removeCartItem(product: Product): any {
-    const index = state.cart.indexOf(product);
-    state.cart.splice(index, 1);
-    localStorage.setItem("cartItems", JSON.stringify(state.cart));
-    return true
+  public removeCartItem(cart: Item): any {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!) {
+          updateCartItems(
+            input: {
+              cart_id: $cart_id,
+              cart_items: [
+                { 
+                  cart_item_id: $cart_item_id
+                  quantity: 0
+                }
+              ]
+            }
+          ) {
+            items {
+            id
+            product {
+            name
+            sku
+            image{
+            url
+            }
+            }
+            ... on SimpleCartItem {
+            customizable_options {
+            label
+            id
+            values {
+            id
+            label
+            value
+            price{
+            value
+            }
+            }
+            }
+            }
+            quantity
+            price
+            }
+            shipping_addresses {
+            selected_shipping_method {
+            amount {
+            value
+            currency
+            }
+            carrier_code
+            carrier_title
+            method_code
+            method_title
+            }
+            }
+            applied_coupon {
+            code
+            }
+            prices {
+            grand_total {
+            value
+            }
+            subtotal_excluding_tax{
+            value
+            }
+            applied_taxes{
+            amount{
+            value
+            }
+            label
+            }
+            }
+            }
+          }
+        }
+        `,
+        variables: {
+          cart_id: cart_id,
+          cart_item_id: cart.id
+        }
+      });
   }
 
   // Total amount 
-  public cartTotalAmount(): Observable<number> {
-    return this.cartItems.pipe(map((product: Product[]) => {
-      return product.reduce((prev, curr: Product) => {
-        let price = curr.price;
-        if(curr.discount) {
-          price = curr.price - (curr.price * curr.discount / 100)
-        }
-        return (prev + price * curr.quantity) * this.Currency.price;
-      }, 0);
-    }));
+  cartTotalAmount(): Observable<number> {
+    // return this.cartItems.pipe(map((product: Product[]) => {
+    //   return product.reduce((prev, curr: Product) => {
+    //     let price = curr.price;
+    //     if(curr.discount) {
+    //       price = curr.price - (curr.price * curr.discount / 100)
+    //     }
+    //     return (prev + price * curr.quantity) * this.Currency.price;
+    //   }, 0);
+    // }));
+    return null;
   }
+
+  checkIfEmailAddressRegistered(email: string): Observable<ApolloQueryResult<any>> {
+    return this.apollo
+      .query<any>({
+        query: gql`
+        query($email: String!) {
+          isEmailAvailable(email: $email) {
+          is_email_available
+          }
+          }`,
+          variables: {
+            email: email
+          }
+        });          
+  } 
+
+  public setGuestEmailOnCart(email: string): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($email: String!, $cart_id: String!) {
+          setGuestEmailOnCart(input: {
+            cart_id: $cart_id
+            email: "$email
+          }) {
+            cart {
+              email
+            }
+          }
+        }`,
+        variables: {
+          email: email,
+          cart_item_id: cart_id
+        }
+      });
+  }
+        
+public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: cart_id, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
+          $region: String!, $postcode: String!, $country_code: String!, $telephone: String!, $save_in_address_book: Boolean) {
+          setShippingAddressesOnCart(
+            input: {
+              cart_id: $cart_id
+              shipping_addresses: [
+                {
+                  address: {
+                    firstname: $firstname
+                    lastname: $lastname
+                    street: $street
+                    city: "$city
+                    region: $region
+                    postcode: $postcode
+                    country_code: $country_code
+                    telephone: $telephone
+                    save_in_address_book: $save_in_address_book
+                  },
+                }
+              ]
+            }
+          ) {
+            cart {
+              shipping_addresses {
+                firstname
+                lastname
+                street
+                city
+                region {
+                  code
+                  label
+                }
+                postcode
+                telephone
+                country {
+                  code
+                  label
+                }
+              }
+            }
+          }
+        }
+        `,
+        variables: {
+          $cart_id: cart_id,    
+          $firstname: shippingAddress.firstname,
+          $lastname: shippingAddress.lastname,
+          $street: shippingAddress.street,
+          $city: shippingAddress.city,
+          $region: shippingAddress.region,
+          $postcode: shippingAddress.postcode,
+          $telephone: shippingAddress.telephone,
+          $country_code: shippingAddress.country_code,
+          $save_in_address_book: shippingAddress.save_in_address_book,    
+        }
+      });
+  }
+
+  public setBillingAddressOnCart(billingAddress: any): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: cart_id, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
+          $region: String, $postcode: String, $country_code: String!, $telephone: String, $save_in_address_book: Boolean) {
+            setBillingAddressOnCart(
+            input: {
+              cart_id: $cart_id
+              billing_address: [
+                {
+                  address: {
+                    firstname: $firstname
+                    lastname: $lastname
+                    street: $street
+                    city: "$city
+                    region: $region
+                    postcode: $postcode
+                    country_code: $country_code
+                    telephone: $telephone
+                    save_in_address_book: $save_in_address_book
+                  },
+                }
+              ]
+            }
+          ) {
+            cart {
+              billing_address {
+                firstname
+                lastname
+                street
+                city
+                region {
+                  code
+                  label
+                }
+                postcode
+                telephone
+                country {
+                  code
+                  label
+                }
+              }
+            }
+          }
+        }
+        `,
+        variables: {
+          $cart_id: cart_id,    
+          $firstname: billingAddress.firstname,
+          $lastname: billingAddress.lastname,
+          $street: billingAddress.street,
+          $city: billingAddress.city,
+          $region: billingAddress.region,
+          $postcode: billingAddress.postcode,
+          $telephone: billingAddress.telephone,
+          $country_code: billingAddress.country_code,
+          $save_in_address_book: billingAddress.save_in_address_book,    
+        }
+      });
+  }
+
+  public setShippingMethodsOnCart(carrier_code: any, method_code: any): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: cart_id, $carrier_code: String!, $method_code: String!) {
+            setShippingMethodsOnCart(input: {
+              cart_id: $cart_id
+              shipping_methods: [
+                {
+                  carrier_code: $carrier_code
+                  method_code: $method_code
+                }
+              ]
+            }) {
+              cart {
+                shipping_addresses {
+                  selected_shipping_method {
+                    carrier_code
+                    method_code
+                    carrier_title
+                    method_title
+                  }
+                }
+              }
+            }
+          
+        }
+        `,
+        variables: {
+          $cart_id: cart_id,    
+          $carrier_code: carrier_code,
+          $method_code: method_code
+        }
+      });
+  }
+
 
   /*
     ---------------------------------------------
@@ -217,7 +596,7 @@ export class ProductService {
 
   // Get Product Filter
   public filterProducts(filter: any): Observable<Product[]> {
-    return this.products.pipe(map(product => 
+    return this.products.pipe(map(product =>
       product.filter((item: Product) => {
         if (!filter.length) return true
         const Tags = filter.some((prev) => { // Match Tags
@@ -235,7 +614,7 @@ export class ProductService {
   // Sorting Filter
   public sortProducts(products: Product[], payload: string): any {
 
-    if(payload === 'ascending') {
+    if (payload === 'ascending') {
       return products.sort((a, b) => {
         if (a.id < b.id) {
           return -1;
@@ -280,7 +659,7 @@ export class ProductService {
         }
         return 0;
       })
-    } 
+    }
   }
 
   /*
@@ -296,22 +675,22 @@ export class ProductService {
     let paginateRange = 3;
 
     // ensure current page isn't out of range
-    if (currentPage < 1) { 
-      currentPage = 1; 
-    } else if (currentPage > totalPages) { 
-      currentPage = totalPages; 
+    if (currentPage < 1) {
+      currentPage = 1;
+    } else if (currentPage > totalPages) {
+      currentPage = totalPages;
     }
-    
+
     let startPage: number, endPage: number;
     if (totalPages <= 5) {
       startPage = 1;
       endPage = totalPages;
-    } else if(currentPage < paginateRange - 1){
+    } else if (currentPage < paginateRange - 1) {
       startPage = 1;
       endPage = startPage + paginateRange - 1;
     } else {
       startPage = currentPage - 1;
-      endPage =  currentPage + 1;
+      endPage = currentPage + 1;
     }
 
     // calculate start and end item indexes
