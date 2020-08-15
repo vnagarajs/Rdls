@@ -1,0 +1,106 @@
+<ng-template
+    class="theme-modal"
+    #specialFinancing
+    let-modal
+>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5
+                class="modal-title"
+                id="exampleModalLabel"
+            >
+                {{product?.title}}
+            </h5>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <img
+                alt="logo"
+                src="https://28pkqk84wgmimmok.mojostratus.io/static/frontend/Zemez/theme105/en_US/Magento_Theme/images/black-logo-riddles.png"
+            >
+        </div>
+        <button
+            class="action-close"
+            data-role="closeBtn"
+            type="button"
+            (click)="modal.dismiss('Cross click')"
+        >
+            <span>Close</span>
+        </button>
+        <div class="modal-body">
+            <div class="modal-body-tag">
+                <div
+                    data-content-type="row"
+                    data-appearance="contained"
+                    data-element="main"
+                >
+                    <div
+                        data-enable-parallax="0"
+                        data-parallax-speed="0.5"
+                        data-background-images="{}"
+                        data-element="inner"
+                        style="justify-content: flex-start; display: flex; flex-direction: column; background-position: left top; background-size: cover; background-repeat: no-repeat; background-attachment: scroll; border-style: none; border-width: 1px; border-radius: 0px; margin: 0px 0px 10px; padding: 10px;"
+                    >
+                        <div
+                            data-content-type="html"
+                            data-appearance="default"
+                            data-element="main"
+                            style="border-style: none; border-width: 1px; border-radius: 0px; margin: 0px; padding: 0px;"
+                            data-decoded="true"
+                        >
+                            <div class="title-block">
+                                <h4>
+                                    Above $2000. No Interest if Paid in Full within 18 months with regular monthly payments. Interest will be charged to your account from the purchase date if the purchase balance is not paid in full within the promotional period.*&nbsp;&nbsp;
+                                </h4>
+                            </div>
+                            <p>
+                                A Riddle's Jewelry credit card* is a convenient way to pay for your Riddle's Jewelry purchases. Plus, as a Riddle's Jewelry cardholder you can enjoy other great benefits throughout the year, such as:
+                            </p>
+                            <ul class="short-msg-ulli">
+                                <li>
+                                    Special promotional offers where available
+                                </li>
+                                <li>
+                                    Revolving line of credit that you can use for future purchases without reapplying
+                                </li>
+                                <li>Quick credit decisions</li>
+                                <li>
+                                    Convenient monthly payments to fit your budget
+                                </li>
+                                <li>
+                                    Easy-to-use online account management and bill payment options
+                                </li>
+                            </ul>
+                            <p>
+                                *The Riddle’s Jewelry credit card is issued by Wells Fargo Bank, N.A. Special terms for 6 months apply to qualifying purchases of $500-$999 charged with approved credit, 12 months apply to qualifying purchase above $1000 charged with approved credit, 18 months apply to qualifying purchase above $2000 charged with approved credit . Minimum monthly payments are required during the promotional (special terms) period. Interest will be charged to your account from the purchase date at the APR for Purchases if the purchase balance is not paid in full within the promotional period. Paying only the minimum monthly payment will not pay off the purchase balance before the end of the promotional period. For new accounts, the APR for Purchases is 28.99%. If you are charged interest in any billing cycle, the minimum interest charge will be $1.00. This information is accurate as of 7/01/2020 and is subject to change. For current information, call us at 1-888-402-3475. Offer expires 7/31/2020.
+                            </p>
+                            <p>
+                                To begin the application process, please
+                                <a
+                                    class="short-msg-link"
+                                    href="https://retailservices.wellsfargo.com/retailprivatelabel/initApp.do?m=2111000436"
+                                    target="_blank"
+                                >
+                                    click here
+                                </a>
+                                .
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <p>
+                Riddle's Jewelry © 2018 by Riddle's Group Inc.
+            </p>
+        </div>
+    </div>
+</ng-template>

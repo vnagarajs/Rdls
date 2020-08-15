@@ -1,0 +1,96 @@
+<ng-template
+    class="theme-modal"
+    #moneyBackGuarantee
+    let-modal
+>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5
+                class="modal-title"
+                id="exampleModalLabel"
+            >
+                {{product?.title}}
+            </h5>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <img
+                alt="logo"
+                src="https://28pkqk84wgmimmok.mojostratus.io/static/frontend/Zemez/theme105/en_US/Magento_Theme/images/black-logo-riddles.png"
+            >
+        </div>
+        <button
+            class="action-close"
+            data-role="closeBtn"
+            type="button"
+            (click)="modal.dismiss('Cross click')"
+        >
+            <span>Close</span>
+        </button>
+        <div class="modal-body">
+            <div class="modal-content-tag">
+                <div class="model-pop-header">
+                    <img
+                        alt="logo"
+                        src="https://28pkqk84wgmimmok.mojostratus.io/static/frontend/Zemez/theme105/en_US/Magento_Theme/images/black-logo-riddles.png"
+                    >
+                </div>
+                <div class="modal-body-tag">
+                    <div class="title-block">
+
+                        <h4>Money Back Guarantee</h4>
+
+                    </div>
+
+                    <div
+                        data-content-type="row"
+                        data-appearance="contained"
+                        data-element="main"
+                    >
+                        <div
+                            data-enable-parallax="0"
+                            data-parallax-speed="0.5"
+                            data-background-images="{}"
+                            data-element="inner"
+                            style="justify-content: flex-start; display: flex; flex-direction: column; background-position: left top; background-size: cover; background-repeat: no-repeat; background-attachment: scroll; border-style: none; border-width: 1px; border-radius: 0px; margin: 0px 0px 10px; padding: 10px;"
+                        >
+                            <div
+                                data-content-type="html"
+                                data-appearance="default"
+                                data-element="main"
+                                style="border-style: none; border-width: 1px; border-radius: 0px; margin: 0px; padding: 0px;"
+                                data-decoded="true"
+                            >
+                                <p>
+                                    We hope that you are delighted with your online jewelry purchase. But, if you need to return, exchange, or have your item repaired, sized or adjusted for any reason, you can do so within 60 days for all diamond purchases and 20 days on other jewelry purchases. We are unable to accept returns of special order items or customized pieces. We accept returns through the mail, or in any of our
+                                    <a
+                                        class="short-msg-link"
+                                        href="/storelocator"
+                                        target="_blank"
+                                    >
+                                        Riddle's Jewelry store locations
+                                    </a>
+                                    . Returns are credited in the original form of payment. All returned or exchanged items must be in new and unused condition.
+                                </p>
+                                <p>
+                                    Riddle's offers a diamond trade-in policy, allowing you to buy a diamond today with the assurance that you can upgrade it at a later time.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <p>
+                Riddle's Jewelry © 2018 by Riddle's Group Inc.
+            </p>
+        </div>
+    </div>
+</ng-template>

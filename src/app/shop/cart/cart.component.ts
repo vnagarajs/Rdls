@@ -16,7 +16,6 @@ export class CartComponent implements OnInit {
 
   constructor(public productService: ProductService) {
     this.productService.cartItems.subscribe(response => {
-      console.log(response);
       this.cart = response.data.cart;
     });    
   }

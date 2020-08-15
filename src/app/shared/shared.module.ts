@@ -59,7 +59,9 @@ import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component'
 // Pipes
 import { DiscountPipe } from './pipes/discount.pipe';
 import { DiscountPercentagePipe } from './pipes/discount-percentage';
-
+import { FreeShippingComponent } from './components/modal/free-shipping/free-shipping';
+import { MoneyBackGuaranteeComponent } from './components/modal/money-back-guarantee/money-back-guarantee';
+import { SpecialFinancingComponent } from './components/modal/special-financing/special-financing';
 
 @NgModule({
   declarations: [
@@ -90,7 +92,10 @@ import { DiscountPercentagePipe } from './pipes/discount-percentage';
     CartModalComponent,
     CartVariationComponent,
     VideoModalComponent,
-    SizeModalComponent,
+    SizeModalComponent,    
+    FreeShippingComponent,
+    MoneyBackGuaranteeComponent,
+    SpecialFinancingComponent,
     AgeVerificationComponent,
     SkeletonProductBoxComponent,
     LayoutBoxComponent,
@@ -149,6 +154,9 @@ import { DiscountPercentagePipe } from './pipes/discount-percentage';
     CartVariationComponent,
     VideoModalComponent,
     SizeModalComponent,
+    FreeShippingComponent,
+    MoneyBackGuaranteeComponent,
+    SpecialFinancingComponent,
     AgeVerificationComponent,
     SkeletonProductBoxComponent,
     LayoutBoxComponent,

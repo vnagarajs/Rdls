@@ -1,0 +1,83 @@
+<ng-template
+    class="theme-modal"
+    #freeShipping
+    let-modal
+>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5
+                class="modal-title"
+                id="exampleModalLabel"
+            >
+                {{product?.title}}
+            </h5>
+            <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <img
+                alt="logo"
+                src="https://28pkqk84wgmimmok.mojostratus.io/static/frontend/Zemez/theme105/en_US/Magento_Theme/images/black-logo-riddles.png"
+            >
+        </div>
+        <button
+            class="action-close"
+            data-role="closeBtn"
+            type="button"
+            (click)="modal.dismiss('Cross click')"
+        >
+            <span>Close</span>
+        </button>
+        <div class="modal-body">
+            <div class="title-block">
+                <h4>Free Shipping On ALL Orders</h4>
+            </div>
+            <div
+                data-content-type="row"
+                data-appearance="contained"
+                data-element="main"
+            >
+                <div
+                    data-enable-parallax="0"
+                    data-parallax-speed="0.5"
+                    data-background-images="{}"
+                    data-element="inner"
+                    style="justify-content: flex-start; display: flex; flex-direction: column; background-position: left top; background-size: cover; background-repeat: no-repeat; background-attachment: scroll; border-style: none; border-width: 1px; border-radius: 0px; margin: 0px 0px 10px; padding: 10px;"
+                >
+                    <div
+                        data-content-type="html"
+                        data-appearance="default"
+                        data-element="main"
+                        style="border-style: none; border-width: 1px; border-radius: 0px; margin: 0px; padding: 0px;"
+                        data-decoded="true"
+                    >
+                        <p>
+                            Riddle's Jewelry offers
+                            <strong>FREE</strong>
+                            standard shipping on
+                            <strong>ALL</strong>
+                            online orders!. Please allow 1-3 business days for your order to process.
+                        </p>
+                        <p>
+                            We offer upgrades for expedited shipping. However, circumstances may occur in which we must have your order shipped in to us before we can ship it to you so please allow 1-3 business days for processing before shipment.
+                        </p>
+                        <p>
+                            Overnight and two-day delivery options are available. Charges and detailed delivery options are offered during checkout.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <p>
+                Riddle's Jewelry © 2018 by Riddle's Group Inc.
+            </p>
+        </div>
+    </div>
+</ng-template>
