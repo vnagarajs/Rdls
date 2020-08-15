@@ -2,7 +2,7 @@
 
 <section class="section-b-space">
 
-    <div class="row">
+    <div class="row" *ngIf="cart && cart.items">
         <div class="col">
             <!-- <div class="row order-review"  *ngIf="products.length"> -->
             <div class="row order-review">
@@ -19,20 +19,20 @@
                                 <th scope="col">Subtotal</th>
                             </tr>
                         </thead>
-                        <tbody *ngFor="let product of products">
+                        <tbody *ngFor="let cartItem of cart.items">
                             <tr>
                                 <td>
                                     <div class="mobile-cart-content row">
                                         <div class="col-xs-3">
                                             <div class="qty-box">
                                                 <div class="input-group">
-                                                    <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="product.quantity">
+                                                    <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="cartItem.quantity">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-xs-3">
                                             <h2 class="td-color">
-                                                {{ (product.price | discount:product) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                                {{ (cartItem.price) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
                                             </h2>
                                         </div>
                                         <div class="col-xs-3">
@@ -48,13 +48,13 @@
                                     <div class="qty-box">
                                         <div class="input-group">
                                             <span class="input-group-prepend">
-                                                <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement(product)">
+                                                <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement(cartItem)">
                                                     <i class="ti-angle-left"></i>
                                                 </button>
                                             </span>
-                                            <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="product.quantity">
+                                            <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="cartItem.quantity">
                                             <span class="input-group-prepend">
-                                                <button type="button" class="btn quantity-right-plus"  data-type="plus" (click)="increment(product)">
+                                                <button type="button" class="btn quantity-right-plus"  data-type="plus" (click)="increment(cartItem)">
                                                     <i class="ti-angle-right"></i>
                                                 </button>
                                             </span>
@@ -63,7 +63,7 @@
                                 </td>
                                 <td> 
                                     <h2 class="td-color">
-                                        {{ ((product.price | discount:product) * product.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                        {{ ((cartItem.price) * cartItem.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
                                     </h2>$
                                 </td>
                             </tr>
@@ -414,22 +414,22 @@
                                     <div class="title-box">
                                         <div>Product <span> Total</span></div>
                                     </div>
-                                    <ul class="qty" *ngIf='products.length'>
-                                        <li *ngFor="let product of products">
-                                        	 {{ product.title }} × {{ product.quantity }}
+                                    <ul class="qty" *ngIf='cart.items.length'>
+                                        <li *ngFor="let cartItem of cart.items">
+                                        	 {{ cartItem.product.name }} × {{ cartItem.quantity }}
                                         	<span>
-                                                {{ (product.price | discount:product) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                                {{ (cartItem.price) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
                                             </span>
                                         </li>
                                     </ul>
-                                    <ul class="qty" *ngIf='!products.length'>
+                                    <ul class="qty" *ngIf='!cart.items.length'>
                                         <li class="empty-checkout"> There are no products in cart </li>
                                     </ul>
                                     <ul class="sub-total">
                                         <li>
-                                        	Subtotal <span class="count">{{ getTotal | async | currency:productService?.Currency.currency:'symbol'}}</span>
+                                        	Subtotal <span class="count">{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol'}}</span>
                                         </li>
-                                        <li *ngIf='products.length'>
+                                        <li *ngIf='cart.items.length'>
                                         	Shipping
                                          <div class="shipping">
                                             <div class="shopping-option">
@@ -444,11 +444,11 @@
                                         </li>
                                     </ul>
                                     <ul class="total">
-                                        <li>Total <span class="count">{{ getTotal | async | currency:productService?.Currency.currency:'symbol'}}</span></li>
+                                        <li>Total <span class="count">{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol'}}</span></li>
                                     </ul>
                                 </div>
 
-                                <div class="payment-box" *ngIf='products.length'>
+                                <div class="payment-box" *ngIf='cart.items.length'>
                                     <div class="upper-box">
                                         <div class="payment-options">
                                             <ul>

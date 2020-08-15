@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { Product } from "../../shared/classes/product";
 import { ProductService } from "../../shared/services/product.service";
 import { OrderService } from "../../shared/services/order.service";
+import { Cart, Item, CartResponse } from '../../shared/classes/cartGraphQl';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +28,7 @@ export class CheckoutComponent implements OnInit {
   isPaymentLinkVisible = false;
 
   public checkoutForm:  FormGroup;
-  public products: Product[] = [];
+  public cart: Cart = {};
   public payPalConfig ? : IPayPalConfig;
   public payment: string = 'Stripe';
   public amount:  any;
@@ -49,9 +50,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productService.cartItems.subscribe(response => this.products = response);
-    this.getTotal.subscribe(amount => this.amount = amount);
-    this.initConfig();
+    this.productService.cartItems.subscribe(response => {
+      this.cart = response.data.cart;
+    });   
   }
 
   public get getTotal(): Observable<number> {
@@ -66,7 +67,7 @@ export class CheckoutComponent implements OnInit {
       token: (token: any) => {
         // You can access the token ID with `token.id`.
         // Get the token ID to your server-side code for use.
-        this.orderService.createOrder(this.products, this.checkoutForm.value, token.id, this.amount);
+        //this.orderService.createOrder(this.products, this.checkoutForm.value, token.id, this.amount);
       }
     });
     handler.open({
@@ -105,7 +106,7 @@ export class CheckoutComponent implements OnInit {
             shape: 'rect', // pill | rect
         },
         onApprove: (data, actions) => {
-            this.orderService.createOrder(this.products, this.checkoutForm.value, data.orderID, this.getTotal);
+            //this.orderService.createOrder(this.products, this.checkoutForm.value, data.orderID, this.getTotal);
             console.log('onApprove - transaction was approved, but not authorized', data, actions);
             actions.order.get().then(details => {
                 console.log('onApprove - you can get full order details inside onApprove: ', details);
