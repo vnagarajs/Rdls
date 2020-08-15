@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
+  
+  public themeLogo: string = 'assets/images/riddleslogoblack.png';
 
   constructor() { }
 
