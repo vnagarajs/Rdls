@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ProductService } from "../../services/product.service";
 import { Product } from "../../classes/product";
+import { Cart, CartResponse } from '../../classes/cartGraphQl';
 
 @Component({
   selector: 'app-settings',
@@ -12,7 +13,7 @@ import { Product } from "../../classes/product";
 })
 export class SettingsComponent implements OnInit {
 
-  public products: Product[] = []
+  public cart: Cart = {};
   
   public languages = [{ 
     name: 'English',
@@ -43,7 +44,8 @@ export class SettingsComponent implements OnInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
     private translate: TranslateService,
     public productService: ProductService) {
-    this.productService.cartItems.subscribe(response => this.products = response);
+      console.log('sett');
+    this.productService.cartItems.subscribe(response => this.cart = response.data.cart);
   }
 
   ngOnInit(): void {
@@ -66,7 +68,7 @@ export class SettingsComponent implements OnInit {
   changeCurrency(currency: any) {
     this.productService.Currency = currency
   }
-
+  
   addToggleClass() {
     document.querySelector('.toggle-nav').classList.add('lowzindex');
   }

@@ -1,4 +1,268 @@
 <app-breadcrumb [title]="'Checkout'" [breadcrumb]="'Checkout'"></app-breadcrumb>
+
+<section class="section-b-space">
+
+    <div class="row">
+        <div class="col">
+            <!-- <div class="row order-review"  *ngIf="products.length"> -->
+            <div class="row order-review">
+                <div class="col-sm-12 productheader">
+                    <h3 id="product">Order Review</h3>
+                </div>
+                <div></div>
+                <div class="col-sm-12">
+                    <table class="table cart-table table-responsive-xs">
+                        <thead>
+                            <tr class="table-head">
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let product of products">
+                            <tr>
+                                <td>
+                                    <div class="mobile-cart-content row">
+                                        <div class="col-xs-3">
+                                            <div class="qty-box">
+                                                <div class="input-group">
+                                                    <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="product.quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">
+                                                {{ (product.price | discount:product) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">
+                                                <a (click)="removeItem(product)" class="icon">
+                                                    <i class="ti-close"></i>
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="qty-box">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement(product)">
+                                                    <i class="ti-angle-left"></i>
+                                                </button>
+                                            </span>
+                                            <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="product.quantity">
+                                            <span class="input-group-prepend">
+                                                <button type="button" class="btn quantity-right-plus"  data-type="plus" (click)="increment(product)">
+                                                    <i class="ti-angle-right"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td> 
+                                    <h2 class="td-color">
+                                        {{ ((product.price | discount:product) * product.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                    </h2>$
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table cart-table table-responsive-xs">
+                        <tbody>
+                            <tr class="table-head">
+                                <th scope="col">CART SUBTOTAL</th>
+                                <td>
+                                    <span>$</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table cart-table table-responsive-xs">
+                        <tbody>
+                            <tr class="table-head">
+                                <th scope="col">GROUND CONTINENTAL US (2 TO 3 BUSINESS DAYS)</th>
+                                <td>
+                                    <span>$</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table cart-table table-responsive-xs">
+                        <tbody>
+                            <tr class="table-head">
+                                <th scope="col">ORDER TOTAL</th>
+                                <td>
+                                    <span>$</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-12">
+                    <form class="discount-form">
+                        <div class="input-box">
+                            <input class="input-text" type="text" aria-placeholder="Enter coupon code here" placeholder="Enter coupon code here"/>
+                        </div>
+                        <div class="actions-button">
+                            <button id="add_coupon_code_button">Apply</button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row shipping-address">
+              <div class="col-sm-12">
+                <div class="shippingaddrheader">
+                    <h3 id="shippingaddr">SHIPPING ADDRESS</h3>
+                    <a class="edit-osc" (click)="shippingAddressEditClick()" *ngIf="isShippingAddrEditVisible"
+                     href="javascript:void(0);" title="Edit"></a>
+                </div>
+                <div></div>
+                <div class="row check-out" *ngIf="isShippingAddrContentVisible">
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">Email Address</div>
+                        <input type="text" name="email" [formControl]="checkoutForm.controls['email']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.email.touched && checkoutForm.controls.email.errors?.required" class="text text-danger">
+                         Email is required
+                        </div>
+                        <div *ngIf="checkoutForm.controls.email.touched && checkoutForm.controls.email.errors?.email" class="text text-danger">
+                         Invalid Email
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div class="field-label">First Name</div>
+                        <input type="text" name="firstname" [formControl]="checkoutForm.controls['firstname']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.firstname.touched && checkoutForm.controls.firstname.errors?.required" class="text text-danger">
+                        First Name is required.
+                        </div>
+                        <div *ngIf="checkoutForm.controls.firstname.touched && checkoutForm.controls.firstname.errors?.pattern" class="text text-danger">
+                        First Name must be an alphabates.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div class="field-label">Last Name </div>
+                        <input type="text" name="lastname" [formControl]="checkoutForm.controls['lastname']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.lastname.touched && checkoutForm.controls.lastname.errors?.required" class="text text-danger">
+                        Last Name is required.
+                        </div>
+                        <div *ngIf="checkoutForm.controls.lastname.touched && checkoutForm.controls.lastname.errors?.pattern" class="text text-danger">
+                        Last Name must be an alphabates.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">Phone</div>
+                        <input type="text" name="phone" [formControl]="checkoutForm.controls['phone']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.phone.touched && checkoutForm.controls.phone.errors?.required" class="text text-danger">
+                         Phone No is required.
+                        </div>
+                        <div *ngIf="checkoutForm.controls.phone.touched && checkoutForm.controls.phone.errors?.pattern" class="text text-danger">
+                          Phone No is must be number.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">Address</div>
+                        <input type="text" name="address" [formControl]="checkoutForm.controls['address']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.address.touched && checkoutForm.controls.address.errors?.required" class="text text-danger">
+                         Address is required
+                        </div>
+                        <div *ngIf="checkoutForm.controls.address.touched && checkoutForm.controls.address.errors?.maxlength" class="text text-danger">
+                          Maximum 50 character
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">Country</div>
+                        <select name="country" [formControl]="checkoutForm.controls['country']">
+                            <option value="" selected>Select Country</option>
+                            <option value="India">India</option>
+                            <option value="USA">USA</option>
+                            <option value="Australia">Australia</option>
+                        </select>
+                        <div *ngIf="checkoutForm.controls.country.touched && checkoutForm.controls.country.errors?.required" class="text text-danger">
+                         Country is required
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">City</div>
+                        <input type="text" name="town" [formControl]="checkoutForm.controls['town']" value="" placeholder="" autocomplete="off">
+                         <div *ngIf="checkoutForm.controls.town.touched && checkoutForm.controls.town.errors?.required" class="text text-danger">
+                         City is required
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div class="field-label">Zip/Postal Code</div>
+                        <input type="text" name="postalcode" [formControl]="checkoutForm.controls['postalcode']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.postalcode.touched && checkoutForm.controls.postalcode.errors?.required" class="text text-danger">
+                         Postalcode is required
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                        <div class="field-label">State/Province</div>
+                        <input type="text" name="state" [formControl]="checkoutForm.controls['state']" value="" placeholder="" autocomplete="off">
+                         <div *ngIf="checkoutForm.controls.state.touched && checkoutForm.controls.state.errors?.required" class="text text-danger">
+                         State is required
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 align-items-right">
+                        <button (click)="shippingAddressNextClick()">NEXT</button>
+                    </div>
+
+                </div>
+              </div>
+            </div>
+            
+            <div class="row shipping-method">
+                <div class="col-sm-12">
+                    <div class="shippingmethodheader">
+                        <h3 id="shippingmethod">SHIPPING METHODS</h3>
+                    </div>
+                    <a class="edit-osc" (click)="shippingMethodEditClick()" *ngIf="isShippingMethodEditVisible"
+                     href="javascript:void(0);" title="Edit"></a>
+                </div>
+                <div class="row check-out"  *ngIf="isShippingMethodContentVisible">
+                    
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div>
+                            <input id="ground" type="radio" class="custom-control-input" value="Ground" name="ground" ngModel required>
+                            <label class="custom-control-label" for="ground">Ground Continental US (2 to 3 Business Days) $9.95</label>
+                        </div>
+                        <div>
+                            <input id="second" type="radio" class="custom-control-input" value="Ground" name="ground" ngModel required>
+                            <label class="custom-control-label" for="second">Second Day Continental US $19.95</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12 align-items-right">
+                        <button (click)="shippingMethodNextClick()">NEXT</button>
+                    </div>
+                </div>
+              </div>
+              
+            <div class="row payment">
+                <div class="col-sm-12">
+                    <div class="paymentheader">
+                        <h3 id="paymentheader">PAYMENT</h3>
+                        <a class="edit-osc" (click)="paymentEditClick()" *ngIf="isPaymentEditVisible"
+                         href="javascript:void(0);" title="Edit"></a>
+                    </div>
+                </div>
+                <div class="row check-out"  *ngIf="isPaymentContentVisible">
+                    CARD DETAILS
+                </div>
+              </div>
+            
+            <div class="row" *ngIf="isPaymentLinkVisible">
+                <div class="col-sm-12">
+                    <button>PAYMENT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
 <section class="section-b-space">
     <div class="container padding-cls">
         <div class="checkout-page">
@@ -7,7 +271,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-sm-12 col-xs-12">
                             <div class="checkout-title">
-                                <h3>Billing Details</h3>
+                                <h3>Billing Details DES</h3>
                             </div>
                             <div class="row check-out">
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12">

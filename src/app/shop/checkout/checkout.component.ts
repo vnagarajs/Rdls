@@ -14,6 +14,18 @@ import { OrderService } from "../../shared/services/order.service";
 })
 export class CheckoutComponent implements OnInit {
 
+  isShippingAddrEditVisible = false;
+  isShippingMethodEditVisible = false;
+  isPaymentEditVisible = false;
+
+  isShippingAddrContentVisible = true;
+  isShippingMethodContentVisible = false;
+  isPaymentContentVisible = false;
+
+  isShippingAddressChecked = false;
+  isShippingMethodChecked = false;
+  isPaymentLinkVisible = false;
+
   public checkoutForm:  FormGroup;
   public products: Product[] = [];
   public payPalConfig ? : IPayPalConfig;
@@ -112,6 +124,84 @@ export class CheckoutComponent implements OnInit {
             console.log('onClick', data, actions);
         }
     };
+  }
+
+  // Increament
+  increment(product, qty = 1) {
+    this.productService.updateCartQuantity(product, qty);
+  }
+
+  // Decrement
+  decrement(product, qty = -1) {
+    this.productService.updateCartQuantity(product, qty);
+  }
+
+  public removeItem(product: any) {
+    this.productService.removeCartItem(product);
+  }
+
+  shippingAddressEditClick() {
+    this.isPaymentLinkVisible = false;
+    this.isShippingAddrEditVisible = false;
+    this.isShippingAddrContentVisible = true;
+    
+    this.isShippingMethodContentVisible = false;
+    this.isPaymentContentVisible = false;
+
+    if (this.isShippingAddressChecked) { 
+      this.isShippingMethodEditVisible = true;
+    }
+
+    if (this.isShippingMethodChecked) { 
+      this.isPaymentEditVisible = true;
+    }
+  }
+
+  shippingMethodEditClick() {
+    this.isPaymentLinkVisible = false;
+    this.isShippingMethodEditVisible = false;
+    this.isShippingMethodContentVisible = true;
+    
+    this.isShippingAddrEditVisible = true;
+    this.isShippingAddrContentVisible = false;
+    this.isPaymentContentVisible = false;
+
+    if (this.isShippingMethodChecked) { 
+      this.isPaymentEditVisible = true;
+    }
+  }
+
+  paymentEditClick() {
+    this.isPaymentEditVisible = false;
+    this.isPaymentLinkVisible = true;
+    this.isPaymentContentVisible = true;
+
+    this.isShippingAddrEditVisible = true;
+    this.isShippingAddrContentVisible = false;
+    this.isShippingMethodContentVisible = false;
+  }
+
+  shippingAddressNextClick() {
+    this.isPaymentLinkVisible = false;
+    this.isShippingAddrEditVisible = true;
+    this.isShippingAddrContentVisible = false;
+    this.isShippingAddressChecked = true;
+
+    this.isShippingMethodEditVisible = false;
+    this.isShippingMethodContentVisible = true;
+  }
+
+  shippingMethodNextClick() {
+    this.isPaymentLinkVisible = true;
+    this.isShippingAddrEditVisible = true;
+    this.isShippingMethodEditVisible = true;
+    this.isShippingAddrContentVisible = false;
+    this.isShippingMethodChecked = true;
+
+    this.isShippingMethodContentVisible = false;
+
+    this.isPaymentEditVisible = false;
+    this.isPaymentContentVisible = true;
   }
 
 }

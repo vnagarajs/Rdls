@@ -1,0 +1,14 @@
+{
+    "/graphql/*": {
+        "target": "https://28pkqk84wgmimmok.mojostratus.io/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/rest/*": {
+        "target": "https://28pkqk84wgmimmok.mojostratus.io/",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}
