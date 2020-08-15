@@ -8,7 +8,7 @@ import { ElementsComponent } from './elements/elements.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home/fashion',
+    redirectTo: 'home/riddles',
     pathMatch: 'full'
   },
   {
@@ -31,14 +31,14 @@ const routes: Routes = [
     loadChildren: () => import('./elements/elements.module').then(m => m.ElementsModule) },
   {
     path: '**', // Navigate to Home Page if not found any page
-    redirectTo: 'home/fashion',
+    redirectTo: 'home/riddles',
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
     initialNavigation: 'enabled',
-    useHash: false,
+    useHash: true,
     anchorScrolling: 'enabled',
     scrollPositionRestoration: 'enabled'
   })],
