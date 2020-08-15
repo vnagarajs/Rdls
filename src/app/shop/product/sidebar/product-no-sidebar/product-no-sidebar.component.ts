@@ -14,7 +14,6 @@ import { FormGroup, FormControl, RequiredValidator, Validators } from '@angular/
   styleUrls: ['./product-no-sidebar.component.scss']
 })
 export class ProductNoSidebarComponent implements OnInit {
-  public themeLogo: string = 'assets/images/riddleslogoblack.png';
   
   public product: Product;
   public counter: number = 1;
