@@ -1441,7 +1441,7 @@
 @media(max-width: 991px) {
     .main-nav-center {
         .toggle-nav {
-            top: -92px;
+            top: -81px;
         }
     }
     .service_slide {
@@ -2604,7 +2604,22 @@ background-color: $black;*/
     }
 }
 
+@media(min-width: 767px) {
+    .banner-desktop{
+        display: block;
+    }
+    .mobile-banner{
+        display: none;
+    }
+}
+
 @media(max-width: 767px) {
+    .banner-desktop{
+        display: none;
+    }
+    .mobile-banner{
+        display: block;
+    }
     .product-wrapper-grid {
         &.list-view {
             .product-box {

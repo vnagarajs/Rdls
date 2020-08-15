@@ -1,74 +1,127 @@
 <div class="icon-nav">
   <ul>
-    <li class="onhover-div mobile-search search-widgets" id="search-widgets">
-      <div>
-        <img src="assets/images/icon/search.png" class="img-fluid" alt="">
-        <i class="ti-search"></i>
-      </div>
+
+    <li  class="search-widgets mobile-search search-widgets" id="search-widgets">  
+      <label (click)="openSearch()" class="licon lnr lnr-magnifier"></label>      
     </li>
-    <li class="onhover-div mobile-setting">
-      <div><img src="assets/images/icon/setting.png" class="img-fluid" alt="settong">
-        <i class="ti-settings"></i></div>
-      <div class="show-div setting">
-        <h6>language</h6>
-        <ul>
-          <li *ngFor="let language of languages">
-            <a href="javascript:void(0)" (click)="changeLanguage(language.code)">{{ language.name }}</a>
-          </li>
-        </ul>
-        <h6>currency</h6>
-        <ul class="list-inline">
-          <li *ngFor="let currency of currencies">
-            <a href="javascript:void(0)" (click)="changeCurrency(currency)">{{ currency.name }}</a>
-          </li>
-        </ul>
-      </div>
+
+
+    <li class=" account-widgets" id="account-widgets">      
+      <label (click)="openAccount()" class="licon lnr lnr-user"></label>      
     </li>
-    <li class="onhover-div mobile-cart">
-      <div>
-        <a [routerLink]="['/shop/cart']">
-          <img src="assets/images/icon/cart.png" class="img-fluid" alt="">
-          <i class="ti-shopping-cart"></i>
-        </a>
-      </div>
-      <span class="cart_qty_cls">{{ products.length }}</span>
-      <ul class="show-div shopping-cart" *ngIf='!products.length'>
-        <h5>Your cart is currently empty.</h5>
-      </ul>
-      <ul class="show-div shopping-cart" *ngIf='products.length'>
-        <li *ngFor="let product of products">
-          <div class="media">
-            <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
-              <img class="mr-3" [src]="product?.images[0].src" [alt]="product?.images[0].alt">
-            </a>
-            <div class="media-body">
-              <a [routerLink]="['/shop/product/left/sidebar/', product.title.replace(' ', '-')]">
-                <h4>{{ product?.title }}</h4>
-              </a>
-              <h4>
-                <span>
-                  {{ product?.quantity }} x 
-                  {{ product?.price * productService?.Currency.price | discount:product | currency:productService?.Currency.currency:'symbol' }}
-                </span>
-              </h4>
-            </div>
-          </div>
-          <div class="close-circle" (click)="removeItem(product)">
-            <a href="javascript:void(0)"><i class="fa fa-times" aria-hidden="true"></i></a>
-          </div>
-        </li>
-        <li>
-          <div class="total">
-            <h5>subtotal : <span>{{ getTotal | async | currency:productService?.Currency.currency:'symbol' }}</span></h5>
-          </div>
-        </li>
-        <li>
-          <div class="buttons">
-            <a [routerLink]="['/shop/cart']" class="view-cart">view cart</a>
-            <a [routerLink]="['/shop/checkout']" class="checkout">checkout</a>
-          </div>
-        </li>
-      </ul>
+  
+    <li class="storelocator-widgets" id="storelocator-widgets">      
+      <label  class="licon lnr  lnr-map-marker"></label>      
     </li>
+
+
+    <li class="cart-widgets mobile-cart" id="cart-widgets">      
+      <label (click)="opencart()" class="licon lnr  lnr-cart">
+        <span class="cart_qty_cls">{{products.length }}</span> 
+      </label> 
+    </li>
+   
   </ul>
+</div>
+
+
+
+<!-- Search -->
+<div id='topsearch' class="topsearch">
+  <a [routerLink]="" class="top-sidebar-overlay" (click)="closeSearch()"></a>
+  <div class="topheader-sidebar-content search">
+
+    <div class="block-top">
+      <div class="block block-title"><strong>Search</strong></div>
+  </div>
+  <span class="lnr closebtn lnr-cross"  title="Close Overlay" (click)="closeSearch()"></span>
+    
+    <form class="search-form">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search Keyword or Item Number">
+        <div class="input-group-append">
+          <button type="button">
+            <span class="lnr lnr-magnifier"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- My account-->
+
+<div id='topaccount' class="topaccount">
+  <a [routerLink]="" class="top-sidebar-overlay" (click)="closeAccount()"></a>
+  <div class="topheader-sidebar-content">
+  <span class="lnr closebtn lnr-cross"  title="Close Overlay" (click)="closeAccount()"></span>
+    
+    <div class="account-sidebar-links">
+        <ul class="links-list">
+            <li (click)="closeAccount()"><a href="#">My account</a></li>
+            <li (click)="closeAccount()"><a [routerLink]="'/home/wishlist'">{{ 'wishlist' | translate }}</a></li>
+            <li (click)="closeAccount()"><a [routerLink]="'/home/compare'">{{ 'compare' | translate }}</a></li>
+            <li (click)="closeAccount()"><a href="#"></a>Create a Account</li>
+            <li (click)="closeAccount()"><a href="#"></a>Store Locator</li>
+            <li (click)="closeAccount()"><a href="#"></a>Contact</li>           
+        </ul>
+    </div>
+  </div>
+</div>
+
+<!-- My account-->
+<div id='topcart' class="topcart">
+  <a [routerLink]="" class="top-sidebar-overlay" (click)="closeCart()"></a>
+  <div class="topheader-sidebar-content mini-cart">
+ 
+    <div class="block-top">
+    <div class="block block-title"><strong>Cart</strong></div>
+    </div>
+      <span class="lnr closebtn lnr-cross"  title="Close Overlay" (click)="closeCart()"></span>
+     
+
+  
+  <ul class="show-div shopping-cart" *ngIf='!products.length'>
+    <h5>Your cart is currently empty.</h5>
+  </ul>
+  <ul class="show-div shopping-cart" *ngIf='products.length'>
+    <li *ngFor="let product of products">
+      <div class="media">
+        <a [routerLink]="['/shop/product/left/sidebar/']">
+          <img style="width:100px;" class="mr-3" [src]="product.images[0].src" [alt]="product?.images[0].alt">
+        </a>
+        <div class="media-body">
+          <a [routerLink]="['/shop/product/left/sidebar/']">
+            <h4>{{ product?.title }}</h4>
+          </a>
+          <h4>
+            <span>
+              {{ product?.quantity }} x 
+              {{ product?.price * productService?.Currency.price | discount:product | currency:productService?.Currency.currency:'symbol' }}
+            </span>
+          </h4>
+        </div>
+      </div>
+      <div class="close-circle" (click)="removeItem(product)">
+        <a href="javascript:void(0)"><i class="fa fa-times" aria-hidden="true"></i></a>
+      </div>
+    </li>   
+  </ul>
+  <div class="quickcart-bottom">
+    <ul>
+      <li>
+        <div class="total">
+          <h5>Cart subtotal : <span>{{ getTotal | async | currency:productService?.Currency.currency:'symbol' }}</span></h5>
+        </div>
+      </li>
+      <li>
+        <div class="buttons">
+          <a [routerLink]="['/shop/checkout']" class="checkout btn btn-solid">Go to checkout</a>
+          <a [routerLink]="['/shop/cart']" class="view-cart">view and edit cart</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  </div>
+  
 </div>

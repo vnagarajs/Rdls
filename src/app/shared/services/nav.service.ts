@@ -34,140 +34,319 @@ export class NavService {
 
 	MENUITEMS: Menu[] = [
 		{
-			title: 'home', type: 'sub', active: false, children: [
+			title: 'BRIDAL', type: 'sub', megaMenu: true, active: false, children: [
 				{
-					title: 'clothing', type: 'sub', active: false, children: [
-						{ path: '/home/fashion', title: 'fashion-01', type: 'link' },
-						{ path: '/home/fashion-2', title: 'fashion-02', type: 'link' },
-						{ path: '/home/fashion-3', title: 'fashion-03', type: 'link' }
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Anniversary Rings', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Diamond Mountings', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Engagement Rings', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Luxury', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Mens Rings', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Promise Rings', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Wedding Sets', type: 'link' }
 					]
 				},
-				{ path: '/home/vegetable', title: 'vegetable', type: 'link' },
-				{ path: '/home/watch', title: 'watch', type: 'link' },
-				{ path: '/home/furniture', title: 'furniture', type: 'link' },
-				{ path: '/home/flower', title: 'flower', type: 'link' },
-				{ path: '/home/beauty', title: 'beauty', type: 'link' },
-				{ path: '/home/electronics', title: 'electronics', type: 'link' },
-				{ path: '/home/pets', title: 'pets', type: 'link' },
-				{ path: '/home/gym', title: 'gym', type: 'link' },
-				{ path: '/home/tools', title: 'tools', type: 'link' },
-				{ path: '/home/shoes', title: 'shoes', type: 'link' },
-				{ path: '/home/bags', title: 'bags', type: 'link' },
-				{ path: '/home/marijuana', title: 'marijuana', type: 'link' }
+				{
+					title: 'DESIGNER', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'ArtCarved Collections', type: 'link' },
+						{ path: '/home/watch', title: 'Barkevs', type: 'link' },
+						{ path: '/home/furniture', title: 'Benchmark', type: 'link' },
+						{ path: '/home/flower', title: 'Triton', type: 'link' },
+						{ path: '/home/fashion', title: 'Valina', type: 'link' }
+					]
+				},
+				{
+					title: 'Riddles Brand', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: '2Beloved', type: 'link' },
+						{ path: '/elements/theme/collection-banner', title: 'Amaura Collection', type: 'link' },
+						{ path: '/elements/theme/home-slider', title: 'Brite Buys', type: 'link' },
+						{ path: '/elements/theme/category', title: 'Love In Color', type: 'link' },
+						{ path: '/elements/theme/services', title: 'Noventa', type: 'link' }
+					]
+				},
+				{
+					title: 'DESIGN YOUR OWN', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Ring Builder', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Stud Builder', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Pendant Builder', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Brilliantly Yours', type: 'link' }
+					]
+				},
 			]
 		},
 		{
-			title: 'Shop', type: 'sub', active: false, children: [
-				{ path: '/shop/collection/left/sidebar', title: 'left-sidebar', type: 'link' },
-				{ path: '/shop/collection/right/sidebar', title: 'right-sidebar', type: 'link' },
-				{ path: '/shop/collection/no/sidebar', title: 'no-sidebar', type: 'link' }
+			title: 'DESIGN YOUR OWN', type: 'sub', active: false, children: [
+				{ path: '/shop/collection/left/sidebar', title: 'Family Jewelry', type: 'link' },
+				{ path: '/shop/collection/right/sidebar', title: 'Ring Builder', type: 'link' },
+				{ path: '/shop/collection/no/sidebar', title: 'Loose Diamonds', type: 'link' },
+				{ path: '/shop/collection/no/sidebar', title: 'Stud Earrings Builder', type: 'link' },
+				{ path: '/shop/collection/no/sidebar', title: 'Pendant Builder', type: 'link' },
+				{ path: '/shop/collection/no/sidebar', title: 'Brilliantly Yours', type: 'link' }
 			]
 		},
 		{
-			title: 'Products', type: 'sub', active: false, children: [
+			title: 'COLLECTIONS', type: 'sub', megaMenu: true, active: false, children: [
 				{
-					title: 'sidebar', type: 'sub', active: false, children: [
-						{ path: '/shop/product/left/sidebar/trim-dress', title: 'left-sidebar', type: 'link' },
-						{ path: '/shop/product/right/sidebar/trim-dress', title: 'right-sidebar', type: 'link' },
-						{ path: '/shop/product/no/sidebar/trim-dress', title: 'no-sidebar', type: 'link' }
+					title: 'RIDDLES BRANDS', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: '2Beloved', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Amaura', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Black Hills Gold', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Brite Buys', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Designed With Love', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Fairytale Diamonds', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Noventa', type: 'link' }
 					]
 				},
-				{ path: '/shop/product/three/column/trim-dress', title: 'three-column', type: 'link' },
-				{ path: '/shop/product/four/image/belted-dress', title: 'four-image', type: 'link' },
-				{ path: '/shop/product/bundle/trim-dress', title: 'bundle-product', type: 'link' },
-				{ path: '/shop/product/image/outside/trim-dress', title: 'image-outside', type: 'link' }
+				{
+					title: 'DESIGNER', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'ArtCarved Bridal', type: 'link' },
+						{ path: '/home/watch', title: 'Barkevs', type: 'link' },
+						{ path: '/home/furniture', title: 'Benchmark', type: 'link' },
+						{ path: '/home/flower', title: 'Triton', type: 'link' },
+						{ path: '/home/fashion', title: 'Verragio', type: 'link' }
+					]
+				},
+				{
+					title: 'JEWELRY COLLECTIONS', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Birth Stones', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Bolo Bracelets', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Diamond Bezels', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Family Jewelry', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Luxury', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Three Stone', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Made In America', type: 'link' }
+				    ]
+				},
+				
+					]
+				},
+		{
+			title: 'GIFTS', type: 'sub', megaMenu: true, active: false, children: [
+				{
+					title: 'GIFT IDEAS', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Gift For Her', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Gift For Him', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Bridal Gifts', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Family Jewelry', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Gifts Under $200', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Gifts Under $500', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Gifts Under $1000', type: 'link' }
+					]
+				},
+				{
+					title: 'OCCASIONS', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Fathers Gifts', type: 'link' },
+						{ path: '/home/watch', title: 'Mothers Gifts', type: 'link' },
+						{ path: '/home/furniture', title: 'Birthday Gifts', type: 'link'}
+					]
+				},
+				{
+					title: 'ACCESSORIES', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: 'Keychains', type: 'link' },
+						{ path: '/elements/theme/collection-banner', title: 'Money Clips', type: 'link' },
+						{ path: '/elements/theme/home-slider', title: 'Tie Accessories', type: 'link' }
+					]
+				},
+				{
+					title: 'NEW ARRIVALS', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Bezels', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Bolos', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Perfect Matches Stackables', type: 'link' }
+					]
+				},
 			]
 		},
 		{
-			title: 'Features', type: 'sub', megaMenu: true, badge: true, badgeText: 'new', active: false, children: [
+			title: 'RINGS', type: 'sub', megaMenu: true, active: false, children: [
 				{
-					title: 'portfolio', type: 'sub', active: false, children: [
-						{ path: '/pages/portfolio/grid/two', title: 'portfolio-grid-2', type: 'link' },
-						{ path: '/pages/portfolio/grid/three', title: 'portfolio-grid-3', type: 'link' },
-						{ path: '/pages/portfolio/grid/four', title: 'portfolio-grid-4', type: 'link' },
-						{ path: '/pages/portfolio/masonry/grid/two', title: 'mesonary-grid-2', type: 'link' },
-						{ path: '/pages/portfolio/masonry/grid/three', title: 'mesonary-grid-3', type: 'link' },
-						{ path: '/pages/portfolio/masonry/grid/four', title: 'mesonary-grid-4', type: 'link' },
-						{ path: '/pages/portfolio/masonry/full-width', title: 'mesonary-Full-Width', type: 'link' }
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Anniversary', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Diamond', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Gold', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Luxury', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Mens', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Silver', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Vintage', type: 'link' }
 					]
 				},
 				{
-					title: 'add-to-cart', type: 'sub', active: false, children: [
-						{ path: '/home/vegetable', title: 'cart-right', type: 'link' },
-						{ path: '/home/watch', title: 'cart-left', type: 'link' },
-						{ path: '/home/furniture', title: 'cart-top', type: 'link' },
-						{ path: '/home/flower', title: 'cart-bottom', type: 'link' },
-						{ path: '/home/fashion', title: 'cart-model-popup', type: 'link' }
+					title: 'DESIGNER', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Canadian Rocks', type: 'link' },
+						{ path: '/home/watch', title: 'Enchanted Disney', type: 'link' },
+						{ path: '/home/furniture', title: 'Verragio', type: 'link' }
 					]
 				},
 				{
-					title: 'theme-elements', type: 'sub', active: false, children: [
-						{ path: '/elements/theme/title', title: 'title', type: 'link' },
-						{ path: '/elements/theme/collection-banner', title: 'collection-banner', type: 'link' },
-						{ path: '/elements/theme/home-slider', title: 'home-slider', type: 'link' },
-						{ path: '/elements/theme/category', title: 'category', type: 'link' },
-						{ path: '/elements/theme/services', title: 'services', type: 'link' }
-					]
+					title: 'GEMSTONES', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Amethyst', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Aquamarine', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Emerald', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Garnet', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Morganite', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Opal', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Pearl', type: 'link' }
+				    ]
 				},
 				{
-					title: 'product-elements', type: 'sub', active: false, children: [
-						{ path: '/elements/product/slider', title: 'product-slider', type: 'link' },
-						{ path: '/elements/product/banners', title: 'banners', type: 'link' },
-						{ path: '/elements/product/tabs', title: 'product-tabs', type: 'link' },
-						{ path: '/elements/product/multi-slider', title: 'multi-slider', type: 'link' }
+					title: 'RIDDLES BRANDS', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: '2Beloved', type: 'link' },
+						{ path: '/elements/theme/collection-banner', title: 'Canadian Rocks', type: 'link' },
+						{ path: '/elements/theme/home-slider', title: 'Noventa', type: 'link' },
+						{ path: '/elements/theme/category', title: 'Climbers And Crawlers', type: 'link' }
 					]
 				},
-				{
-					title: 'email-template', type: 'sub', active: false, children: [
-						{ path: 'http://themes.pixelstrap.com/multikart/front-end/email-order-success.html', title: 'order-success', type: 'extTabLink' },
-						{ path: 'http://themes.pixelstrap.com/multikart/front-end/email-order-success-two.html', title: 'order-success-2', type: 'extTabLink' },
-						{ path: 'http://themes.pixelstrap.com/multikart/front-end/email-template.html', title: 'email-template', type: 'extTabLink' },
-						{ path: 'http://themes.pixelstrap.com/multikart/front-end/email-template-two.html', title: 'email-template-2', type: 'extTabLink' }
-					]
-				}
 			]
 		},
 		{
-			title: 'pages', type: 'sub', active: false, children: [
+			title: 'NECKLACE', type: 'sub', megaMenu: true, active: false, children: [
 				{
-					title: 'account', type: 'sub', active: false, children: [
-						{ path: '/pages/wishlist', title: 'wishlist', type: 'link' },
-						{ path: '/pages/cart', title: 'cart', type: 'link' },
-						{ path: '/pages/dashboard', title: 'dashboard', type: 'link' },
-						{ path: '/pages/login', title: 'login', type: 'link' },
-						{ path: '/pages/register', title: 'register', type: 'link' },
-						{ path: '/pages/contact', title: 'contact', type: 'link' },
-						{ path: '/pages/forget/password', title: 'forget-password', type: 'link' },
-						{ path: '/pages/profile', title: 'profile', type: 'link' },
-						{ path: '/pages/checkout', title: 'checkout', type: 'link' },
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Anniversary', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Diamond', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Gold', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Luxury', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Mens', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Silver', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Vintage', type: 'link' }
 					]
 				},
-				{ path: '/pages/aboutus', title: 'about-us', type: 'link' },
-				{ path: '/pages/search', title: 'search', type: 'link' },
-				{ path: '/pages/typography', title: 'typography', type: 'link', badge: true, badgeText: 'new' },
-				{ path: '/pages/review', title: 'review', type: 'link', badge: true, badgeText: 'new' },
-				{ path: '/pages/order/success', title: 'order-success', type: 'link' },
-					{ 
-						title: 'compare', type: 'sub', active: false, children: [
-							{ path: '/pages/compare/one', title: 'compare-1', type: 'link' },
-							{ path: '/pages/compare/two', title: 'compare-2', type: 'link', badge: true, badgeText: 'new' }
-						]
-					},
-				{ path: '/pages/collection', title: 'collection', type: 'link' },
-				{ path: '/pages/lookbook', title: 'lookbook', type: 'link' },
-				{ path: '/pages/404', title: '404', type: 'link' },
-				{ path: '/pages/comingsoon', title: 'coming-soon', type: 'link', badge: true, badgeText: 'new' },
-				{ path: '/pages/faq', title: 'faq', type: 'link' }
+				{
+					title: 'DESIGNER', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Canadian Rocks', type: 'link' },
+						{ path: '/home/watch', title: 'Enchanted Disney', type: 'link' },
+						{ path: '/home/furniture', title: 'Verragio', type: 'link' }
+					]
+				},
+				{
+					title: 'GEMSTONES', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Amethyst', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Aquamarine', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Emerald', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Garnet', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Morganite', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Opal', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Pearl', type: 'link' }
+				    ]
+				},
+				{
+					title: 'RIDDLES BRANDS', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: '2Beloved', type: 'link' },
+						{ path: '/elements/theme/collection-banner', title: 'Black Hills Gold', type: 'link' },
+						{ path: '/elements/theme/home-slider', title: 'Noventa', type: 'link' },
+						{ path: '/elements/theme/category', title: 'Twinkling Diamons', type: 'link' }
+					]
+				},
 			]
 		},
 		{
-			title: 'blogs', type: 'sub', active: false, children: [
-				{ path: '/pages/blog/left/sidebar', title: 'left-sidebar', type: 'link' },
-				{ path: '/pages/blog/right/sidebar', title: 'right-sidebar', type: 'link' },
-				{ path: '/pages/blog/no/sidebar', title: 'no-sidebar', type: 'link' },
-				{ path: '/pages/blog/details', title: 'blog-details', type: 'link' }
+			title: 'EARRINGS', type: 'sub', megaMenu: true, active: false, children: [
+				{
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/three', title: 'Diamond', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Gold', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Luxury', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Mens', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Silver', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Vintage', type: 'link' }
+					]
+				},
+				{
+					title: 'DESIGNER', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Canadian Rocks', type: 'link' },
+						{ path: '/home/watch', title: 'Enchanted Disney', type: 'link' }
+					]
+				},
+				{
+					title: 'GEMSTONES', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Amethyst', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Aquamarine', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Emerald', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Garnet', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Morganite', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Opal', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Pearl', type: 'link' }
+				    ]
+				},
+				{
+					title: 'NEW AND TRENDING', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: 'Noventa', type: 'link' },
+						{ path: '/elements/theme/collection-banner', title: 'Canadian Rocks', type: 'link' },
+						{ path: '/elements/theme/category', title: 'Climbers And Crawlers', type: 'link' }
+					]
+				},
 			]
-		}
+		},
+				{
+			title: 'BRACELETS', type: 'sub', megaMenu: true, active: false, children: [
+				{
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Alternative Metals', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Ankle', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Bangle', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Luxury', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Mens', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'Infinity', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Heart', type: 'link' }
+					]
+				},
+				{
+					title: 'GEMSTONES', type: 'sub', active: false, children: [
+						{ path: '/elements/product/slider', title: 'Amethyst', type: 'link' },
+						{ path: '/elements/product/banners', title: 'Aquamarine', type: 'link' },
+						{ path: '/elements/product/tabs', title: 'Emerald', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Garnet', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Morganite', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Opal', type: 'link' },
+						{ path: '/elements/product/multi-slider', title: 'Pearl', type: 'link' }
+				    ]
+				},
+				{
+					title: 'NEW AND TRENDING', type: 'sub', active: false, children: [
+						{ path: '/elements/theme/title', title: 'Bolos', type: 'link' },
+						{ path: '/elements/theme/home-slider', title: 'Infinity', type: 'link' }
+					]
+				},
+			]
+		},
+				{
+			title: 'WATCHES', type: 'sub', megaMenu: true, active: false, children: [
+				{
+					title: 'BRANDS', type: 'sub', active: false, children: [
+						{ path: '/pages/portfolio/grid/two', title: 'Black Hills Gold', type: 'link' },
+						{ path: '/pages/portfolio/grid/three', title: 'Bulova', type: 'link' },
+						{ path: '/pages/portfolio/grid/four', title: 'Citizen', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/two', title: 'Disney', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/three', title: 'Fossil', type: 'link' },
+						{ path: '/pages/portfolio/masonry/grid/four', title: 'G-Shock', type: 'link' },
+						{ path: '/pages/portfolio/masonry/full-width', title: 'Marvel', type: 'link' }
+					]
+				},
+				{
+					title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Ladies', type: 'link' },
+						{ path: '/home/watch', title: 'Mens', type: 'link' }
+					]
+				},
+			]
+		},
+				{
+			title: 'BLACK HILLS GOLD', type: 'sub', megaMenu: true, active: false, children: [
+			{
+				title: 'CATEGORY', type: 'sub', active: false, children: [
+						{ path: '/home/vegetable', title: 'Accessories', type: 'link' },
+						{ path: '/home/watch', title: 'Bracelets', type: 'link' },
+						{ path: '/home/vegetable', title: 'Earrings', type: 'link' },
+						{ path: '/home/vegetable', title: 'Necklace', type: 'link' }
+					]
+				},
+			]
+		}, 	
+				{
+			title: 'CLEARANCE', type: 'sub', active: false, children: [
+				{ path: '/pages/blog/left/sidebar', title: 'Gold Tag', type: 'link' },
+				{ path: '/pages/blog/right/sidebar', title: 'Brite Buys', type: 'link' }
+			]
+		},
 	];
 
 	LEFTMENUITEMS: Menu[] = [

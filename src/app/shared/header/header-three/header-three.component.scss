@@ -1,0 +1,40 @@
+.header-contact-us-info{
+    a {
+        color: #000;
+        font-weight: 600;
+        letter-spacing: .15em;
+        font-size: 14px;
+        &:before {
+            content: "\e830";
+            @extend %Linearicons;
+            padding-right: 8px;
+            font-size: 28px;
+        }
+    }
+    .header-contact-us-info-small {
+        font-size: 8px;
+        line-height: 1;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: #999;
+        display: block;
+        padding-left: 38px;
+        position: absolute;
+    }
+}
+
+
+%Linearicons {
+font-family: Linearicons-Free;
+font-style: normal;
+font-weight: 400;
+font-variant: normal;
+text-transform: none;
+line-height: 1;
+-webkit-font-smoothing: antialiased;
+}
+
+.container-full {
+    padding: 0px 15px 0px 15px;
+}
+

@@ -67,4 +67,37 @@ export class SettingsComponent implements OnInit {
     this.productService.Currency = currency
   }
 
+  addToggleClass() {
+    document.querySelector('.toggle-nav').classList.add('lowzindex');
+  }
+  removeToggleClass() {
+    document.querySelector('.toggle-nav').classList.remove('lowzindex');
+  }
+  public openSearch() {
+    document.getElementById('topsearch').classList.add('open');
+    this.addToggleClass();
+  }
+
+  public closeSearch() {
+    document.getElementById('topsearch').classList.remove('open');
+    this.removeToggleClass();
+  }
+  public openAccount() {
+    document.getElementById('topaccount').classList.add('open');
+    this.addToggleClass();
+  }
+   public closeAccount() {
+    document.getElementById('topaccount').classList.remove('open');
+    this.removeToggleClass();
+  }
+
+  opencart() {
+    this.addToggleClass();
+    document.getElementById('topcart').classList.add('open');
+  }
+
+ closeCart() {
+  document.getElementById('topcart').classList.remove('open');
+  this.removeToggleClass();
+}
 }
