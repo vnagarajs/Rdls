@@ -7,7 +7,7 @@
       <span class="lable4" *ngIf="product.sale">on sale</span>
     </div>
     <div class="front">
-      <a href="javascript:void(0);">
+      <a [routerLink]="['/shop/product/no/sidebar/', product.sku]">
         <img 
           [defaultImage]="ImageSrc ? ImageSrc : 'assets/images/product/placeholder.jpg'" 
           [lazyLoad]="ImageSrc ? ImageSrc : product.image.url" 
