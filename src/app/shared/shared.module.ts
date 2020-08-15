@@ -26,8 +26,10 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { ProductBoxOneComponent } from './components/product/product-box-one/product-box-one.component';
+import { ProductBoxSimpleComponent } from './components/product/product-box-simple/product-box-simple.component';
 import { ProductBoxTwoComponent } from './components/product/product-box-two/product-box-two.component';
 import { ProductBoxThreeComponent } from './components/product/product-box-three/product-box-three.component';
+import { ShopbycategoryComponent } from './components/shopbycategory/shopbycategory.component';
 import { ProductBoxFourComponent } from './components/product/product-box-four/product-box-four.component';
 import { ProductBoxFiveComponent } from './components/product/product-box-five/product-box-five.component';
 import { ProductBoxVerticalComponent } from './components/product/product-box-vertical/product-box-vertical.component';
@@ -70,6 +72,8 @@ import { DiscountPipe } from './pipes/discount.pipe';
     BreadcrumbComponent,
     CategoriesComponent,
     ProductBoxOneComponent,
+    ShopbycategoryComponent,
+    ProductBoxSimpleComponent,
     ProductBoxTwoComponent,
     ProductBoxThreeComponent,
     ProductBoxFourComponent,
@@ -123,6 +127,8 @@ import { DiscountPipe } from './pipes/discount.pipe';
     BreadcrumbComponent,
     CategoriesComponent,
     ProductBoxOneComponent,
+    ShopbycategoryComponent,
+    ProductBoxSimpleComponent,
     ProductBoxTwoComponent,
     ProductBoxThreeComponent,
     ProductBoxFourComponent,

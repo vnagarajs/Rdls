@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ProductSlider, CollectionSlider } from '../../shared/data/slider';
+import { ProductSlider, CollectionSlider, BannerSlider } from '../../shared/data/slider';
 import { Product } from '../../shared/classes/product';
 import { ProductService } from '../../shared/services/product.service';
-
+import { HomepageService } from '../../shared/services/homepage.service';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-watch',
   templateUrl: './watch.component.html',
@@ -11,7 +12,7 @@ import { ProductService } from '../../shared/services/product.service';
 })
 export class WatchComponent implements OnInit, OnDestroy {
 
-  public themeLogo: string = 'assets/images/icon/logo-14.png'; // Change Logo
+  public themeLogo: string = 'assets/images/riddleslogoblack.png'; // Change Logo
   
   public products: Product[] = [];
   public productCollections: any[] = [];
@@ -19,8 +20,20 @@ export class WatchComponent implements OnInit, OnDestroy {
   public ProductSliderConfig: any = ProductSlider;
   public CollectionSliderConfig: any = CollectionSlider;
 
-  constructor(private _sanitizer:DomSanitizer,
-    public productService: ProductService) {
+  public homePagefeaturedCategory: any [] = [];
+  public bannersliders: any[] = [];
+  public bannerslidersMobile: any[] = [];
+  public bestSellingProducts: any[] = [];
+  public HomePageBannerSlider: any =  BannerSlider;
+
+  bannerBaseImagePath = environment.homePageBannerImageBaseURL;
+
+
+  constructor(
+    private _sanitizer:DomSanitizer,
+    public productService: ProductService,
+    public homePageService: HomepageService
+    ) {
     this.productService.getProducts.subscribe(response => {
       this.products = response.filter(item => item.type == 'watch');
       // Get Product Collection
@@ -124,6 +137,15 @@ export class WatchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Change color for this layout
     document.documentElement.style.setProperty('--theme-deafult', '#e4604a');
+
+    this.homePageService.getHomePageData().subscribe((data: any)  => {
+      this.bannersliders = data.Desktop;
+      this.bannerslidersMobile = data.Mobile;
+      this.bestSellingProducts = data.featuredProducts;
+      this.homePagefeaturedCategory =  data.featuredCategory;
+     // this.shopByCategory = data.featuredCategory;
+});
+
   }
 
   ngOnDestroy(): void {

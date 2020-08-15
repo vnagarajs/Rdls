@@ -40,12 +40,18 @@
           </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container-full">
         <div class="row">
             <div class="col-sm-12">
                 <div class="main-menu border-section border-top-0">
                     <div class="menu-left">
-                        <app-left-menu></app-left-menu>
+                       <!-- <app-left-menu></app-left-menu>-->
+                       <div class="header-contact-us-info">
+                        <span class="header-contact-us-info-small">need help?</span>
+                        <a class="icon header-contact-us-info-title" href="tel:{{RiddlesStatic.phonenumber.number}}">
+                          <span> {{RiddlesStatic.phonenumber.display_string}}</span>
+                        </a>
+                      </div>
                     </div>
                     <div class="brand-logo layout2-logo headerlogo">
                         <a [routerLink]="['/home/fashion']">
@@ -59,7 +65,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container-full app-menu">
         <div class="row ">
             <div class="col-lg-12">
                 <div class="main-nav-center">

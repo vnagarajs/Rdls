@@ -3,6 +3,11 @@
 ==========================*/
 
 header {
+    .container-full {
+        &.app-menu {
+            background-color:#f8f8f8;
+        }
+    }
     .main-navbar {
         text-align: center;
         .nav-menu {
@@ -19,15 +24,15 @@ header {
                 display: block;
                 >a {
                     display: block;
-                    padding-right: 45px;
+                    padding-right: 15px;
                     color: #222222;
                     font-size: 16px;
                     font-weight: 400;
                     line-height: 23px;
                     text-decoration: none;
                     text-transform: uppercase;
-                    padding-top: 42px;
-                    padding-bottom: 42px;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
                     padding-left: 0;
                     letter-spacing: 0.07em;
                     position: relative;
@@ -432,8 +437,6 @@ header {
 
 .toggle-nav {
     position: relative;
-    padding-top: 40px;
-    padding-bottom: 40px;
     cursor: pointer;
     i {
         font-size: 24px;
@@ -900,12 +903,25 @@ header {
     }
 }
 
+/* No greater than 900px, no less than 400px 
+@media (max-width:900px) and (min-width:400px) {
+   .cl {
+      color:red;
+   }
+}​*/
+
 @media (max-width: 1367px) {
     .nav-menu a {
         font-size: 14px !important;
     }
 }
 
+
+@media (min-width: 1200px) { 
+    .sub-arrow {
+        display: none;
+    }
+}
 @media (max-width: 1199px) {
     header {
         .main-navbar {
@@ -1234,9 +1250,16 @@ header {
         .toggle-nav {
             position: absolute;
             z-index: 99;
-            right: 175px;
-            top: -105px;
+            right: 15px;
+            top: -70px;
+           &.lowzindex {
+            z-index: 1;
+           }
         }
+    }
+    .icon-nav {
+        position: relative;
+        right:40px;
     }
     .layout3-menu {
         .main-menu {
@@ -1329,7 +1352,45 @@ header {
     }
 }
 
-@media (max-width:577px) {
+
+@media (min-width:768px) { 
+    .licon {
+        position: relative;
+    .cart_qty_cls {
+        right: 0;
+        top:0;
+    }
+}
+}
+@media (max-width:767px) {
+    .licon {
+    .cart_qty_cls {
+      
+        top:-15px;
+    }
+}
+    .icon-nav {
+        li {
+              
+               .licon {
+                width: auto !important;
+                height: auto !important;
+                line-height: normal !important;
+                font-size: 22px !important;
+                color: $header-font;
+                margin-bottom: 0px;
+               }
+            
+        }
+    }
+    .main-menu {
+        height: 80px;
+    }
+    .header-contact-us-info-small,
+    .icon.header-contact-us-info-title span
+     {
+        display: none !important;
+    }
     .top-header {
         height: 0;
     }
@@ -1424,6 +1485,8 @@ header {
             .icon-nav {
                 .mobile-setting,
                 .mobile-cart,
+                .account-widgets,
+                .storelocator-widgets,
                 .mobile-search {
                     position: fixed;
                     bottom: 20px;
@@ -1458,7 +1521,7 @@ header {
                     }
                 }
                 .mobile-cart {
-                    right: 48%;
+                    right: 20%;
                     .close-circle {
                         i {
                             font-size: 14px;
@@ -1499,6 +1562,13 @@ header {
                         }
                     }
                 }
+                .account-widgets {
+                    right: 40%;
+                }
+                .storelocator-widgets {
+                    right: 60%;
+                }
+               
             }
         }
     }
@@ -1507,8 +1577,11 @@ header {
         left: 50%;
         margin-right: -50%;
         transform: translateX(-50%);
-        padding-top: 30px !important;
-        padding-bottom: 30px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        img {
+            max-width: 150px;
+        }
     }
     .toggle-nav {
         padding-top: 30px;
@@ -1583,10 +1656,3 @@ header {
     }
 }
 
-@media (max-width: 480px) {
-    .brand-logo {
-        img {
-            height: 25px;
-        }
-    }
-}

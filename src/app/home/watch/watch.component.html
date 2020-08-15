@@ -1,13 +1,150 @@
-<app-header-one [themeLogo]="themeLogo"></app-header-one>
+<app-header-three [themeLogo]="themeLogo"></app-header-three>
 
 <!-- Home slider start-->
-<section class="p-0">
-    <app-slider [sliders]="sliders" [textClass]="'text-center'" [category]="'watch'" [buttonText]="'shop now'">
-    </app-slider>
-</section>
+<section class="p-0 square-dots banner-desktop"  *ngIf="bannersliders.length > 0">
+    <owl-carousel-o class="product-m no-arrow" [options]="HomePageBannerSlider">
+      <ng-container *ngFor="let slide of bannersliders">
+        <ng-template carouselSlide>
+          <div class="product-box">
+                <img src="{{bannerBaseImagePath}}{{slide.image}}">
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </section>
+  <section style="min-height:200px;text-align:center;" class="p-0" *ngIf="bannersliders.length == 0">
+  
+    <img src="https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif">
+   </section>
+<!-----Mobile -->
+   <section class="p-0 mobile-banner square-dots"  *ngIf="bannersliders.length > 0">
+    <owl-carousel-o class="product-m no-arrow" [options]="HomePageBannerSlider">
+      <ng-container *ngFor="let slide of bannerslidersMobile ">
+        <ng-template carouselSlide>
+          <div class="product-box">
+                <img src="{{bannerBaseImagePath}}{{slide.image}}">
+          </div>
+        </ng-template>
+      </ng-container>
+    </owl-carousel-o>
+  </section>
+  <section style="min-height:200px;text-align:center;" class="p-0" *ngIf="bannersliders.length == 0">
+  
+    <img src="https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif">
+   </section>
+  
+  
 <!-- Home slider End -->
 
-<!--  logo section start-->
+
+<section class="pb-0 ratio_45">
+    <div class="container">
+        <div class="row partition2">
+            <div class="col-md-6">
+                <a href="#">
+                    <div class="collection-banner christmas-banner p-left text-left">
+                        <div class="img-part bg-size blur-up lazyloaded" >
+                            <img src="http://themes.pixelstrap.com/multikart/assets/images/christmas/sub-banner1.jpg" class="img-fluid bg-img blur-up lazyload" alt="" >
+                        </div>
+                        <div class="contain-banner">
+                            <div>
+                                <h4>Christmas</h4>
+                                <h2>gift box</h2>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="#">
+                    <div class="collection-banner christmas-banner p-right text-right">
+                        <div class="img-part bg-size blur-up lazyloaded" >
+                            <img src="http://themes.pixelstrap.com/multikart/assets/images/christmas/sub-banner2.jpg" class="img-fluid bg-img blur-up lazyload" alt="">
+                        </div>
+                        <div class="contain-banner">
+                            <div>
+                                <h4>go christmas</h4>
+                                <h2>chocolate</h2>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Product slider start-->
+<div class="title1 section-t-space">
+    <h2 class="title-inner1">Best Selling Products</h2>
+  </div>
+  <section class="section-b-space p-t-0">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <owl-carousel-o class="product-m no-arrow" [options]="ProductSliderConfig">
+            <ng-container *ngFor="let product of bestSellingProducts">
+              <ng-template carouselSlide>
+                <div class="product-box">
+             <app-product-box-simple 
+                  [product]="product" 
+                  [currency]="productService?.Currency"
+                  [thumbnail]="true"
+                  [cartModal]="true">
+                </app-product-box-simple>
+                </div>
+              </ng-template>
+            </ng-container>
+          </owl-carousel-o>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Product slider End -->
+
+
+<section class="p-0 overflow-cls">
+    <div class="full-banner text-center p-center bg-size blur-up lazyloaded" >
+        <img src="http://themes.pixelstrap.com/multikart/assets/images/christmas/parallax/1.jpg" alt="" class="bg-img blur-up lazyload">
+        <div class="container content-c">
+            <div class="row">
+                <div class="col">
+                    <div class="banner-contain christmas-contain">
+                        <h3>New Collection Of Awesome Gift</h3>
+                        <h2>End Of The Year <span>SALE</span></h2>
+                        <h4>Get <span>50%</span> Extra Off</h4>
+                        <a href="#" class="btn btn-solid" tabindex="0">shop now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>
+
+
+
+<!-- category -->
+<section class="section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+			    <div class="title4">
+                    <h2 class="title-inner4">Shop By Category</h2>
+                    <div class="line">
+                        <span></span>
+                    </div>
+				</div>	
+                <app-shopbycategory [categories]="homePagefeaturedCategory" ></app-shopbycategory>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- category end -->
+
+<!--  logo section start
 <section class="section-b-space">
     <div class="container">
         <div class="row">
@@ -16,10 +153,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!--  logo section End-->
 
-<!-- timer banner -->
+<!-- timer banner 
 <section>
     <div class="container">
         <div class="row banner-timer" [ngStyle]="{'background-image': 'url(assets/images/offer-banner-2.jpg)'}">
@@ -50,10 +187,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- timer banner end -->
 
-<!-- category -->
+<!-- category 
 <section class="section-b-space">
     <div class="container">
         <div class="row">
@@ -62,10 +199,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- category end -->
 
-<!--  tab section  -->
+<!--  tab section 
 <section class="p-0">
     <div class=" tab-bg">
         <div class="container-fluid">
@@ -100,10 +237,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!--  tab section end -->
 
-<!-- product section -->
+<!-- product section 
 <section>
     <div class="container">
         <div class="row">
@@ -127,10 +264,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- product section end -->
 
-<!-- collection banner -->
+<!-- collection banner
 <section>
     <div class="container">
         <div class="row partition3">
@@ -149,10 +286,10 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- collection banner end -->
 
-<!-- product-box -->
+<!-- product-box 
 <section class="section-b-space">
     <div class="full-box">
         <div class="container">
@@ -202,10 +339,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- product-box end -->
 
-<!-- blog section start-->
+<!-- blog section start
 <section class="blog blog-bg section-b-space">
     <div class="container">
         <div class="title4">
@@ -220,7 +357,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- blog section end -->
 
 <!-- services start-->
@@ -231,7 +368,7 @@
 </div>
 <!-- services End -->
 
-<!-- Instagram section -->
+<!-- Instagram section
 <section class="instagram section-b-space">
     <div class="container">
         <div class="row">
@@ -241,7 +378,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- Instagram section End -->
 
 <!-- Cart Open To Left Side-->

@@ -244,3 +244,31 @@ export let ProductDetailsThumbSlider: any = {
     margin: 10,
     dots:false
 }
+
+
+// Homepage Banner Slider
+export let BannerSlider: any = {
+    items: 1,
+    loop: true,
+    nav: false,
+    dots: true,
+    autoplay: true,
+    navSpeed: 300,
+    navContainerClass: 'owl-nav',
+    navClass: [ 'owl-prev', 'owl-next' ],
+    navText: [ '<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>' ],
+    responsive: {
+        0: {
+            items: 1
+        },
+        400: {
+            items: 1
+        },
+        740: {
+            items: 1
+        },
+        940: {
+            items: 1
+        }
+    },
+};

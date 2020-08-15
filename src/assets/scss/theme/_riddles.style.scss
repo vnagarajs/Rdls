@@ -1,0 +1,198 @@
+
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default'; 
+
+
+::placeholder{
+    color:#555;
+    opacity: 0.5; 
+    font-size:12px;
+    font-family:"Oswald";
+    text-transform: uppercase;
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:#555;
+    opacity: 0.5; 
+    font-size:12px;
+    font-family:"Oswald";
+    text-transform: uppercase;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color:#555;
+    opacity: 0.5; 
+    font-size:12px;
+    font-family:"Oswald";
+    text-transform: uppercase;
+  }
+ 
+  .links-list {
+      li {
+        display: block;
+        padding: 17px 16px 17px 25px;
+        border-bottom: 1px solid #dedede;
+        text-transform: uppercase;
+        font-weight: 500;
+         font-size: 14px;
+         letter-spacing: 0.02em;
+        &:hover {
+            color: $black;
+        }
+        a {
+                color: $secondary;
+                cursor: pointer;
+                 
+              
+                
+        }
+      }
+  }
+.product-name{
+    line-height: 1.8;
+    font-family: 'Oswald','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    color: #555;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.product-qty{
+    .cart-item-qty{
+        padding: 14px;
+        width: 50px;
+        font-size: 12px;
+        line-height: 14px;
+        vertical-align: baseline;
+        background: $white;
+        border: 1px solid #dedede;
+        border-radius: 4px;
+        text-align: center;
+    }
+}
+.product-price {
+    .price {
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 1;
+        letter-spacing: 1px;
+        color: $black;
+    }
+}
+.sub-total {
+        label {
+            text-transform: uppercase;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+        .price {
+            color: $black;
+            font-weight: 600;
+            font-size: 24px;
+        }
+}
+
+
+.subtitle {
+    display: block;
+    max-width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 16px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.readmore {
+    font-weight: 700;
+    text-decoration: underline;
+}
+/*** SLider **/
+.slick-dots {
+    position: static;
+}
+.homePageBanner {
+    img {
+        max-width:100%;
+    }
+    .slick-dots {
+        position: absolute;
+        width: 20px;
+        top: 50%;
+    }
+}
+
+
+.square-dots {
+    .owl-dots {
+        position: absolute;
+        width: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+.owl-dot {
+
+        background: #cccccc;
+        border: 1px solid #fff;
+        border-radius: 0;
+        height: 13px;
+        margin: 8px 7px;
+        opacity: 1;
+        width: 13px;
+        -webkit-box-shadow: 0px 0px 3px 0px rgba(50,50,50,0.58);
+        -moz-box-shadow: 0px 0px 3px 0px rgba(50,50,50,0.58);
+        box-shadow: 0px 0px 3px 0px rgba(50,50,50,0.58);    
+        &.active {
+          background-color: $black; 
+        }
+        span {
+         display:none !important;
+        }
+       
+   
+}
+}
+.fixed-top-arrow {
+.slick-arrow{
+    &.lnr-chevron-right{
+      right: 5px;
+    }
+    &.lnr-chevron-left{
+      right: 35px;
+    }
+        cursor: pointer;
+        position: absolute;           
+        top: -30px;
+        width: 25px;
+        height: 25px;
+        border: 1px solid $grey;
+        border-radius: 3px;
+        transition: .3s all ease;
+        font-size: 8px;
+        padding: 0px;
+        &:hover{
+          border: 1px solid $secondary;
+        }
+        &:before{
+          line-height: 25px;
+          margin-left: 5px;
+          font-weight: bold;
+        }
+    }
+}
+
+.product-item {
+    -webkit-flex-basis: 25%;
+    -ms-flex-preferred-size: 25%;
+    flex-basis: 25%;
+    max-width: 25%;
+    img {
+        width: 100%;
+    }
+}
+
