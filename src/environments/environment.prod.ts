@@ -17,5 +17,7 @@ export const environment = {
     get_cart_url: 'guest-carts/{0}/items',
     get_quote_id_url: 'guest-carts',
     addGiftMessageBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
-    addGiftMessageUrl: 'carts/{0}/gift-message'
+    addGiftMessageUrl: 'carts/{0}/gift-message',
+    GetBirthMonthOptionsUrl: 'Customer/getAttributeValues/customer_birth_month',
+    GetAnniversaryMonthOptionsUrl: 'Customer/getAttributeValues/customer_anniversary_month'
 };
