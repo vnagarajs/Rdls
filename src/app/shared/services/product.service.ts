@@ -10,6 +10,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { CartResponse, Data, Item } from '../classes/cartGraphQl';
 import { ApolloQueryResult, ApolloCurrentQueryResult } from 'apollo-client';
+import { GiftMessage } from '../classes/giftMessage';
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -164,82 +165,161 @@ export class ProductService {
   */
 
   // Get Cart Items
-  public get cartItems(): Observable<ApolloQueryResult<any>> {
+  public get cartItems(): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
-    return this.apollo
-      .query<any>({
-        query: gql`
-        query($id: String!) {
-          cart(cart_id: $id)  {
-            items {
-            id
-            product {
+    return this.http.get<any>(`http://localhost:4200/graphql?query={
+      cart(cart_id: "`+ cart_id+ `") {
+        items {
+          id
+          product {
             name
             sku
-            image{
-            url
+        image{
+        url
+        }
+        ... on CustomizableProductInterface {
+          options {
+            title
+            required
+            sort_order
+            option_id
+            ... on CustomizableDropDownOption{
+              value{
+                option_type_id
+                price
+                title
+                sort_order
+              }
             }
+            ... on CustomizableCheckboxOption{
+              value{
+                option_type_id
+                price
+                title
+                sort_order
+              }
             }
-            ... on SimpleCartItem {
-            customizable_options {
-            label
-            id
-            values {
-            id
+          }
+        }
+          }
+        ... on SimpleCartItem {
+              customizable_options {
+                label
+          id
+                values {
+                  id
             label
             value
             price{
             value
             }
+                }
+              }
             }
+        ... on ConfigurableCartItem {
+              configurable_options {
+            id
+                option_label
+          value_id
+          value_label
+              }
             }
-            }
-            quantity
-            price
-            }
-            shipping_addresses {
-            selected_shipping_method {
+          quantity
+        }
+      email
+      billing_address {
+          city
+          country {
+            code
+            label
+          }
+          firstname
+          lastname
+          postcode
+          region {
+            code
+            label
+          }
+          street
+          telephone
+        }
+      shipping_addresses {
+        firstname
+          lastname
+          postcode
+          street
+          city
+          region {
+            code
+            label
+          }
+          country {
+            code
+            label
+          }
+          telephone
+        available_shipping_methods {
             amount {
-            value
-            currency
+              currency
+              value
+            }
+            available
+            carrier_code
+            carrier_title
+            error_message
+            method_code
+            method_title
+            price_excl_tax {
+              value
+              currency
+            }
+            price_incl_tax {
+              value
+              currency
+            }
+          }
+          selected_shipping_method {
+            amount {
+              value
+              currency
             }
             carrier_code
             carrier_title
             method_code
             method_title
-            }
-            }
-            applied_coupon {
-            code
-            }
-            prices {
-            grand_total {
-            value
-            }
-            subtotal_excluding_tax{
-            value
-            }
-            applied_taxes{
-            amount{
-            value
-            }
-            label
-            }
-            }
-            }
-        }`,
-        variables: {
-          id: cart_id
+          }
         }
-      });
-    // var quoteId = localStorage["quoteId"];
-    // if (!quoteId){      
-    //   quoteId = this.getQuoteId();
-    // }    
-    // return this.http.get<Cart[]>(environment.product_base_url + environment.get_cart_url.replace('{0}', quoteId));
+      selected_payment_method{
+       code
+       title
+      }
+      applied_coupon {
+          code
+        }
+      available_payment_methods {
+          code
+          title
+        }
+      prices {
+          grand_total {
+            value
+          }
+        subtotal_excluding_tax{
+        value
+        }
+        applied_taxes{
+         amount{
+          value
+         }
+         label
+        }
+        }
+      }
+    }
+    `);    
   }
 
   // Add to Cart
@@ -404,7 +484,7 @@ export class ProductService {
         mutation: gql`mutation($email: String!, $cart_id: String!) {
           setGuestEmailOnCart(input: {
             cart_id: $cart_id
-            email: "$email
+            email: $email
           }) {
             cart {
               email
@@ -413,7 +493,7 @@ export class ProductService {
         }`,
         variables: {
           email: email,
-          cart_item_id: cart_id
+          cart_id: cart_id
         }
       });
   }
@@ -425,8 +505,8 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     }
     return this.apollo
       .mutate<any>({
-        mutation: gql`mutation($cart_id: cart_id, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
-          $region: String!, $postcode: String!, $country_code: String!, $telephone: String!, $save_in_address_book: Boolean) {
+        mutation: gql`mutation($cart_id: String!, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
+          $region: String!, $postcode: String!, $country_code: String!, $telephone: String!, $save_in_address_book: Boolean!) {
           setShippingAddressesOnCart(
             input: {
               cart_id: $cart_id
@@ -436,7 +516,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
                     firstname: $firstname
                     lastname: $lastname
                     street: $street
-                    city: "$city
+                    city:  $city
                     region: $region
                     postcode: $postcode
                     country_code: $country_code
@@ -469,16 +549,16 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          $cart_id: cart_id,    
-          $firstname: shippingAddress.firstname,
-          $lastname: shippingAddress.lastname,
-          $street: shippingAddress.street,
-          $city: shippingAddress.city,
-          $region: shippingAddress.region,
-          $postcode: shippingAddress.postcode,
-          $telephone: shippingAddress.telephone,
-          $country_code: shippingAddress.country_code,
-          $save_in_address_book: shippingAddress.save_in_address_book,    
+          cart_id: cart_id,    
+          firstname: shippingAddress.firstname,
+          lastname: shippingAddress.lastname,
+          street: shippingAddress.street,
+          city: shippingAddress.city,
+          region: 'TX',
+          postcode: shippingAddress.postcode,
+          telephone: shippingAddress.telephone,
+          country_code: 'US',
+          save_in_address_book: false,    
         }
       });
   }
@@ -491,7 +571,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: cart_id, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
-          $region: String, $postcode: String, $country_code: String!, $telephone: String, $save_in_address_book: Boolean) {
+          $region: String, $postcode: String, $country_code: String!, $telephone: String, $save_in_address_book: Boolean!) {
             setBillingAddressOnCart(
             input: {
               cart_id: $cart_id
@@ -555,7 +635,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     }
     return this.apollo
       .mutate<any>({
-        mutation: gql`mutation($cart_id: cart_id, $carrier_code: String!, $method_code: String!) {
+        mutation: gql`mutation($cart_id: String!, $carrier_code: String!, $method_code: String!) {
             setShippingMethodsOnCart(input: {
               cart_id: $cart_id
               shipping_methods: [
@@ -580,14 +660,111 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          $cart_id: cart_id,    
-          $carrier_code: carrier_code,
-          $method_code: method_code
+          cart_id: cart_id,    
+          carrier_code: carrier_code,
+          method_code: method_code
         }
       });
   }
 
+  public setPaymentMethodOnCart(code: string): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: String!, $code: String!) {
+          setPaymentMethodOnCart(input: {
+              cart_id: $cart_id
+              payment_method: {
+                code: $code
+            }
+            }) {
+              cart {
+                selected_payment_method {
+                  code
+                  title
+                }
+              }
+            }
+          } 
+        `,
+        variables: {
+          cart_id: cart_id,    
+          code: code
+        }
+      });
+  }
 
+  public applyCouponToCart(couponCode: string): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: String!, $coupon_code: String!) {
+          applyCouponToCart(
+            input: {
+              cart_id: $cart_id
+              coupon_code: $coupon_code
+            }
+          ) {
+            cart {
+              applied_coupon {
+                code
+              }
+            }
+          }
+        
+          } 
+        `,
+        variables: {
+          cart_id: cart_id,    
+          coupon_code: couponCode
+        }
+      });
+  }
+
+  public removeCouponFromCart(): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: String!) {
+          removeCouponFromCart(input: { cart_id: $cart_id }) {
+            cart {
+              applied_coupon {
+                code
+              }
+            }
+          }
+        } 
+        `,
+        variables: {
+          cart_id: cart_id
+        }
+      });
+  }
+
+  public addGiftMessageToOrder(giftMessage: GiftMessage): any {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    const httpOptions = {
+      headers: new HttpHeaders()
+    }
+    httpOptions.headers.set('content-type', 'application/json');
+    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
+    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.set('Authorization', 'Bearer ' + environment.addGiftMessageBearerToken);
+
+    return this.http.post(environment.product_base_url + environment.addGiftMessageUrl.replace('{0}', cart_id), giftMessage, httpOptions);
+  }
   /*
     ---------------------------------------------
     ------------  Filter Product  ---------------

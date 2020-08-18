@@ -10,7 +10,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { TranslateModule } from '@ngx-translate/core';
 import { ApolloModule,  Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import introspectionResult from '../../../src/introspection-result';
+import { InMemoryCache, IntrospectionFragmentMatcher } from "apollo-cache-inmemory";
 
 // Header and Footer Components
 import { HeaderOneComponent } from './header/header-one/header-one.component';
@@ -62,6 +63,13 @@ import { DiscountPercentagePipe } from './pipes/discount-percentage';
 import { FreeShippingComponent } from './components/modal/free-shipping/free-shipping';
 import { MoneyBackGuaranteeComponent } from './components/modal/money-back-guarantee/money-back-guarantee';
 import { SpecialFinancingComponent } from './components/modal/special-financing/special-financing';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData: introspectionResult
+  });
+  const cache = new InMemoryCache({
+  fragmentMatcher
+  });
 
 @NgModule({
   declarations: [
@@ -167,6 +175,14 @@ import { SpecialFinancingComponent } from './components/modal/special-financing/
 })
 export class SharedModule { 
   constructor(apollo: Apollo, httpLink: HttpLink) {
+    const fragmentMatcher = new IntrospectionFragmentMatcher({
+      introspectionQueryResultData: {
+        __schema: {
+          types: [],
+        },
+      },
+    });
+
     apollo.create({
       link: httpLink.create({uri: 'http://localhost:4200/graphql'}),
       cache: new InMemoryCache()
