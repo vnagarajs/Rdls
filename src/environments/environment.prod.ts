@@ -15,5 +15,10 @@ export const environment = {
     get_product_url: 'product/detail/',
     add_to_cart_url: 'guest-carts/{0}/items',
     get_cart_url: 'guest-carts/{0}/items',
-    get_quote_id_url: 'guest-carts'
+    get_quote_id_url: 'guest-carts',
+    addGiftMessageBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
+    addGiftMessageUrl: 'carts/{0}/gift-message',
+    getBirthMonthOptionsUrl: 'Customer/getAttributeValues/customer_birth_month',
+    getAnniversaryMonthOptionsUrl: 'Customer/getAttributeValues/customer_anniversary_month',
+    registerCustomerUrl: 'customers'
 };

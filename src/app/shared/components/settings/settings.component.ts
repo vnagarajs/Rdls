@@ -13,7 +13,7 @@ import { Cart, CartResponse } from '../../classes/cartGraphQl';
 })
 export class SettingsComponent implements OnInit {
 
-  public cart: Cart = {};
+  public cart: Cart = { };
   
   public languages = [{ 
     name: 'English',
@@ -43,9 +43,11 @@ export class SettingsComponent implements OnInit {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object,
     private translate: TranslateService,
-    public productService: ProductService) {
-      console.log('sett');
-    this.productService.cartItems.subscribe(response => this.cart = response.data.cart);
+    public productService: ProductService) {      
+    this.productService.cartItems.subscribe(response => { 
+      console.log(response);
+      this.cart = response.data.cart;
+    });
   }
 
   ngOnInit(): void {

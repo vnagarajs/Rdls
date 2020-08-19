@@ -15,11 +15,16 @@ export const environment = {
     homePageBannerImageBaseURL: 'https://www.riddlesjewelry.com/media/slide/',
 
     image_base_url: 'https://28pkqk84wgmimmok.mojostratus.io/media/catalog/product/cache/1fbe3e5bb431ac364a84f162d5cf3425/',
-    product_base_url: 'http://localhost:4200/rest/V1/',
+    product_base_url: 'https://riddlesuat.azurewebsites.net/rest/V1/',
     get_product_url: 'product/detail/',
     add_to_cart_url: 'guest-carts/{0}/items',
     get_cart_url: 'guest-carts/{0}/items',
-    get_quote_id_url: 'guest-carts'
+    get_quote_id_url: 'guest-carts',
+    addGiftMessageBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
+    addGiftMessageUrl: 'carts/{0}/gift-message',
+    getBirthMonthOptionsUrl: 'Customer/getAttributeValues/customer_birth_month',
+    getAnniversaryMonthOptionsUrl: 'Customer/getAttributeValues/customer_anniversary_month',
+    registerCustomerUrl: 'customers'
 };
 
 /*

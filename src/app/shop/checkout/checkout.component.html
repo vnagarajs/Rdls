@@ -22,25 +22,23 @@
                         <tbody *ngFor="let cartItem of cart.items">
                             <tr>
                                 <td>
-                                    <div class="mobile-cart-content row">
+                                    <div class="mobile-cart-content row">                                        
                                         <div class="col-xs-3">
+                                            <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">{{ cartItem.product.name | titlecase }}</a>
+                                        </div>
+                                        <!-- <div class="col-xs-3">
                                             <div class="qty-box">
                                                 <div class="input-group">
                                                     <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="cartItem.quantity">
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-xs-3">
-                                            <h2 class="td-color">
-                                                {{ (cartItem.price) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
-                                            </h2>
-                                        </div>
-                                        <div class="col-xs-3">
-                                            <h2 class="td-color">
+                                            <span class="td-color">
                                                 <a (click)="removeItem(cartItem)" class="icon">
                                                     <i class="ti-close"></i>
                                                 </a>
-                                            </h2>
+                                            </span>
                                         </div>
                                     </div>
                                 </td>
@@ -62,19 +60,19 @@
                                     </div>
                                 </td>
                                 <td> 
-                                    <h2 class="td-color">
+                                    <span class="td-color">
                                         {{ ((cartItem.price) * cartItem.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
-                                    </h2>$
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <table class="table cart-table table-responsive-xs">
+                    <table class="table cart-table table-responsive-xs" *ngIf='cart && cart.items && cart.items.length'>
                         <tbody>
                             <tr class="table-head">
                                 <th scope="col">CART SUBTOTAL</th>
                                 <td>
-                                    <span>$</span>
+                                    <span>{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol'}}</span>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,10 +101,30 @@
                 <div class="col-sm-12">
                     <form class="discount-form">
                         <div class="input-box">
-                            <input class="input-text" type="text" aria-placeholder="Enter coupon code here" placeholder="Enter coupon code here"/>
+                            <input class="input-text" name="coupon" type="text" [(ngModel)]="couponCode" [disabled]="isCouponApplied" aria-placeholder="Enter coupon code here" placeholder="Enter coupon code here"/>
+                        </div>
+                        <div class="actions-button" *ngIf="!isCouponApplied">
+                            <button id="add_coupon_code_button" (click)="applyCouponToCart()">Apply</button>
+                        </div> 
+                        <div class="actions-button" *ngIf="isCouponApplied">
+                            <button id="remove_coupon_code_button" (click)="removeCouponFromCart()">Remove</button>
+                        </div> 
+                    </form>
+                </div>
+                <div class="col-sm-12">
+                    <h5>Gift Message</h5>
+                    <form>
+                        <div class="input-box">
+                            <input class="input-text" name="sender" type="text" [(ngModel)]="sender"/>
+                        </div>
+                        <div class="input-box">
+                            <input class="input-text" name="recipient" type="text" [(ngModel)]="recipient"/>
+                        </div>
+                        <div class="input-box">
+                            <input class="input-text" name="message" type="text" [(ngModel)]="message"/>
                         </div>
                         <div class="actions-button">
-                            <button id="add_coupon_code_button">Apply</button>
+                            <button id="add_gift_mdg_button" (click)="addGiftMessageToOrder()">Save</button>
                         </div> 
                     </form>
                 </div>
@@ -154,22 +172,18 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                        <div class="field-label">Phone</div>
-                        <input type="text" name="phone" [formControl]="checkoutForm.controls['phone']" value="" placeholder="" autocomplete="off">
-                        <div *ngIf="checkoutForm.controls.phone.touched && checkoutForm.controls.phone.errors?.required" class="text text-danger">
-                         Phone No is required.
-                        </div>
-                        <div *ngIf="checkoutForm.controls.phone.touched && checkoutForm.controls.phone.errors?.pattern" class="text text-danger">
-                          Phone No is must be number.
-                        </div>
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                        <div class="field-label">Address</div>
-                        <input type="text" name="address" [formControl]="checkoutForm.controls['address']" value="" placeholder="" autocomplete="off">
-                        <div *ngIf="checkoutForm.controls.address.touched && checkoutForm.controls.address.errors?.required" class="text text-danger">
+                        <div class="field-label">Street Address</div>
+                        <input type="text" name="streetAddress1" [formControl]="checkoutForm.controls['streetAddress1']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.streetAddress1.touched && checkoutForm.controls.streetAddress1.errors?.required" class="text text-danger">
                          Address is required
                         </div>
-                        <div *ngIf="checkoutForm.controls.address.touched && checkoutForm.controls.address.errors?.maxlength" class="text text-danger">
+                        <div *ngIf="checkoutForm.controls.streetAddress1.touched && checkoutForm.controls.streetAddress1.errors?.maxlength" class="text text-danger">
+                          Maximum 50 character
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">                        
+                        <input type="text" name="streetAddress2" [formControl]="checkoutForm.controls['streetAddress2']" value="" placeholder="" autocomplete="off">                       
+                        <div *ngIf="checkoutForm.controls.streetAddress2.touched && checkoutForm.controls.streetAddress2.errors?.maxlength" class="text text-danger">
                           Maximum 50 character
                         </div>
                     </div>
@@ -177,9 +191,7 @@
                         <div class="field-label">Country</div>
                         <select name="country" [formControl]="checkoutForm.controls['country']">
                             <option value="" selected>Select Country</option>
-                            <option value="India">India</option>
-                            <option value="USA">USA</option>
-                            <option value="Australia">Australia</option>
+                            <option value="US">USA</option>
                         </select>
                         <div *ngIf="checkoutForm.controls.country.touched && checkoutForm.controls.country.errors?.required" class="text text-danger">
                          Country is required
@@ -187,15 +199,15 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
                         <div class="field-label">City</div>
-                        <input type="text" name="town" [formControl]="checkoutForm.controls['town']" value="" placeholder="" autocomplete="off">
-                         <div *ngIf="checkoutForm.controls.town.touched && checkoutForm.controls.town.errors?.required" class="text text-danger">
+                        <input type="text" name="city" [formControl]="checkoutForm.controls['city']" value="" placeholder="" autocomplete="off">
+                         <div *ngIf="checkoutForm.controls.city.touched && checkoutForm.controls.city.errors?.required" class="text text-danger">
                          City is required
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
                         <div class="field-label">Zip/Postal Code</div>
-                        <input type="text" name="postalcode" [formControl]="checkoutForm.controls['postalcode']" value="" placeholder="" autocomplete="off">
-                        <div *ngIf="checkoutForm.controls.postalcode.touched && checkoutForm.controls.postalcode.errors?.required" class="text text-danger">
+                        <input type="text" name="postcode" [formControl]="checkoutForm.controls['postcode']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.postcode.touched && checkoutForm.controls.postcode.errors?.required" class="text text-danger">
                          Postalcode is required
                         </div>
                     </div>
@@ -204,6 +216,16 @@
                         <input type="text" name="state" [formControl]="checkoutForm.controls['state']" value="" placeholder="" autocomplete="off">
                          <div *ngIf="checkoutForm.controls.state.touched && checkoutForm.controls.state.errors?.required" class="text text-danger">
                          State is required
+                        </div>
+                    </div>                    
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div class="field-label">Phone Number</div>
+                        <input type="text" name="telephone" [formControl]="checkoutForm.controls['telephone']" value="" placeholder="" autocomplete="off">
+                        <div *ngIf="checkoutForm.controls.telephone.touched && checkoutForm.controls.telephone.errors?.required" class="text text-danger">
+                         Phone No is required.
+                        </div>
+                        <div *ngIf="checkoutForm.controls.telephone.touched && checkoutForm.controls.telephone.errors?.pattern" class="text text-danger">
+                          Phone No is must be number.
                         </div>
                     </div>
                     <div class="form-group col-md-12 col-sm-12 col-xs-12 align-items-right">
@@ -225,13 +247,9 @@
                 <div class="row check-out"  *ngIf="isShippingMethodContentVisible">
                     
                     <div class="form-group col-md-12 col-sm-12 col-xs-12">
-                        <div>
-                            <input id="ground" type="radio" class="custom-control-input" value="Ground" name="ground" ngModel required>
-                            <label class="custom-control-label" for="ground">Ground Continental US (2 to 3 Business Days) $9.95</label>
-                        </div>
-                        <div>
-                            <input id="second" type="radio" class="custom-control-input" value="Ground" name="ground" ngModel required>
-                            <label class="custom-control-label" for="second">Second Day Continental US $19.95</label>
+                        <div *ngFor="let shippingmethod of cart.shipping_addresses[0].available_shipping_methods">
+                            <input type="radio" class="" value="{{shippingmethod.carrier_code}}" name="shippingMethod" [(ngModel)]="selectedShippingMethod">
+                            <label class="custom-control-label" for="ground">{{ shippingmethod.price_excl_tax.value  | currency:productService?.Currency.currency:'symbol'}}  {{ shippingmethod.carrier_title }}</label>
                         </div>
                     </div>
                     
@@ -250,13 +268,18 @@
                     </div>
                 </div>
                 <div class="row check-out"  *ngIf="isPaymentContentVisible">
-                    CARD DETAILS
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                        <div *ngFor="let paymentmethod of cart.available_payment_methods">
+                            <input type="radio" class="" value="{{paymentmethod.code}}" name="paymentmethod" [(ngModel)]="selectedPaymentMethod" (change)="setPaymentMethodOnCart()" >
+                            <label class="custom-control-label" for="ground">{{ paymentmethod.title }}</label>
+                        </div>
+                    </div>                    
                 </div>
               </div>
             
             <div class="row" *ngIf="isPaymentLinkVisible">
                 <div class="col-sm-12">
-                    <button>PAYMENT</button>
+                    <button (click)="placeOrder()">Place Order</button>
                 </div>
             </div>
         </div>
@@ -273,7 +296,7 @@
                             <div class="checkout-title">
                                 <h3>Billing Details DES</h3>
                             </div>
-                            <div class="row check-out">
+                            <!-- <div class="row check-out">
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                     <div class="field-label">First Name</div>
                                     <input type="text" name="firstname" [formControl]="checkoutForm.controls['firstname']" value="" placeholder="" autocomplete="off">
@@ -357,7 +380,7 @@
                                      Postalcode is required
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                           <div class="row ">
                             <div class="col-12">
                               <div class="stripe-section">
@@ -414,7 +437,7 @@
                                     <div class="title-box">
                                         <div>Product <span> Total</span></div>
                                     </div>
-                                    <ul class="qty" *ngIf='cart.items.length'>
+                                    <ul class="qty" *ngIf='cart && cart.items && cart.items.length'>
                                         <li *ngFor="let cartItem of cart.items">
                                         	 {{ cartItem.product.name }} × {{ cartItem.quantity }}
                                         	<span>
@@ -422,14 +445,14 @@
                                             </span>
                                         </li>
                                     </ul>
-                                    <ul class="qty" *ngIf='!cart.items.length'>
+                                    <ul class="qty" *ngIf='!cart || !cart.items || !cart.items.length'>
                                         <li class="empty-checkout"> There are no products in cart </li>
                                     </ul>
-                                    <ul class="sub-total">
+                                    <ul class="sub-total" *ngIf='cart && cart.items && cart.items.length'>
                                         <li>
                                         	Subtotal <span class="count">{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol'}}</span>
                                         </li>
-                                        <li *ngIf='cart.items.length'>
+                                        <li>
                                         	Shipping
                                          <div class="shipping">
                                             <div class="shopping-option">
@@ -443,12 +466,12 @@
                                          </div>
                                         </li>
                                     </ul>
-                                    <ul class="total">
+                                    <ul class="total" *ngIf='cart && cart.items && cart.items.length'>
                                         <li>Total <span class="count">{{ cart.prices.subtotal_excluding_tax.value | currency:productService?.Currency.currency:'symbol'}}</span></li>
                                     </ul>
                                 </div>
 
-                                <div class="payment-box" *ngIf='cart.items.length'>
+                                <div class="payment-box" *ngIf='cart && cart.items && cart.items.length'>
                                     <div class="upper-box">
                                         <div class="payment-options">
                                             <ul>
