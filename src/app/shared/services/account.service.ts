@@ -32,14 +32,14 @@ import { customerRegistration } from '../classes/customerRegistration';
     } 
 
     public GetBirthMonthOptions(): Observable<any> {
-        return this.http.get<any>(environment.product_base_url + environment.GetBirthMonthOptionsUrl);
+        return this.http.get<any>(environment.product_base_url + environment.getBirthMonthOptionsUrl);
     }
 
     public GetAnniversaryMonthOptions(): Observable<any> {
-        return this.http.get<any>(environment.product_base_url + environment.GetAnniversaryMonthOptionsUrl);
+        return this.http.get<any>(environment.product_base_url + environment.getAnniversaryMonthOptionsUrl);
     }
 
-    public registerCustomer(customer: customerRegistration) {
+    public registerCustomer(customer: customerRegistration) : Observable<any> {
 
         const httpOptions = {
           headers: new HttpHeaders()
@@ -49,7 +49,6 @@ import { customerRegistration } from '../classes/customerRegistration';
         httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-        this.http.post(environment.product_base_url + environment.get_quote_id_url, customer, httpOptions);    
+        return this.http.post(environment.product_base_url + environment.registerCustomerUrl, customer, httpOptions);    
       }
-
   }

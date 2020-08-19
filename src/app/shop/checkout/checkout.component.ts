@@ -202,6 +202,9 @@ export class CheckoutComponent implements OnInit {
     this.productService.setShippingAddressesOnCart(this.shippingAddress).subscribe(response => {
       this.shippingAddress = response.data.setShippingAddressesOnCart.cart.shipping_addresses;
     }); 
+    this.productService.setBillingAddressOnCart(this.shippingAddress).subscribe(response => {
+      this.shippingAddress = response.data.setBillingAddressOnCart.cart.billing_address ;
+    });
   }
 
   setShippingMethodsOnCart() {
@@ -230,11 +233,18 @@ export class CheckoutComponent implements OnInit {
       this.isCouponApplied = false;
     });
   }
+
   addGiftMessageToOrder() {
     let giftMessage: GiftMessage = {
       giftMessage: { sender: this.sender, recipient: this.recipient, message: this.message }
     }
     this.productService.addGiftMessageToOrder(giftMessage).subscribe(response => {      
+    });
+  }
+
+  placeOrder() {
+    this.productService.placeOrder().subscribe(response => { 
+      console.log(response);
     });
   }
 

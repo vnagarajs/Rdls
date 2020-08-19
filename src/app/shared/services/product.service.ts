@@ -563,33 +563,31 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
       });
   }
 
-  public setBillingAddressOnCart(billingAddress: any): Observable<any> {
+  public setBillingAddressOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
     return this.apollo
       .mutate<any>({
-        mutation: gql`mutation($cart_id: cart_id, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
-          $region: String, $postcode: String, $country_code: String!, $telephone: String, $save_in_address_book: Boolean!) {
+        mutation: gql`mutation($cart_id: String!, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
+          $region: String!, $postcode: String!, $country_code: String!, $telephone: String!, $save_in_address_book: Boolean!) {
             setBillingAddressOnCart(
             input: {
               cart_id: $cart_id
-              billing_address: [
-                {
-                  address: {
-                    firstname: $firstname
-                    lastname: $lastname
-                    street: $street
-                    city: "$city
-                    region: $region
-                    postcode: $postcode
-                    country_code: $country_code
-                    telephone: $telephone
-                    save_in_address_book: $save_in_address_book
-                  },
-                }
-              ]
+              billing_address: {
+                address: {
+                  firstname: $firstname
+                  lastname: $lastname
+                  street: $street
+                  city:  $city
+                  region: $region
+                  postcode: $postcode
+                  country_code: $country_code
+                  telephone: $telephone
+                  save_in_address_book: $save_in_address_book
+                },
+              }              
             }
           ) {
             cart {
@@ -614,16 +612,16 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          $cart_id: cart_id,    
-          $firstname: billingAddress.firstname,
-          $lastname: billingAddress.lastname,
-          $street: billingAddress.street,
-          $city: billingAddress.city,
-          $region: billingAddress.region,
-          $postcode: billingAddress.postcode,
-          $telephone: billingAddress.telephone,
-          $country_code: billingAddress.country_code,
-          $save_in_address_book: billingAddress.save_in_address_book,    
+          cart_id: cart_id,    
+          firstname: shippingAddress.firstname,
+          lastname: shippingAddress.lastname,
+          street: shippingAddress.street,
+          city: shippingAddress.city,
+          region: 'TX',
+          postcode: shippingAddress.postcode,
+          telephone: shippingAddress.telephone,
+          country_code: 'US',
+          save_in_address_book: false,    
         }
       });
   }
@@ -765,6 +763,28 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
 
     return this.http.post(environment.product_base_url + environment.addGiftMessageUrl.replace('{0}', cart_id), giftMessage, httpOptions);
   }
+
+  public placeOrder(): Observable<any> {
+    var cart_id = localStorage["quoteId"];
+    if (!cart_id) {
+      cart_id = this.getQuoteId();
+    }
+    return this.apollo
+      .mutate<any>({
+        mutation: gql`mutation($cart_id: String!) {
+          placeOrder(input: { cart_id: $cart_id }) {
+            order {
+              order_id
+            }
+          }        
+        }       
+    `,
+      variables: {
+        cart_id: cart_id
+      }
+    });
+  }
+
   /*
     ---------------------------------------------
     ------------  Filter Product  ---------------
