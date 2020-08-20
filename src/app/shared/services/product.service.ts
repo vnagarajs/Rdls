@@ -170,7 +170,7 @@ export class ProductService {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
-    return this.http.get<any>(`http://localhost:4200/graphql?query={
+    return this.http.get<any>(environment.api_host + `graphql?query={
       cart(cart_id: "`+ cart_id+ `") {
         items {
           id
@@ -228,6 +228,7 @@ export class ProductService {
               }
             }
           quantity
+          price
         }
       email
       billing_address {
@@ -372,71 +373,71 @@ export class ProductService {
             input: {
               cart_id: $cart_id,
               cart_items: [
-                { 
+                {
                   cart_item_id: $cart_item_id
                   quantity: 0
                 }
               ]
-            }
-          ) {
-            items {
-            id
-            product {
-            name
-            sku
-            image{
-            url
-            }
-            }
-            ... on SimpleCartItem {
-            customizable_options {
-            label
-            id
-            values {
-            id
-            label
-            value
-            price{
-            value
-            }
-            }
-            }
-            }
-            quantity
-            price
-            }
-            shipping_addresses {
-            selected_shipping_method {
-            amount {
-            value
-            currency
-            }
-            carrier_code
-            carrier_title
-            method_code
-            method_title
-            }
-            }
-            applied_coupon {
-            code
-            }
-            prices {
-            grand_total {
-            value
-            }
-            subtotal_excluding_tax{
-            value
-            }
-            applied_taxes{
-            amount{
-            value
-            }
-            label
-            }
-            }
+              }
+            ) {
+              items {
+              id
+              product {
+              name
+              sku
+              image{
+              url
+              }
+              }
+              ... on SimpleCartItem {
+              customizable_options {
+              label
+              id
+              values {
+              id
+              label
+              value
+              price{
+              value
+              }
+              }
+              }
+              }
+              quantity
+              price
+              }
+              shipping_addresses {
+              selected_shipping_method {
+              amount {
+              value
+              currency
+              }
+              carrier_code
+              carrier_title
+              method_code
+              method_title
+              }
+              }
+              applied_coupon {
+              code
+              }
+              prices {
+              grand_total {
+                  value
+                }
+              subtotal_excluding_tax{
+              value
+              }
+              applied_taxes{
+               amount{
+                value
+               }
+               label
+              }
+              }
             }
           }
-        }
+        }        
         `,
         variables: {
           cart_id: cart_id,
