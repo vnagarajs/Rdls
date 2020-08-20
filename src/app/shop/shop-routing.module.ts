@@ -38,10 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'product/no/sidebar/:sku',
-    component: ProductNoSidebarComponent,
-    resolve: {
-      data: Resolver
-    }
+    component: ProductNoSidebarComponent
   },
   {
     path: 'product/three/column/:slug',

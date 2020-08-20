@@ -42,8 +42,8 @@ export class ProductNoSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getProductBySku(this.route.snapshot.params.sku).subscribe(response => {
-
-      this.product = response;
+      
+this.product = response;
       let specialPriceAttr = this.product.custom_attributes.filter(c => c.attribute_code === 'special_price')[0];
       if(specialPriceAttr) {
         this.specialPrice = specialPriceAttr.value;
@@ -126,7 +126,7 @@ export class ProductNoSidebarComponent implements OnInit {
   }
 
   // Add to cart
-  async addToCart() {
+   addToCart() {
     console.log(this.cartFormGroup);
     this.formSubmitted = true;
     if(!this.cartFormGroup.valid)
@@ -169,7 +169,7 @@ export class ProductNoSidebarComponent implements OnInit {
           break;
       }
     });
-    await this.productService.addToCart(cart).subscribe((response) => {
+    this.productService.addToCart(cart).subscribe((response) => {
       this.router.navigate(['/shop/cart']);
     });
       
