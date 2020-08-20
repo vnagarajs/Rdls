@@ -16,6 +16,7 @@ export const environment = {
 
     image_base_url: 'https://28pkqk84wgmimmok.mojostratus.io/media/catalog/product/cache/1fbe3e5bb431ac364a84f162d5cf3425/',
     product_base_url: 'http://localhost:4200/rest/V1/',
+    api_host: 'http://localhost:4200/',    
     get_product_url: 'product/detail/',
     add_to_cart_url: 'guest-carts/{0}/items',
     get_cart_url: 'guest-carts/{0}/items',
