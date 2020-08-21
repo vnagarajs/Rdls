@@ -202,6 +202,7 @@ export class CheckoutComponent implements OnInit {
 
     this.productService.setShippingAddressesOnCart(this.shippingAddress).subscribe(response => {
       this.shippingAddress = response.data.setShippingAddressesOnCart.cart.shipping_addresses;
+      this.cart.shipping_addresses = response.data.setShippingAddressesOnCart.cart.shipping_addresses;
     }); 
     this.productService.setBillingAddressOnCart(this.shippingAddress).subscribe(response => {
       this.shippingAddress = response.data.setBillingAddressOnCart.cart.billing_address ;

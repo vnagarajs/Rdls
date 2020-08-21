@@ -15,6 +15,7 @@ export interface Option {
     sort_order?: number;
     option_id?: number;
     value?: Value[];
+    type?: string;
 }
 
 export interface Product {

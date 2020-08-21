@@ -33,11 +33,11 @@
                                     <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">{{ cartItem.product.name | titlecase }}</a>
                                     
                                     <div *ngFor="let option of cartItem?.product.options">
-                                            <div [ngSwitch]="option.title">
+                                            <div [ngSwitch]="option.type">
                                                 <label class="label">
                                                     <span>{{ option.title + ': '}}</span>
                                                 </label>
-                                                <ng-container *ngSwitchCase="'Warranty'">
+                                                <ng-container *ngSwitchCase="'checkbox'">
                                                     <input
                                                         type="checkbox"
                                                         (change)="updateItem(i, cartItem)"
@@ -64,7 +64,7 @@
                                                     >
                                                 </ng-container>
             
-                                                <ng-container *ngSwitchCase="'Ring Size'">
+                                                <ng-container *ngSwitchCase="'drop_down'">
                                                     <select
                                                         (change)="updateItem(i, cartItem)"
                                                         formControlName="{{option.option_id}}"

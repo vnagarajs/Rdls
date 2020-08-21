@@ -65,15 +65,15 @@ export class ProductService {
     const httpOptions = {
       headers: new HttpHeaders()
     }
+    const token = localStorage.getItem('customerToken');
+    if(token) {
+      httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    }
     //httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // this.http.post(environment.product_base_url + environment.add_to_cart_url.replace('{0}', quoteId), null, httpOptions).
-    // subscribe( x =>  console.log(x));
-    // console.log('cont');
-    // return quoteId;
     this.http.post(environment.product_base_url + environment.get_quote_id_url, null, httpOptions).subscribe(
       (response) => {
         quoteId = response.toString();
@@ -186,6 +186,7 @@ export class ProductService {
             required
             sort_order
             option_id
+            type
             ... on CustomizableDropDownOption{
               value{
                 option_type_id
@@ -379,7 +380,6 @@ export class ProductService {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
-    this.apollo.setClient.arguments
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!, $quantity: Float!) {
@@ -505,20 +505,50 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
             cart {
               shipping_addresses {
                 firstname
-                lastname
-                street
-                city
-                region {
-                  code
-                  label
+                  lastname
+                  postcode
+                  street
+                  city
+                  region {
+                    code
+                    label
+                  }
+                  country {
+                    code
+                    label
+                  }
+                  telephone
+                available_shipping_methods {
+                    amount {
+                      currency
+                      value
+                    }
+                    available
+                    carrier_code
+                    carrier_title
+                    error_message
+                    method_code
+                    method_title
+                    price_excl_tax {
+                      value
+                      currency
+                    }
+                    price_incl_tax {
+                      value
+                      currency
+                    }
+                  }
+                  selected_shipping_method {
+                    amount {
+                      value
+                      currency
+                    }
+                    carrier_code
+                    carrier_title
+                    method_code
+                    method_title
+                  }
                 }
-                postcode
-                telephone
-                country {
-                  code
-                  label
-                }
-              }
             }
           }
         }

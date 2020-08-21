@@ -94,8 +94,8 @@ export class CartComponent implements OnInit {
     cart.cartItem.qty = parseInt(cartItemFormGroup.get('quantity').value);
 
     cartItem.product.options.forEach(option => {
-      switch(option.title) {
-        case 'Warranty':
+      switch(option.type) {
+        case 'checkbox':
           if(cartItemFormGroup.get(option.option_id.toString()).value) {
             cart.cartItem.productOption.extensionAttributes.customOptions.push({
               optionId: option.option_id.toString(),
@@ -103,7 +103,7 @@ export class CartComponent implements OnInit {
             });
           }
           break;
-        case 'Ring Size':
+        case 'drop_down':
           if(cartItemFormGroup.get(option.option_id.toString()).value) {
             cart.cartItem.productOption.extensionAttributes.customOptions.push({
               optionId: option.option_id.toString(),
@@ -111,7 +111,7 @@ export class CartComponent implements OnInit {
             });
           }
           break;
-        case 'Encraving':
+        case 'field':
           if(cartItemFormGroup.get(option.option_id.toString()).value) {
             cart.cartItem.productOption.extensionAttributes.customOptions.push({
               optionId: option.option_id.toString(),
