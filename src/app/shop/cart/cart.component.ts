@@ -29,7 +29,7 @@ export class CartComponent implements OnInit {
         let cartItemFormGroup = {};
         i.product.options.forEach(control => {
           let selectedVal = '';
-          if(i.customizable_options.filter(c => c.id == control.option_id).length > 0){
+          if(i.customizable_options && i.customizable_options.filter(c => c.id == control.option_id).length > 0){
             selectedVal = i.customizable_options.filter(c => c.id == control.option_id)[0].values[0].value;
           }
           

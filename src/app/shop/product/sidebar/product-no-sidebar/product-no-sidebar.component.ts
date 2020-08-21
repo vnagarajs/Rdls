@@ -41,9 +41,8 @@ export class ProductNoSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productService.getProductBySku(this.route.snapshot.params.sku).subscribe(response => {
-      
-this.product = response;
+    this.productService.getProductBySku(this.route.snapshot.params.sku).subscribe(response => {      
+      this.product = response;
       let specialPriceAttr = this.product.custom_attributes.filter(c => c.attribute_code === 'special_price')[0];
       if(specialPriceAttr) {
         this.specialPrice = specialPriceAttr.value;
@@ -59,6 +58,11 @@ this.product = response;
       this.product.options.forEach(control => {
         group[control.option_id] = new FormControl('', control.is_require ? [Validators.required] : []);
       });
+      if(this.product.extension_attributes.configurable_product_options) {
+        this.product.extension_attributes.configurable_product_options.forEach( c => {
+          group[c.attribute_id] = new FormControl('', [Validators.required]);
+        });
+      }
       this.cartFormGroup = new FormGroup(group);
     });
   }
@@ -135,11 +139,11 @@ this.product = response;
     cart.cartItem.productOption = {};
     cart.cartItem.productOption.extensionAttributes = {};
     cart.cartItem.productOption.extensionAttributes.customOptions = [];
-
+    cart.cartItem.productOption.extensionAttributes.configurable_item_options = [];
     cart.cartItem.sku = this.product.sku;
     cart.cartItem.quote_id = this.productService.getQuoteId();    
     cart.cartItem.qty = this.counter || 1;
-
+    cart.cartItem.product_type = this.product.type_id;
     this.product.options.forEach(option => {
       switch(option.type) {
         case 'checkbox':
@@ -168,10 +172,19 @@ this.product = response;
           break;
       }
     });
+
+    if(this.product.extension_attributes.configurable_product_options) {
+      this.product.extension_attributes.configurable_product_options.forEach( c => {
+        cart.cartItem.productOption.extensionAttributes.configurable_item_options.push({
+          option_id: c.attribute_id,
+          option_value: this.cartFormGroup.controls[c.attribute_id].value
+        })
+      });
+    }
+
     this.productService.addToCart(cart).subscribe((response) => {
       this.router.navigate(['/shop/cart']);
-    });
-      
+    });      
   }
   
 

@@ -149,6 +149,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <div *ngFor="let option of product?.extension_attributes?.configurable_product_options">
+                                <label class="label">
+                                    <span>{{ option.label + ': '}}</span>
+                                </label>
+                                <select
+                                    formControlName="{{option.attribute_id}}"
+                                >
+                                    <!-- <option value="select" selected>--PLEASE SELECT--</option> -->
+                                    <ng-container *ngFor="let val of option.values">
+                                        <option value="{{val.value_index}}">
+                                            {{ val.value_index }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                                <div
+                                        *ngIf="formSubmitted && formControls[option.attribute_id].errors"
+                                    >
+                                        <div *ngIf="formControls[option.attribute_id].errors">{{option.label}} is required</div>
+                                    </div>
+                            </div>
                         </ng-container>
                         <app-stock-inventory [stock]="product.stock"></app-stock-inventory>
 
