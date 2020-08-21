@@ -97,9 +97,24 @@ export interface StockItem {
 }
 
 export interface ExtensionAttributes {
-    website_ids: number[];
-    category_links: CategoryLink[];
-    stock_item: StockItem;
+    website_ids?: number[];
+    category_links?: CategoryLink[];
+    stock_item?: StockItem;
+    configurable_product_options?: ConfigurableProductOption[];
+    configurable_product_links?: number[];
+}
+
+export interface ConfigurableProductOption {
+    id: number;
+    attribute_id: string;
+    label: string;
+    position: number;
+    values: Value2[];
+    product_id: number;
+}
+
+export interface Value2 {
+    value_index: number;
 }
 
 export interface Value {

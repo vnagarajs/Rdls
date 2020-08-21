@@ -7,10 +7,16 @@ export namespace cartRestApi {
 
     export interface ExtensionAttributes {
         customOptions?: CustomOption[];
+        configurable_item_options?: ConfigurableItemOption[];
+    }
+
+    export interface ConfigurableItemOption {
+        option_id: string;
+        option_value: number;
     }
 
     export interface ProductOption {
-        extensionAttributes?: ExtensionAttributes;
+        extensionAttributes?: ExtensionAttributes;        
     }
 
     export interface CartItem {
@@ -20,6 +26,7 @@ export namespace cartRestApi {
         productOption?: ProductOption;
         name?: string;
         price?: string;
+        product_type?: string;
     }
 
     export interface Cart {

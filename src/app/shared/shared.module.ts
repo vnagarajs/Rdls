@@ -63,6 +63,8 @@ import { DiscountPercentagePipe } from './pipes/discount-percentage';
 import { FreeShippingComponent } from './components/modal/free-shipping/free-shipping';
 import { MoneyBackGuaranteeComponent } from './components/modal/money-back-guarantee/money-back-guarantee';
 import { SpecialFinancingComponent } from './components/modal/special-financing/special-financing';
+import { HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData: introspectionResult
@@ -183,8 +185,16 @@ export class SharedModule {
       },
     });
 
+    const httpOptions = {
+      headers: new HttpHeaders()
+    }
+    const token = localStorage.getItem('customerToken');
+    if(token) {
+      httpOptions.headers.set('Authorization', 'Bearer ' + token);
+    }
+
     apollo.create({
-      link: httpLink.create({uri: 'http://localhost:4200/graphql'}),
+      link: httpLink.create({uri: environment.api_host + environment.graphql_url, headers: httpOptions.headers}),
       cache: new InMemoryCache()
     });
   }

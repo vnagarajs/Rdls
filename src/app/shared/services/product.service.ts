@@ -328,10 +328,16 @@ export class ProductService {
     const httpOptions = {
       headers: new HttpHeaders()
     }
+    const token = localStorage.getItem('customerToken');
+    let url = environment.add_to_cart_guest_url.replace('{0}', cart.cartItem.quote_id)
+    if(token) {
+      httpOptions.headers.set('Authorization', 'Bearer ' + token);
+      url = environment.add_to_cart_customer_url;
+    }
     httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    return this.http.post(environment.product_base_url + environment.add_to_cart_url.replace('{0}', cart.cartItem.quote_id), cart, httpOptions);
+    return this.http.post(environment.product_base_url + url, cart, httpOptions);
   }
 
   // Update Cart Quantity
@@ -373,6 +379,7 @@ export class ProductService {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    this.apollo.setClient.arguments
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!, $quantity: Float!) {
