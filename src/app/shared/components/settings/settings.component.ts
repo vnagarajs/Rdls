@@ -14,7 +14,7 @@ import { Cart, CartResponse } from '../../classes/cartGraphQl';
 export class SettingsComponent implements OnInit {
 
   public cart: Cart = { };
-  
+  public userLoggedIn: boolean = false;
   public languages = [{ 
     name: 'English',
     code: 'en'
@@ -45,14 +45,20 @@ export class SettingsComponent implements OnInit {
     private translate: TranslateService,
     public productService: ProductService) {      
     this.productService.cartItems.subscribe(response => { 
-      console.log(response);
       this.cart = response.data.cart;
     });
   }
 
   ngOnInit(): void {
+    if(localStorage["customerToken"]) {
+      this.userLoggedIn = true;
+    }
   }
 
+  logOut() {
+    localStorage.removeItem("customerToken");
+    this.userLoggedIn = false;
+  }
   changeLanguage(code){
     if (isPlatformBrowser(this.platformId)) {
       this.translate.use(code)
@@ -64,7 +70,7 @@ export class SettingsComponent implements OnInit {
   }
 
   removeItem(product: any) {
-    this.productService.removeCartItem(product);
+    this.productService.updateCartItemQuantity(product);
   }
 
   changeCurrency(currency: any) {

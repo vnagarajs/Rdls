@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../shared/services/account.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { customerRegistration } from '../../../shared/classes/customerRegistration';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -15,12 +16,12 @@ export class RegisterComponent implements OnInit {
   public registrationForm: FormGroup;
   public formSubmitted: boolean = false;
 
-  constructor(private accountService: AccountService, private fb: FormBuilder) { 
+  constructor(private accountService: AccountService, private fb: FormBuilder, private router: Router) { 
     this.registrationForm = this.fb.group({
       firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
       lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$#^!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
       birthMonth: ['', [Validators.required]],
       anniversaryMonth: ['', [Validators.required]]      
     });
@@ -62,7 +63,10 @@ export class RegisterComponent implements OnInit {
       customerRegistration.customer.websiteId = 1;
       
       this.accountService.registerCustomer(customerRegistration).subscribe(response => {
-        console.log(response);
+        this.router.navigate(['/pages/login']);   
+      },
+      error => {
+        alert(error.error.message);
       });
     }
   }

@@ -32,8 +32,7 @@
                         <div class="form-row">
                                 <div class="col-md-6">
                                     <label for="email">Birth Month</label>
-                                    <select [formControl]="registrationForm.controls['birthMonth']" class="form-control" >  
-                                            <option value="0">--Select--</option>  
+                                    <select [formControl]="registrationForm.controls['birthMonth']" class="form-control" >                                              
                                             <option *ngFor="let month of birthMonthOptions"  
                                                     value={{month.value}}>  
                                                 {{month.label}}  
@@ -45,8 +44,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="review">Anniversary Month</label>
-                                    <select [formControl]="registrationForm.controls['anniversaryMonth']" class="form-control" >  
-                                            <option value="0">--Select--</option>  
+                                    <select [formControl]="registrationForm.controls['anniversaryMonth']" class="form-control">                                            
                                             <option *ngFor="let month of anniversatyMonthOptions"  
                                                     value={{month.value}}>  
                                                 {{month.label}}  
@@ -75,6 +73,9 @@
                                 <div *ngIf="formSubmitted && registrationForm.controls.password.errors?.required" class="text text-danger">
                                     Password is required
                                 </div>
+                                <div *ngIf="registrationForm.controls.password.touched && registrationForm.controls.password.errors?.pattern" class="text text-danger">
+                                        Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
+                                    </div>
                             </div>
                             <button type="submit" (click)="registerCustomer()" class="btn btn-solid">create Account</button>
                         </div>

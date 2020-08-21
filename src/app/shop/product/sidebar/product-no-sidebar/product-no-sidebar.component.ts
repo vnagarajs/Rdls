@@ -127,7 +127,6 @@ this.product = response;
 
   // Add to cart
    addToCart() {
-    console.log(this.cartFormGroup);
     this.formSubmitted = true;
     if(!this.cartFormGroup.valid)
     return;

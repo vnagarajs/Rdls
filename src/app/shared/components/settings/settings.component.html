@@ -58,12 +58,13 @@
     
     <div class="account-sidebar-links">
         <ul class="links-list">
-            <li (click)="closeAccount()"><a href="#">My account</a></li>
+            <li *ngIf="!userLoggedIn" (click)="closeAccount()"><a [routerLink]="'/pages/login'">Log In</a></li>
             <li (click)="closeAccount()"><a [routerLink]="'/home/wishlist'">{{ 'wishlist' | translate }}</a></li>
             <li (click)="closeAccount()"><a [routerLink]="'/home/compare'">{{ 'compare' | translate }}</a></li>
-            <li (click)="closeAccount()"><a href="#"></a>Create a Account</li>
-            <li (click)="closeAccount()"><a href="#"></a>Store Locator</li>
-            <li (click)="closeAccount()"><a href="#"></a>Contact</li>           
+            <li *ngIf="!userLoggedIn" (click)="closeAccount()"><a [routerLink]="'/pages/register'">Create an Account</a></li>
+            <li (click)="closeAccount()"><a href="#">Store Locator</a></li>
+            <li (click)="closeAccount()"><a href="#">Contact</a></li>
+            <li *ngIf="userLoggedIn" (click)="logOut()" (click)="closeAccount()"><a>Log Out</a></li>                       
         </ul>
     </div>
   </div>

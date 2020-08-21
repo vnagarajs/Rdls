@@ -176,7 +176,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   public removeItem(product: any) {
-    this.productService.removeCartItem(product);
+    product.quantity = 0;
+    this.productService.updateCartItemQuantity(product);
   }
 
 
