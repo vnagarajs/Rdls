@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { map, startWith, delay } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Product } from '../classes/product';
@@ -191,7 +191,7 @@ export class ProductService {
                 option_type_id
                 price
                 title
-                sort_order
+                sort_order          
               }
             }
             ... on CustomizableCheckboxOption{
@@ -349,6 +349,13 @@ export class ProductService {
     })
   }
 
+  public updateCartItem(cartItem: Item, cart: cartRestApi.Cart) {
+    let addItemToCart = this.addToCart(cart);
+    cartItem.quantity = 0;
+    let removeCartItem = this.updateCartItemQuantity(cartItem);
+    return forkJoin([removeCartItem, addItemToCart]);
+  }
+
   // Calculate Stock Counts
   public calculateStockCounts(product, quantity) {
     const qty = product.quantity + quantity
@@ -361,87 +368,47 @@ export class ProductService {
   }
 
   // Remove Cart items
-  public removeCartItem(cart: Item): any {
+  public updateCartItemQuantity(cartItem: Item): any {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
     return this.apollo
       .mutate<any>({
-        mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!) {
+        mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!, $quantity: Float!) {
           updateCartItems(
             input: {
               cart_id: $cart_id,
               cart_items: [
                 {
                   cart_item_id: $cart_item_id
-                  quantity: 0
+                  quantity: $quantity
                 }
               ]
               }
-            ) {
-              items {
-              id
-              product {
-              name
-              sku
-              image{
-              url
-              }
-              }
-              ... on SimpleCartItem {
-              customizable_options {
-              label
-              id
-              values {
-              id
-              label
-              value
-              price{
-              value
-              }
-              }
-              }
-              }
-              quantity
-              price
-              }
-              shipping_addresses {
-              selected_shipping_method {
-              amount {
-              value
-              currency
-              }
-              carrier_code
-              carrier_title
-              method_code
-              method_title
-              }
-              }
-              applied_coupon {
-              code
-              }
-              prices {
-              grand_total {
-                  value
+            ){
+              cart {
+                items {
+                  id
+                  product {
+                    name
+                  }
+                  quantity
                 }
-              subtotal_excluding_tax{
-              value
-              }
-              applied_taxes{
-               amount{
-                value
-               }
-               label
-              }
+                prices {
+                  grand_total{
+                    value
+                    currency
+                  }
+                }
               }
             }
-          }
-        }        
+          }          
         `,
         variables: {
           cart_id: cart_id,
-          cart_item_id: cart.id
+          cart_item_id: cartItem.id,
+          quantity: cartItem.quantity
         }
       });
   }

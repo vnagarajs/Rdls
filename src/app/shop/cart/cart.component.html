@@ -7,85 +7,144 @@
         <h3><strong>Your Cart is Empty</strong></h3>
         <h4>Add something to make me happy :)</h4>
         </div>
-        <div class="row" *ngIf="cart.items.length">
+        <div class="row" *ngIf="cart.items.length">               
         <div class="col-sm-12">
-            <table class="table cart-table table-responsive-xs">
-                <thead>
-                    <tr class="table-head">
-                        <th scope="col">image</th>
-                        <th scope="col">product name</th>
-                        <th scope="col">price</th>
-                        <th scope="col">quantity</th>
-                        <th scope="col">action</th>
-                        <th scope="col">total</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let cartItem of cart.items">
-                    <tr>
-                        <td>
-                            <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">
-                                <img [src]="cartItem.product.image.url" [alt]="'assets/images/product/placeholder.jpg'">
-                            </a>
-                        </td>
-                        <td>
-                            <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">{{ cartItem.product.name | titlecase }}</a>
-                            <div class="mobile-cart-content row">
-                                <div class="col-xs-3">
-                                    <div class="qty-box">
-                                        <div class="input-group">
-                                            <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="cartItem.quantity">
+            <form [formGroup]="cartFormGroup">
+                <table class="table cart-table table-responsive-xs">
+                    <thead>
+                        <tr class="table-head">
+                            <th scope="col">image</th>
+                            <th scope="col">product name</th>
+                            <th scope="col">price</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">action</th>
+                            <th scope="col">total</th>                      
+                        </tr>
+                    </thead>    
+                    <tbody >
+                        <ng-container formArrayName="cartItems" *ngFor="let cartItem of cart.items; let i=index">                            
+                            <tr [formGroupName]="i">
+                                <td>
+                                    <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">
+                                        <img [src]="cartItem.product.image.url" [alt]="'assets/images/product/placeholder.jpg'">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/shop/product/no/sidebar/', cartItem.product.sku]">{{ cartItem.product.name | titlecase }}</a>
+                                    
+                                    <div *ngFor="let option of cartItem?.product.options">
+                                            <div [ngSwitch]="option.title">
+                                                <label class="label">
+                                                    <span>{{ option.title + ': '}}</span>
+                                                </label>
+                                                <ng-container *ngSwitchCase="'Warranty'">
+                                                    <input
+                                                        type="checkbox"
+                                                        (change)="updateItem(i, cartItem)"
+                                                        formControlName="{{option.option_id}}"
+                                                    >
+                                                    <label>
+                                                        <span>{{' ' + option.value[0].title + ' '}}</span>
+                                                        <span>
+                                                            + {{ option.value[0].price | currency: productService.Currency?.currency:'symbol' }}
+                                                        </span>
+                                                    </label>
+                                                </ng-container>
+            
+                                                <ng-container *ngSwitchCase="'field'">
+                                                    <label>
+                                                        <span>
+                                                            + {{ option.price | currency: productService.Currency?.currency:'symbol' }}
+                                                        </span>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        (change)="updateItem(i, cartItem)"
+                                                        formControlName="{{option.option_id}}"
+                                                    >
+                                                </ng-container>
+            
+                                                <ng-container *ngSwitchCase="'Ring Size'">
+                                                    <select
+                                                        (change)="updateItem(i, cartItem)"
+                                                        formControlName="{{option.option_id}}"
+                                                    >
+                                                        <ng-container *ngFor="let val of option.value">
+                                                            <option value="{{val.option_type_id}}">
+                                                                {{ val.title }}{{ val.price > 0 ? (' +' + (val.price | currency: productService.Currency?.currency:'symbol')) : '' }}
+                                                            </option>
+                                                        </ng-container>
+                                                    </select>
+                                                    <!-- <span>
+                                                        <a
+                                                            href="javascrip:void(0)"
+                                                            (click)="sizeChart.openModal()"
+                                                        >
+                                                            Size Chart
+                                                        </a>
+                                                    </span> -->
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    <div class="mobile-cart-content row">
+                                        <div class="col-xs-3">
+                                            <div class="qty-box">
+                                                <div class="input-group">
+                                                        <input type="text" name="quantity" class="form-control input-number" disabled formControlName="quantity" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">
+                                                {{ (cartItem.price ) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">
+                                                <a (click)="removeItem(cartItem)" class="icon">
+                                                    <i class="ti-close"></i>
+                                                </a>
+                                            </h2>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-3">
-                                    <h2 class="td-color">
-                                        {{ (cartItem.price ) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
+                                </td>
+                                <td>                            
+                                    <h2>
+                                        {{ (cartItem.price) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
                                     </h2>
-                                </div>
-                                <div class="col-xs-3">
+                                </td>
+                                <td>                            
+                                    <div class="qty-box">
+                                        <div class="input-group">
+                                            <span class="input-group-prepend">
+                                                <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement(i, cartItem)">
+                                                    <i class="ti-angle-left"></i>
+                                                </button>
+                                            </span>
+                                            <input type="text" name="quantity" class="form-control input-number" disabled  formControlName="quantity">
+                                            <span class="input-group-prepend">
+                                                <button type="button" class="btn quantity-right-plus"  data-type="plus" (click)="increment(i, cartItem)">
+                                                    <i class="ti-angle-right"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" (click)="removeItem(cartItem)" class="icon">
+                                    <i class="ti-close"></i>
+                                </a>
+                                </td>
+                                <td>
                                     <h2 class="td-color">
-                                        <a (click)="removeItem(cartItem)" class="icon">
-                                            <i class="ti-close"></i>
-                                        </a>
+                                        {{ ((cartItem.price) * cartItem.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
                                     </h2>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <h2>
-                                {{ (cartItem.price) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
-                            </h2>
-                        </td>
-                        <td>
-                            <div class="qty-box">
-                                <div class="input-group">
-                                    <span class="input-group-prepend">
-                                        <button type="button" class="btn quantity-left-minus" data-type="minus" (click)="decrement(cartItem)">
-                                            <i class="ti-angle-left"></i>
-                                        </button>
-                                    </span>
-                                    <input type="text" name="quantity" class="form-control input-number" disabled [(ngModel)]="cartItem.quantity">
-                                    <span class="input-group-prepend">
-                                        <button type="button" class="btn quantity-right-plus"  data-type="plus" (click)="increment(cartItem)">
-                                            <i class="ti-angle-right"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="javascript:void(0)" (click)="removeItem(cartItem)" class="icon">
-                            <i class="ti-close"></i>
-                        </a>
-                        </td>
-                        <td>
-                            <h2 class="td-color">
-                                {{ ((cartItem.price) * cartItem.quantity) * productService?.Currency.price | currency:productService?.Currency.currency:'symbol' }}
-                            </h2>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                </td>                        
+                            </tr>
+                        </ng-container>                            
+                    </tbody>
+                </table>
+            </form>
             <table class="table cart-table table-responsive-md">
                 <tfoot>
                     <tr>

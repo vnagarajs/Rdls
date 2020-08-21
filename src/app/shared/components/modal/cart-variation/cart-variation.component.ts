@@ -31,7 +31,8 @@ export class CartVariationComponent implements OnInit, OnDestroy {
   }
 
   removeItem(product: any) {
-    this.productService.removeCartItem(product);
+    product.quantity = 0;
+    this.productService.updateCartItemQuantity(product);
   }
 
   ngOnDestroy(): void {
