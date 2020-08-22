@@ -11,8 +11,8 @@ export const environment = {
     homePageBannerImageBaseURL: 'https://www.riddlesjewelry.com/media/slide/',
 
     image_base_url: 'https://28pkqk84wgmimmok.mojostratus.io/media/catalog/product/cache/1fbe3e5bb431ac364a84f162d5cf3425/',
-    product_base_url: 'https://riddlesuat.azurewebsites.net/rest/V1/',
-    api_host: 'https://riddlesuat.azurewebsites.net/',
+    product_base_url: 'https://28pkqk84wgmimmok.mojostratus.io/rest/V1/',
+    api_host: 'https://28pkqk84wgmimmok.mojostratus.io/',
     graphql_url: 'graphql',
     get_product_url: 'product/detail/',
     add_to_cart_guest_url: 'guest-carts/{0}/items',
