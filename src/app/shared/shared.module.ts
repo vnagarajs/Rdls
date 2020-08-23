@@ -51,6 +51,9 @@ import { AgeVerificationComponent } from './components/modal/age-verification/ag
 // Skeleton Loader Components
 import { SkeletonProductBoxComponent } from './components/skeleton/skeleton-product-box/skeleton-product-box.component';
 
+// Skeleton Loader Components
+import { SkeletonBannerImageComponent } from './components/skeleton/skeleton-banner-image/skeleton-banner-image.component';
+
 // Layout Box
 import { LayoutBoxComponent } from './components/layout-box/layout-box.component';
 
@@ -111,7 +114,8 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     LayoutBoxComponent,
     TapToTopComponent,
     DiscountPipe,
-    DiscountPercentagePipe
+    DiscountPercentagePipe,
+    SkeletonBannerImageComponent
   ],
   imports: [
     CommonModule,
@@ -169,6 +173,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     SpecialFinancingComponent,
     AgeVerificationComponent,
     SkeletonProductBoxComponent,
+	SkeletonBannerImageComponent,
     LayoutBoxComponent,
     TapToTopComponent,
     DiscountPipe,

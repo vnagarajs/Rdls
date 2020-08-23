@@ -1,42 +1,206 @@
 <app-header-three [themeLogo]="themeLogo"></app-header-three>
 
+
+
+
+
 <!-- Home slider start-->
-<section class="p-0 square-dots banner-desktop"  *ngIf="bannersliders.length > 0">
-    <owl-carousel-o class="product-m no-arrow" [options]="HomePageBannerSlider">
+<div class="placeholder-item"></div>
+<section class="p-0 square-dots banner-desktop"  >
+    <app-skeleton-banner-image *ngIf="bannersliders.length == 0"></app-skeleton-banner-image>
+    <owl-carousel-o class="product-m no-arrow" *ngIf="bannersliders.length > 0" [options]="HomePageBannerSlider">
+       
       <ng-container *ngFor="let slide of bannersliders">
         <ng-template carouselSlide>
           <div class="product-box">
-                <img src="{{bannerBaseImagePath}}{{slide.image}}">
+
+                <img src="{{slide.DesktopImage}}">
           </div>
         </ng-template>
       </ng-container>
     </owl-carousel-o>
   </section>
-  <section style="min-height:200px;text-align:center;" class="p-0" *ngIf="bannersliders.length == 0">
-  
-    <img src="https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif">
-   </section>
+ 
 <!-----Mobile -->
-   <section class="p-0 mobile-banner square-dots"  *ngIf="bannersliders.length > 0">
+   <section class="p-0 mobile-banner square-dots"  *ngIf="bannerslidersMobile.length > 0">
+    <app-skeleton-banner-image *ngIf="bannerslidersMobile.length == 0"></app-skeleton-banner-image>
     <owl-carousel-o class="product-m no-arrow" [options]="HomePageBannerSlider">
       <ng-container *ngFor="let slide of bannerslidersMobile ">
         <ng-template carouselSlide>
           <div class="product-box">
-                <img src="{{bannerBaseImagePath}}{{slide.image}}">
+            <img src="{{slide.MobileImage}}">
           </div>
         </ng-template>
       </ng-container>
     </owl-carousel-o>
   </section>
-  <section style="min-height:200px;text-align:center;" class="p-0" *ngIf="bannersliders.length == 0">
-  
-    <img src="https://media.tenor.com/images/f864cbf3ea7916572605edd3b3fe637f/tenor.gif">
-   </section>
-  
+
   
 <!-- Home slider End -->
 
 
+<!---Promo ---->
+<!-- services start-->
+<div class="container">
+    <section class="service app-service-section">
+        <app-services></app-services>
+    </section>
+</div>
+<!-- services End -->
+
+<div class="container features-block-section">
+    <div class="row cm-row">
+       <!-- <div class="col-sm-6 no-padding mb-20">
+            <div class="thumbnail">
+                <a href="#">
+                    <img alt="Pair of diamond wedding rings" src="//css.brilliantearth.com/static/img/home/ir289/features/wedding-rings.jpg" class="img-fluid">
+                </a>
+                <div class="caption">
+                    <a href="#" class="td-n2">
+                        <h2 class="h2">Wedding Rings</h2>
+                        <p class="max-w300">Browse ethical wedding rings to find the one that’s just right for you.</p>
+                    </a>
+                    <div>
+                        <h3 class="shopnow"><a href="#">Shop Women's</a></h3>
+                        <h3 class="shopnow"><a href="#">Shop Men's</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 no-padding mb-20">
+            <div class="thumbnail">
+                <a href="/sapphires/">
+                    <img alt="Nature inspired sapphire engagement ring" src="//css.brilliantearth.com/static/img/home/ir289/features/gemstone-rings.jpg" class="img-fluid">
+                </a>
+                <div class="caption">
+                    <a href="/sapphires/" class="td-n2"><h2 class="h2">Gemstone Rings</h2>
+                        <p class="max-w400">From vivid blue sapphire to sparkling moissanite, explore our unique selection of
+                            gemstone rings.</p>
+                    </a>
+                    <h3 class="shopnow"><a href="/sapphires/" class="ir251-link-text">Shop Gemstone Rings</a></h3>
+                </div>
+            </div>
+        </div>-->
+
+
+       <div class="col-sm-6 no-padding mb-20" *ngFor="let storySection_1 of storySectionOne">
+            <div class="thumbnail">
+                <a [href]="storySection_1.Link" class="td-n2">                 
+                    <img [alt]="storySection_1.Description" [src]="storySection_1.Image" class="img-fluid">
+                </a>
+                <div class="caption">
+                    <a [href]="storySection_1.Link" class="td-n2">
+                        <h2 class="h2">{{storySection_1.Header_Text}}</h2>
+                        <p class="max-w300">{{storySection_1.Description}}</p>
+                    </a>
+                    <div>
+                        <h3 class="shopnow"><a href="#">{{storySection_1.Hyper_link_text}}</a></h3>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- category -->
+<section class="section-b-space shop-by">
+    <div class="container">
+        <div class="row">
+            <div class="col top-arrow">
+			    <div class="title">
+                    <h2 >Shop By Category</h2>
+                    <div class="shopall">
+                        <a href="#">Shop All</a>
+                    </div>
+				</div>	
+                <app-shopbycategory [categories]="homePagefeaturedCategory" ></app-shopbycategory>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- category end -->
+
+<!-- category -->
+<section class="section-b-space shop-by">
+    <div class="container">
+        <div class="row">
+            <div class="col top-arrow">
+			    <div class="title">
+                    <h2 >Fine Jewelry</h2>
+                    <div class="shopall">
+                        <a href="#">Shop All</a>
+                    </div>
+				</div>	
+                <app-shopbycategory [categories]="fineJewelry" ></app-shopbycategory>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- category end -->
+
+<!-- Story Section-->
+
+<div class="container features-block-section">
+    <div class="row cm-row">
+    <div class="col-sm-6 no-padding mb-20" *ngFor="let storySection_2 of storySectionTwo">
+            <div class="thumbnail">
+                <a [href]="storySection_2.Link">
+                    <img [alt]="storySection_2.Description"  [src]="storySection_2.Image" class="img-fluid">
+                </a>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- category -->
+<section class="section-b-space about-us-block">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+			    <div class="title">
+                    <h2>Riddle's Jewelry - Our Story</h2>
+                </div>	
+                <div class="about">
+                    <p>In 1959, Jesse Riddle founded Riddle’s Jewelry, 60 years later we are still family owned and operated by the second generation and introducing the third. With over 60 stores across nine Midwest states, we have an unwavering commitment to providing the very best in jewelry selection, prices and best-in-class customer service.</p>
+                    <p>At Riddle’s, we know we are selling more than just jewelry; we are helping you to celebrate life’s important relationships and events. As our founder Jesse Riddle said – “We are in the love business”. <a href="https://www.riddlesjewelry.com/about-us/">Read More</a></p>
+                    <ul >
+                        <li>
+                        <div class="block-box">
+                        <p><img src="assets/images/Riddles/FamilyOwned.jpg" alt=""></p>
+                        <p>Family Owned &amp; Operated</p>
+                        </div>
+                        </li>
+                        <li>
+                        <div class="block-box">
+                        <p><img src="assets/images/Riddles/Personalized.jpg" alt=""></p>
+                        <p>Personalized Design</p>
+                        </div>
+                        </li>
+                        <li>
+                        <div class="block-box">
+                        <p><img src="assets/images/Riddles/Service.jpg" alt=""></p>
+                        <p>Top Rated Service</p>
+                        </div>
+                        </li>
+                        <li>
+                        <div class="block-box">
+                        <p><img src="assets/images/Riddles/AmericanMade.jpg" alt=""></p>
+                        <p>American Manufacturer</p>
+                        </div>
+                        </li>
+                        </ul>
+             </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- category end -->
+<!--
 <section class="pb-0 ratio_45">
     <div class="container">
         <div class="row partition2">
@@ -73,10 +237,10 @@
         </div>
     </div>
 </section>
+-->
 
 
-
-<!-- Product slider start-->
+<!-- Product slider start
 <div class="title1 section-t-space">
     <h2 class="title-inner1">Best Selling Products</h2>
   </div>
@@ -102,9 +266,10 @@
       </div>
     </div>
   </section>
+  -->
   <!-- Product slider End -->
 
-
+<!--
 <section class="p-0 overflow-cls">
     <div class="full-banner text-center p-center bg-size blur-up lazyloaded" >
         <img src="http://themes.pixelstrap.com/multikart/assets/images/christmas/parallax/1.jpg" alt="" class="bg-img blur-up lazyload">
@@ -123,10 +288,10 @@
        
     </div>
 </section>
+-->
 
 
-
-<!-- category -->
+<!-- category 
 <section class="section-b-space">
     <div class="container">
         <div class="row">
@@ -141,7 +306,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 <!-- category end -->
 
 <!--  logo section start
@@ -360,13 +525,6 @@
 </section>-->
 <!-- blog section end -->
 
-<!-- services start-->
-<div class="container section-t-space">
-    <section class="service border-section small-section">
-        <app-services></app-services>
-    </section>
-</div>
-<!-- services End -->
 
 <!-- Instagram section
 <section class="instagram section-b-space">

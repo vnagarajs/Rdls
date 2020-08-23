@@ -1,72 +1,91 @@
 
+section, .section-t-space {
+    padding-top: 15px;
+}
 
-.collection-banner.christmas-banner {
-    .contain-banner {
-        h2 {
-            font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (1920 - 320)));
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.1em;
-            margin-bottom: -6px;
+.section-b-space {
+    padding-bottom: 15px;
+}
+.app-service-section {
+    padding:0px;
+}
+
+.features-block-section {
+.row {
+    &.cm-row {
+        margin-left: 0;
+        margin-right: 0;
+        .mb-20 {
+            margin-bottom: 20px;
         }
-        h4 {
-            color: #ffffff;
+        .no-padding {
+            padding-left: 0px;
+            padding-right:0px;
+        }
+
+        .thumbnail {
+                font-size: 16px;
+                text-align: center;
+                border: 0;
+                padding: 0;
+            .caption {
+            padding: 15px 10px 10px 10px;
+            color: #333;
+            .max-w300 {
+                max-width: 300px;
+            }
+            .max-w400 {
+                max-width: 400px;
+            }
+            p {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 16px;
+            }
+          
+        }
+        .shopnow {
+           
+            font-size: 17px;
+            text-transform: capitalize;
+            text-decoration: underline;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: .5em;
+            margin-right: .5em;
+            display: inline-block;
+            line-height: inherit;
+            a {
+                color:#333;
+            }
         }
     }
+    }
+    
 }
-.collection-banner.christmas-banner .contain-banner > div {
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 25px 40px;
-}
-
-.full-banner {
-    position: relative;
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    background-position: center;
 }
 
-.full-banner.p-center .banner-contain {
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+.container {
+    .title {
+        margin-bottom: 20px;
+   
+    }
 }
-.full-banner .banner-contain.christmas-contain h3 {
-    font-size: calc(20px + (30 - 20) * ((100vw - 320px) / (1920 - 320)));
-    color: #ffffff;
-    text-transform: capitalize;
-    font-weight: 700;
-    margin-bottom: 15px;
-    margin-top: -6px;
-}
-.full-banner .banner-contain.christmas-contain h4 {
-    font-size: calc(18px + (24 - 18) * ((100vw - 320px) / (1920 - 320)));
-    color: #ffffff;
-    font-weight: 600;
-    text-transform: capitalize;
-    letter-spacing: 0.07em;
-    padding-top: 10px;
-    margin-bottom: -5px;
-    line-height: 1.3;
-}
-.full-banner .banner-contain.christmas-contain h2 {
-    font-size: calc(24px + (70 - 24) * ((100vw - 320px) / (1920 - 320)));
-    font-weight: 700;
-    color: #ffffff;
-    text-transform: capitalize;
-    margin-bottom: 0;
-    margin-top: 0;
-}
-.content-c {
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-}
-.full-banner {
-    img {
-        max-width: 100%;
+
+.about-us-block {
+    .about {
+        max-width: 900px;
+        margin: 0px auto;
+    }
+    p {
+        text-align: center;
+    }
+    ul {
+        text-align: center;
+        img {
+            max-height: 60px;
+        }
     }
 }

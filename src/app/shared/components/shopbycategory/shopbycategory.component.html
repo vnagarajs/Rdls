@@ -1,17 +1,19 @@
 
-<owl-carousel-o [options]="CollectionSliderConfig" class="category-m no-arrow">
+
+<owl-carousel-o [options]="CollectionSliderConfig" class="category-m top-arrow">
     <ng-container *ngFor="let cats of categories">
       <ng-template carouselSlide>
         <div>
           <div class="category-wrapper" [ngClass]="class">
             <div>
-              <img src="{{BaseImagePath}}{{cats.image}}" class="img-fluid w-auto" alt="">
-              <h4>{{cats.name}}</h4>
-              <ul class="category-link" [innerHTML]="cats.text"></ul>
-              <a href="#"
-                 class="btn btn-outline">
-                 view more
-              </a>
+              <a href="#">
+              <img src="{{cats.Image}}" class="img-fluid w-auto" alt="">
+            
+              <div class="caption">
+                <h4 class="h4">{{cats.Category_Name}}</h4>
+                <p>{{cats.Description}}</p>
+            </div>
+             </a>
             </div>
           </div>
         </div>
