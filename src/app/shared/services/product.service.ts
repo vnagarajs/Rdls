@@ -338,6 +338,7 @@ export class ProductService {
     httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');    
     return this.http.post(environment.product_base_url + url, cart, httpOptions);
   }
 
