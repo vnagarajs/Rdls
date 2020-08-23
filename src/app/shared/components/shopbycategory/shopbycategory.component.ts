@@ -10,7 +10,7 @@ export class ShopbycategoryComponent implements OnInit {
 
   @Input() categories;
   @Input() class: string;
-  BaseImagePath =  environment.featureCategoryImageBaseURL;
+ 
  public CollectionSliderConfig: any = CollectionSlider;
   constructor() { }
 

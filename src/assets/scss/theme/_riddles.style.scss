@@ -1,7 +1,24 @@
 
-@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default'; 
+ h2,
+ .h2{
+    color: #000;
+    font-size: 30px;
+    letter-spacing: .025em;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    text-transform: capitalize;
+    font-weight: normal;
+}
 
+a {
+    color: #333;
+  
+}
+
+p {
+    line-height: 2;
+    font-size: 16px;
+}
 
 ::placeholder{
     color:#555;
@@ -196,3 +213,90 @@
     }
 }
 
+.service-block svg path {
+    fill: #a95490 !important;
+}
+
+.shop-by {
+    
+    .category-m {
+        &.top-arrow {
+            .category-wrapper {
+                padding:0px;
+               .caption {
+                    padding-left: 5px;
+                    padding-right: 0;
+                    padding-top: 15px;
+                    h4 {
+                        letter-spacing: .05em;
+                        color: #333;
+                        font-size: 17px;
+                        text-transform: capitalize;
+                        text-decoration: underline;
+                        margin: 0 0 10px;
+                        padding: 4px;
+                        text-align: left;
+                    }
+                    p {
+                        text-align: left;
+                        font-size: 16px;
+                    }
+                }
+            }
+            .owl-item > div {
+                margin: 0 8px;
+            }
+        }
+        
+      
+    }
+}
+.top-arrow {
+    .title {
+        position: relative;
+        .shopall {
+            position: absolute;
+            right: 60px;
+            top: 10px;
+            a {
+                color: #000;
+                text-decoration: underline;
+                font-size: 17px;
+            }
+        }
+    }
+    .owl-theme {
+        .owl-nav [class*='owl-'] {
+           background: transparent;
+           color:#000;
+           font-size: 20px;
+
+        }
+    }
+    .owl-prev {
+        position: absolute;
+        top:-35px;
+        right:35px;
+    }
+    .owl-next {
+        position: absolute;
+        top:-35px;
+        right:5px;
+    }
+}
+
+
+@media(max-width: 767px) { 
+     h2,
+    .h2{
+       
+        font-size:22px;
+    }
+    .top-arrow {
+        .title {
+            .shopall {
+                display: none;
+            }
+        }
+}
+    }

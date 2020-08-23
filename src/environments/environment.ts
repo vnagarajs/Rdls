@@ -13,7 +13,7 @@ export const environment = {
     },
     featureCategoryImageBaseURL: 'https://28pkqk84wgmimmok.mojostratus.io/media/catalog/category/',
     homePageBannerImageBaseURL: 'https://www.riddlesjewelry.com/media/slide/',
-
+    BASE_URL: 'https://28pkqk84wgmimmok.mojostratus.io/',
     image_base_url: 'https://28pkqk84wgmimmok.mojostratus.io/media/catalog/product/cache/1fbe3e5bb431ac364a84f162d5cf3425/',
     product_base_url: 'http://localhost:4200/rest/V1/',
     api_host: 'http://localhost:4200/',    
