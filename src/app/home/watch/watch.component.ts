@@ -47,15 +47,23 @@ export class WatchComponent implements OnInit, OnDestroy {
     document.documentElement.style.setProperty('--theme-deafult', '#e4604a');
 
     this.homePageService.getHomePageData().subscribe((data: any)  => {
-     
+      console.log(data);
       data = JSON.parse(data);
       this.bannersliders = data.Slider;
       this.bannerslidersMobile = data.Slider;
-      this.bestSellingProducts = data.featuredProducts;
       this.homePagefeaturedCategory =  data.Shop_By_Style;
       this.fineJewelry = data.Fine_Jewelry;
       this.storySectionOne = data.Story_Section_1;
       this.storySectionTwo = data.Story_Section_2;
+      let bestSellingPro =  data.Best_Selling_Products;
+      if (bestSellingPro) {
+        bestSellingPro = JSON.stringify(bestSellingPro);
+        this.homePageService.getBestSellingProducts(bestSellingPro).subscribe((result: any)  => {
+          if (result) {
+           this.bestSellingProducts = result.data.products.items;
+          }
+        });
+    }
 });
 
   }
