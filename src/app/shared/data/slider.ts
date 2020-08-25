@@ -196,7 +196,10 @@ export let  CompareSlider: any = {
 export let ProductSlider: any = {
     loop: false,
     dots: false,
+    nav: true,
     navSpeed: 300,
+    navClass: [ 'owl-prev', 'owl-next' ],
+    navText: [ '<i class="ti-angle-left"></i>', '<i class="ti-angle-right"></i>' ],
     responsive: {
         991: {
             items: 4

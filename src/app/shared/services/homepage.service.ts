@@ -29,7 +29,7 @@ export class HomepageService {
       }`);
 
 
-
+    
     return this.http.get(`${this.BASE_URL}graphql`, {params})
     .pipe(
         map( res => {
@@ -43,6 +43,48 @@ export class HomepageService {
       );
 }
 
+getBestSellingProducts(bestSellingPro) {
+  let params = new HttpParams();
+  params = params.append('query', `{
+    products(filter:{sku:{in: ${bestSellingPro}}}pageSize:20currentPage:1){
+    items
+    {
+      attribute_set_id
+      name
+      sku
+      type_id
+      price{
+        regularPrice{
+          amount{
+            value
+            currency
+            }
+        }
+      }
+      special_price
+      tier_price
+      promotional_tag
+      country_of_manufacture
+      image{
+       label
+       url
+      }
+    }
+    }
+    }`);
+
+    
+  return this.http.get(`${this.BASE_URL}graphql`, {params})
+    .pipe(
+        map( res => {
+          if (res) {
+            return res;
+           
+          }
+        })
+      );
+
+}
  removeTags(str) {
     if ((str === null) || (str === ''))  {
         return false;
