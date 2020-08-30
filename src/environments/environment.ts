@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
-    instagram_token: 'INSTAGRAM_TOKEN',
+  production: false,
+    instagram_token: 'IGQVJYeTgwLUxRRUowZAHRIQUFzVGpGOThieXlFSVg4VlE4dU9UaU5sUmhhRDU2b2JNTzFvblFGT19nT0JPZAEcxUjZAwenBkWmNORE1tOThwbXpJUlVOQTZAmUmRDdnUzRTFtdERyU2hB',
     stripe_token: 'STRIPE_PUBLISHABLE_KEY',
     paypal_token: 'PAYPAL_CLIENT_ID',
     phonenumber: {
