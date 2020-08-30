@@ -1,5 +1,5 @@
 <!-- breadcrumb start -->
-<app-breadcrumb [title]="'404 page'" [breadcrumb]="'404 page'" *ngIf="!orderDetails"></app-breadcrumb>
+<!-- <app-breadcrumb [title]="'404 page'" [breadcrumb]="'404 page'" *ngIf="!orderDetails"></app-breadcrumb> -->
 <!-- breadcrumb End -->
 
 <!-- section start -->
@@ -26,8 +26,8 @@
                 <div class="success-text">
                     <i class="fa fa-check-circle" aria-hidden="true"></i>
                     <h2>thank you</h2>
-                    <p>Payment is has been received Order Placed Successfully</p>
-                    <p>Transaction ID:{{ orderDetails.orderId }}</p>
+                    <p>Payment has been received and Order Placed Successfully</p>
+                    <p>Transaction ID:{{ orderDetails.entity_id }}</p>
                 </div>
             </div>
         </div>
@@ -42,38 +42,38 @@
             <div class="col-lg-6">
                 <div class="product-order">
                     <h3>your order details</h3>
-                    <div class="row product-order-detail" *ngFor="let product of orderDetails.product">
-                        <div class="col-3">
+                    <div class="row product-order-detail" *ngFor="let product of orderDetails.items">
+                        <!-- <div class="col-3">
                             <img [src]="product.images[0].src" alt="" class="img-fluid">
-                        </div>
+                        </div> -->
                         <div class="col-3 order_detail">
                             <div>
                                 <h4>product name</h4>
-                                <h5>{{ product.title }}</h5>
+                                <h5>{{ product.name }}</h5>
                             </div>
                         </div>
                         <div class="col-3 order_detail">
                             <div>
                                 <h4>quantity</h4>
-                                <h5>{{ product.quantity }}</h5>
+                                <h5>{{ product.qty_ordered }}</h5>
                             </div>
                         </div>
                         <div class="col-3 order_detail">
                             <div>
                                 <h4>price</h4>
-                                <h5>{{ product?.price * productService?.Currency?.price | discount:product | currency:productService?.Currency.currency:'symbol' }}</h5>
+                                <h5>{{ product?.row_total_incl_tax  | currency:productService?.Currency.currency:'symbol' }}</h5>
                             </div>
                         </div>
                     </div>
                     <div class="total-sec">
                         <ul>
-                            <li>Subtotal <span>{{ orderDetails.totalAmount | currency:productService?.Currency.currency:'symbol' }}</span></li>
-                            <li>Shipping <span>$00.00</span></li>
-                            <li>Tax <span>$00.00</span></li>
+                            <li>Subtotal <span>{{ orderDetails.subtotal_incl_tax | currency:productService?.Currency.currency:'symbol' }}</span></li>
+                            <li>Shipping <span>{{orderDetails.shipping_amount}}</span></li>
+                            <!-- <li>Tax <span>$00.00</span></li> -->
                         </ul>
                     </div>
                     <div class="final-total">
-                        <h3>total <span>{{ orderDetails.totalAmount | currency:productService?.Currency.currency:'symbol' }}</span></h3>
+                        <h3>total <span>{{ orderDetails.total_due | currency:productService?.Currency.currency:'symbol' }}</span></h3>
                     </div>
                 </div>
             </div>
@@ -82,31 +82,50 @@
                     <div class="col-sm-6">
                         <h4>summery</h4>
                         <ul class="order-detail">
-                            <li>order ID: {{ orderDetails.orderId }}</li>
+                            <li>order ID: {{ orderDetails.entity_id }}</li>
                             <li>Order Date: October 22, 2021</li>
-                            <li>Order Total: {{ orderDetails.totalAmount | currency:productService?.Currency.currency:'symbol' }}</li>
+                            <li>Order Total: {{ orderDetails.total_due | currency:productService?.Currency.currency:'symbol' }}</li>
                         </ul>
                     </div>
                     <div class="col-sm-6">
                         <h4>shipping address</h4>
                         <ul class="order-detail">
-                            <li>{{ orderDetails.shippingDetails.address }}</li>
-                            <li>{{ orderDetails.shippingDetails.state }}</li>
-                            <li>{{ orderDetails.shippingDetails.country }}, {{ orderDetails.shippingDetails.postalcode }}</li>
-                            <li>Contact No. {{ orderDetails.shippingDetails.phone }}</li>
+                            <li>{{ shippingDetails.address.firstname + ' ' +  shippingDetails.address.lastname }}</li>
+                            <li>{{ shippingDetails.address.street[0] }}</li>
+                            <li>{{ shippingDetails.address.street[1] }}</li>
+                            
+                            <li>{{ shippingDetails.address.region }}, {{ shippingDetails.address.postcode }}</li>
+                            <li>Contact No. {{ shippingDetails.address.telephone }}</li>
                         </ul>
                     </div>
 
-                    <div class="col-sm-12 payment-mode">
-                        <h4>payment method</h4>
-                        <p>Pay on Delivery (Cash/Card). Cash on delivery (COD) available. Card/Net banking acceptance subject to device availability.</p>
+                    <div class="col-sm-6">
+                        <h4>shipping address</h4>
+                        <ul class="order-detail">
+                            <li>{{ orderDetails.billing_address.firstname + ' ' +  orderDetails.billing_address.lastname }}</li>
+                            <li>{{ orderDetails.billing_address.street[0] }}</li>
+                            <li>{{ orderDetails.billing_address.street[1] }}</li>
+                            
+                            <li>{{ orderDetails.billing_address.region }}, {{ orderDetails.billing_address.postcode }}</li>
+                            <li>Contact No. {{ orderDetails.billing_address.telephone }}</li>
+                        </ul>
                     </div>
-                    <div class="col-md-12">
+                     
+                    <div class="col-sm-12 payment-mode">
+                        <h4>Shipping method</h4>
+                        <p>{{ orderDetails.shipping_description }}</p>
+                    </div>
+
+                    <div class="col-sm-12 payment-mode">
+                        <h4>Payment method</h4>
+                        <p>{{ orderDetails.extension_attributes.payment_additional_info[0].value }}</p>
+                    </div>
+                    <!-- <div class="col-md-12">
                         <div class="delivery-sec">
                             <h3>expected date of delivery</h3>
                             <h2>March 21, 2021</h2>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

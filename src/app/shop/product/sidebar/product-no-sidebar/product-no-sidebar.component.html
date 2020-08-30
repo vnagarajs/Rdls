@@ -22,6 +22,15 @@
                                 [id]="i"
                             >
                                 <div>
+                                        <!-- <ngx-image-zoom
+                                        [thumbImage]="environment.image_base_url + image.file"
+                                        [fullImage]="environment.image_base_url + image.file"
+                                        [magnification]="1"
+                                        [enableScrollZoom]="true"
+                                        [enableLens]="true"
+                                        [lensWidth]="20000"
+                                        [lensHeight]="20000"
+                                    ></ngx-image-zoom> -->
                                     <img
                                         [defaultImage]="'assets/images/product/placeholder.jpg'"
                                         [lazyLoad]="environment.image_base_url + image.file"
@@ -70,8 +79,8 @@
                 </div>
                 <div class="col-lg-6 rtl-text">
                     <div class="product-right">
-                        <h2>{{ product?.name }}</h2>
-                        <h5>{{ product?.sku }}</h5>
+                        <h5>SKU {{ product?.sku }}</h5>
+                        <h2>{{ product?.name }}</h2>                          
                         <h4 *ngIf="price > displayPrice">
                             <del>
                                 {{ price * productService.Currency?.price | currency: productService.Currency?.currency:'symbol' }}
@@ -189,7 +198,7 @@
                         </div> -->
                             <h5
                                 class="avalibility"
-                                *ngIf="counter <= product.stock"
+                                *ngIf="product.stock_item_status.stock_item.is_in_stock"
                             >
                                 <span>In Stock</span>
                             </h5>

@@ -97,7 +97,7 @@ const routes: Routes = [
     component: CheckoutComponent
   },
   {
-    path: 'checkout/success/:id',
+    path: 'checkout/success/:orderId',
     component: SuccessComponent
   }
 ];
