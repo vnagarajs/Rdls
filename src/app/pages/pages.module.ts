@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { GalleryModule } from '@ks89/angular-modal-gallery';
 import { SharedModule } from '../shared/shared.module';
 import { PagesRoutingModule } from './pages-routing.module';
+import { NgxPaginationModule } from  'ngx-pagination';
 
 // Pages Components
 import { WishlistComponent } from './account/wishlist/wishlist.component';
 import { CartComponent } from './account/cart/cart.component';
 import { DashboardComponent } from './account/dashboard/dashboard.component';
+import { DashboardAccountComponent } from './account/dashboard-account/dashboard-account.component';
+import { DashboardOrdersComponent } from './account/dashboard-orders/dashboard-orders.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { ForgetPasswordComponent } from './account/forget-password/forget-password.component';
@@ -45,6 +49,8 @@ import { MasonryFullWidthComponent } from './portfolio/masonry-full-width/masonr
     WishlistComponent,
     CartComponent,
     DashboardComponent,
+    DashboardAccountComponent,
+    DashboardOrdersComponent,
     LoginComponent,
     RegisterComponent,
     ForgetPasswordComponent,
@@ -79,7 +85,9 @@ import { MasonryFullWidthComponent } from './portfolio/masonry-full-width/masonr
     CommonModule,
     GalleryModule.forRoot(),
     SharedModule,
-    PagesRoutingModule
+    HttpClientModule,
+    PagesRoutingModule,
+    NgxPaginationModule
   ]
 })
 export class PagesModule { }

@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountService.login(this.email, this.password).subscribe(response => {
       localStorage.setItem("customerToken", response.data.generateCustomerToken.token);
-      this.router.navigate(['/home/riddles']);      
-    });    
+      this.router.navigate(['/pages/dashboard']);      
+    });
   }
 }
