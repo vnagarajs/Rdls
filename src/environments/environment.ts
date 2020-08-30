@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     instagram_token: 'INSTAGRAM_TOKEN',
     stripe_token: 'STRIPE_PUBLISHABLE_KEY',
-    paypal_token: 'PAYPAL_CLIENT_ID',
+    paypal_token: 'sb',
     phonenumber: {
     number: '18884023475',
     display_string: '1-888-402-3475'
@@ -23,8 +23,10 @@ export const environment = {
     add_to_cart_customer_url: 'carts/mine/items', 
     get_cart_url: 'guest-carts/{0}/items',
     get_quote_id_url: 'guest-carts',
-    addGiftMessageBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
+    get_order_url:'orders/',
+    adminBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
     addGiftMessageUrl: 'carts/{0}/gift-message',
+    savePaymentDetails: 'payment/savePaymentDetails',    
     getBirthMonthOptionsUrl: 'Customer/getAttributeValues/customer_birth_month',
     getAnniversaryMonthOptionsUrl: 'Customer/getAttributeValues/customer_anniversary_month',
     registerCustomerUrl: 'customers'

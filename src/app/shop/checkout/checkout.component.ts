@@ -8,6 +8,7 @@ import { ProductService } from "../../shared/services/product.service";
 import { OrderService } from "../../shared/services/order.service";
 import { Cart, Item, CartResponse, ShippingAddress } from '../../shared/classes/cartGraphQl';
 import { GiftMessage } from '../../shared/classes/giftMessage';
+import { PlaceOrder, PaymentDetails } from '../../shared/classes/order';
 
 @Component({
   selector: 'app-checkout',
@@ -42,6 +43,8 @@ export class CheckoutComponent implements OnInit {
   public sender: string;
   public recipient: string;
   public message: string;
+  public placeOrderResponse: PlaceOrder;
+  public paymentDetails: PaymentDetails;
 
   constructor(private fb: FormBuilder,
     public productService: ProductService,
@@ -90,6 +93,8 @@ export class CheckoutComponent implements OnInit {
         this.isCouponApplied = true;
         this.couponCode = this.cart.applied_coupon.code;
       }
+
+      this.initConfig();
     });   
   }
 
@@ -125,11 +130,11 @@ export class CheckoutComponent implements OnInit {
           purchase_units: [{
               amount: {
                 currency_code: this.productService.Currency.currency,
-                value: this.amount,
+                value: this.cart.prices.subtotal_excluding_tax.value.toString(),
                 breakdown: {
                     item_total: {
                         currency_code: this.productService.Currency.currency,
-                        value: this.amount
+                        value: this.cart.prices.subtotal_excluding_tax.value.toString()
                     }
                 }
               }
@@ -145,12 +150,30 @@ export class CheckoutComponent implements OnInit {
         },
         onApprove: (data, actions) => {
             //this.orderService.createOrder(this.products, this.checkoutForm.value, data.orderID, this.getTotal);
+
+            this.productService.placeOrder().subscribe(response => { 
+              this.placeOrderResponse = response.data.placeOrder;
+            });
+
             console.log('onApprove - transaction was approved, but not authorized', data, actions);
             actions.order.get().then(details => {
                 console.log('onApprove - you can get full order details inside onApprove: ', details);
             });
         },
         onClientAuthorization: (data) => {
+            this.paymentDetails = {};
+            this.paymentDetails.orderId = this.placeOrderResponse.order.order_id;
+            this.paymentDetails.payment_type = this.selectedPaymentMethod;
+            this.paymentDetails.trans_details = {
+               email_address: data.payer.email_address,
+               pay_pal_id: data.id,
+               payer_id: data.payer.payer_id,
+               status: data.status
+             }
+
+             this.productService.savePaymentDetails(this.paymentDetails).subscribe(response => { 
+              console.log(response);
+            });
             console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
         },
         onCancel: (data, actions) => {
@@ -245,9 +268,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   placeOrder() {
-    this.productService.placeOrder().subscribe(response => { 
-      console.log(response);
-    });
+    if(this.selectedPaymentMethod == 'riddlesgiftcart') {
+      this.productService.placeOrder().subscribe(response => { 
+        this.placeOrderResponse = response.data;
+      });
+    }
   }
 
   shippingAddressEditClick() {

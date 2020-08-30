@@ -11,6 +11,7 @@ import gql from 'graphql-tag';
 import { CartResponse, Data, Item } from '../classes/cartGraphQl';
 import { ApolloQueryResult, ApolloCurrentQueryResult } from 'apollo-client';
 import { GiftMessage } from '../classes/giftMessage';
+import { PaymentDetails } from '../classes/order';
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -334,7 +335,7 @@ export class ProductService {
     if(token) {
       httpOptions.headers.set('Authorization', 'Bearer ' + token);
       url = environment.add_to_cart_customer_url;
-    }
+    }12
     httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -765,7 +766,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Authorization', 'Bearer ' + environment.addGiftMessageBearerToken);
+    httpOptions.headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
 
     return this.http.post(environment.product_base_url + environment.addGiftMessageUrl.replace('{0}', cart_id), giftMessage, httpOptions);
   }
@@ -788,7 +789,19 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
       variables: {
         cart_id: cart_id
       }
-    });
+    });    
+  }
+
+  public savePaymentDetails(paymentDetails: PaymentDetails): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders()
+    }
+    httpOptions.headers.set('content-type', 'application/json');
+    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
+    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    httpOptions.headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
+
+    return this.http.post(environment.product_base_url + environment.savePaymentDetails, paymentDetails, httpOptions);  
   }
 
   /*
