@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  instagram_token: 'INSTAGRAM_TOKEN',
+  instagram_token: 'IGQVJYeTgwLUxRRUowZAHRIQUFzVGpGOThieXlFSVg4VlE4dU9UaU5sUmhhRDU2b2JNTzFvblFGT19nT0JPZAEcxUjZAwenBkWmNORE1tOThwbXpJUlVOQTZAmUmRDdnUzRTFtdERyU2hB',
   stripe_token: 'STRIPE_PUBLISHABLE_KEY',
   paypal_token: 'IDL9BZRSEZH5446',
   phonenumber: {
