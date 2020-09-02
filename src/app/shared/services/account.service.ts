@@ -51,4 +51,50 @@ import { customerRegistration } from '../classes/customerRegistration';
 
         return this.http.post(environment.product_base_url + environment.registerCustomerUrl, customer, httpOptions);    
       }
+
+      public getCustomerDetails(): Observable<any> {
+        let httpOptions = {
+          headers: new HttpHeaders()
+        }
+        const token = localStorage.getItem('customerToken');
+        let headers = new HttpHeaders();
+        if(token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+         httpOptions.headers.set('Authorization', 'Bearer ' + token);
+        }
+
+        // headers.set('content-type', 'application/json');
+        // headers.set('Access-Control-Allow-Origin', '*');
+        // headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        // headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); 
+        return this.http.get<any>(environment.api_host + `graphql?query={
+           
+                customer {
+                  firstname
+                  lastname
+                  suffix
+                  email
+                  addresses {
+                    firstname
+                    lastname
+                    street
+                    city
+                    region {
+                      region_code
+                      region
+                    }
+                    postcode      
+                    telephone
+                  }
+                }
+                customerOrders {
+                  items {      
+                    id
+                    created_at
+                    grand_total
+                    status
+                  }
+                }
+              }`, {headers: headers});    
+            }
   }

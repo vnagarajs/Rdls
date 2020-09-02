@@ -45,10 +45,10 @@ export class CheckoutComponent implements OnInit {
   public message: string;
   public placeOrderResponse: PlaceOrder;
   public paymentDetails: PaymentDetails;
+  public emailIdExistsAlready: boolean = false;
+  public authorizeNetForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
-    public productService: ProductService,
-    private orderService: OrderService) { 
+  constructor(private fb: FormBuilder, public productService: ProductService, private orderService: OrderService) { 
       this.checkoutForm = this.fb.group({
         firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
         lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
@@ -60,7 +60,14 @@ export class CheckoutComponent implements OnInit {
         city: ['', Validators.required],
         state: ['', Validators.required],
         postcode: ['', Validators.required]
-      })
+      });
+
+      this.authorizeNetForm = this.fb.group({
+        cardNumber: ['', [Validators.required, Validators.pattern('[0-9]+')]],
+        expiryYear: ['', [Validators.required, Validators.pattern('[0-9]+')]],
+        expiryMonth: ['', [Validators.required, Validators.pattern('[0-9]+')]],
+        cvv: ['', [Validators.required, Validators.pattern('[0-9]+')]]
+      });
   }
 
   ngOnInit(): void {
@@ -203,10 +210,20 @@ export class CheckoutComponent implements OnInit {
     this.productService.updateCartItemQuantity(product);
   }
 
-
+  get isUserLoggedIn() {
+    const token = localStorage.getItem('customerToken');
+    if(token) {
+      return true;
+    }
+    return false;
+  }
+  checkIfEmailAddressRegistered() {
+    this.productService.checkIfEmailAddressRegistered(this.checkoutForm.controls["email"].value).subscribe(response => {     
+      this.emailIdExistsAlready = !response.data.isEmailAvailable.is_email_available;
+    }); 
+  }
   setGuestEmailOnCart() {
     this.productService.setGuestEmailOnCart(this.checkoutForm.controls["email"].value).subscribe(response => {
-      console.log(response);
       this.email = response.data.setGuestEmailOnCart.cart.email;
     }); 
   }
@@ -271,6 +288,18 @@ export class CheckoutComponent implements OnInit {
     if(this.selectedPaymentMethod == 'riddlesgiftcart') {
       this.productService.placeOrder().subscribe(response => { 
         this.placeOrderResponse = response.data;
+      });
+    }
+    else if(this.selectedPaymentMethod == 'authorizenet_acceptjs') {
+      let authorizeNetOrderDetails = {
+        quote_details : {
+          card_number: this.authorizeNetForm.controls["cardNumber"].value,
+          expiry_date: this.authorizeNetForm.controls["expiryYear"].value + '-' + this.authorizeNetForm.controls["expiryMonth"].value,
+          cvv: this.authorizeNetForm.controls["cvv"].value    
+        }
+      }
+      this.productService.placeAuthorizeNetOrder(authorizeNetOrderDetails).subscribe(response => { 
+        console.log(response);
       });
     }
   }

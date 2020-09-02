@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { CustomerDetails } from '../../../shared/classes/customer';
 
 @Component({
   selector: 'app-dashboard-orders',
@@ -11,7 +12,7 @@ export class DashboardOrdersComponent implements OnInit {
 
     totalRecords: Number;
     page: Number=1;
-
+    @Input() customerDetails: CustomerDetails;
     ngOnInit() {
         this.collection.data.push(
             {

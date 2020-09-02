@@ -38,12 +38,10 @@ export class OrderService {
   }
   
   public getOrder(orderId: string): Observable<any> {   
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
-    httpOptions.headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
+    
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
 
-    return this.http.get<any>(environment.product_base_url + environment.get_order_url + parseInt(orderId), httpOptions);
+    return this.http.get<any>(environment.product_base_url + environment.get_order_url + parseInt(orderId), { headers: headers });
   }
-
 }

@@ -79,8 +79,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "multikart:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "multikart:build"
           },
           "configurations": {
             "production": {

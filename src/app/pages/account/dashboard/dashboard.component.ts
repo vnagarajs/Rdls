@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../../../shared/services/account.service';
+import { CustomerDetails } from '../../../shared/classes/customer';
 
 @Component({
   selector: 'app-dashboard',
@@ -48,8 +50,14 @@ export class DashboardComponent implements OnInit {
       "text": "My Invitations"
     }
   ]
+  customerDetails: CustomerDetails;
 
-  constructor() { }
+  constructor(private accountService: AccountService) {
+    this.accountService.getCustomerDetails().subscribe(response => {
+      console.log(response);
+      this.customerDetails = response.data; 
+    });
+   }
 
   ngOnInit(): void {
     this.dashboardTitle = "MY ACCOUNT";

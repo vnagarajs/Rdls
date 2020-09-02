@@ -117,8 +117,8 @@
       </li>
       <li>
         <div class="buttons">
-          <a [routerLink]="['/shop/checkout']" class="checkout btn btn-solid">Go to checkout</a>
-          <a [routerLink]="['/shop/cart']" class="view-cart">view and edit cart</a>
+          <a [routerLink]="['/shop/checkout']" (click)="closeCart()" class="checkout btn btn-solid">Go to checkout</a>
+          <a [routerLink]="['/shop/cart']" (click)="closeCart()" class="view-cart">view and edit cart</a>
         </div>
       </li>
     </ul>

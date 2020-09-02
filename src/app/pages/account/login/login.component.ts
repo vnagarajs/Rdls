@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../../shared/services/account.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   public email: string;
   public password: string;
 
-  constructor(private accountService: AccountService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -20,7 +20,12 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountService.login(this.email, this.password).subscribe(response => {
       localStorage.setItem("customerToken", response.data.generateCustomerToken.token);
-      this.router.navigate(['/pages/dashboard']);      
+      if(this.route.snapshot.paramMap.get('source') == 'checkout') {
+        this.router.navigate(['/shop/checkout']);
+      }
+      else {
+        this.router.navigate(['/pages/dashboard']);        
+      }
     });
   }
 }

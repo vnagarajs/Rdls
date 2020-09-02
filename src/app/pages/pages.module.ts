@@ -43,6 +43,7 @@ import { MasonryGridTwoComponent } from './portfolio/masonry-grid-two/masonry-gr
 import { MasonryGridThreeComponent } from './portfolio/masonry-grid-three/masonry-grid-three.component';
 import { MasonryGridFourComponent } from './portfolio/masonry-grid-four/masonry-grid-four.component';
 import { MasonryFullWidthComponent } from './portfolio/masonry-full-width/masonry-full-width.component';
+import { DashboardAddressBookComponent } from './account/dashboard-address-book/dashboard-address-book.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { MasonryFullWidthComponent } from './portfolio/masonry-full-width/masonr
     DashboardComponent,
     DashboardAccountComponent,
     DashboardOrdersComponent,
+    DashboardAddressBookComponent,
     LoginComponent,
     RegisterComponent,
     ForgetPasswordComponent,

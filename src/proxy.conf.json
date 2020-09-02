@@ -1,18 +1,19 @@
 {
-    "/graphql/*": {
+    "/1graphql/*": {
         "target": "https://28pkqk84wgmimmok.mojostratus.io/",
         "secure": false,
         "logLevel": "debug",
-        "changeOrigin": true
+        "changeOrigin": true,
+        "headers": {"Authorization":"Bearer m5kfx727lkttf4phfq4f5buvq41qiqk7"}              
     },
-    "/rest/*": {
+    "/1rest/*": {
         "target": "https://28pkqk84wgmimmok.mojostratus.io/",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
         "headers": {"Authorization":"Bearer txvjvw2sib3qo381lxizcjegldhfw8qx"}
     },
-    "/rest/": {
+    "/1rest/": {
         "target": "https://28pkqk84wgmimmok.mojostratus.io/",
         "secure": false,
         "logLevel": "debug",

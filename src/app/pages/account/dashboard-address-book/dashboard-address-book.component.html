@@ -1,0 +1,11 @@
+<div class="col-sm-6" *ngFor="let address of customerDetails.customer.addresses">
+    <ul>
+        <li>{{ address.firstname + ' ' +  address.lastname }}</li>
+        <li>{{ address.street[0] }}</li>
+        <li *ngIf="address.street">{{ address.street[1] }}</li>
+        
+        <li>{{ address.region.region }}, {{ address.postcode }}</li>
+        <li>Contact No. {{ address.telephone }}</li>
+    </ul>
+</div>
+

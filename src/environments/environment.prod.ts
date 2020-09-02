@@ -21,6 +21,7 @@ export const environment = {
     get_cart_url: 'guest-carts/{0}/items',
     get_quote_id_url: 'guest-carts',
     get_order_url:'orders/',
+    authorize_net_order_url:'payment/captureAmount',    
     adminBearerToken: 'txvjvw2sib3qo381lxizcjegldhfw8qx',
     addGiftMessageUrl: 'carts/{0}/gift-message',
     savePaymentDetails: 'payment/savePaymentDetails',    
