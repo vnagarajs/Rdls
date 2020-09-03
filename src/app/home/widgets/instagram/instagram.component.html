@@ -1,4 +1,4 @@
-<owl-carousel-o [options]="InstaSliderConfig" class="no-arrow instagram">
+<owl-carousel-o [options]="InstaSliderConfig" *ngIf="instagram" class="no-arrow instagram">
   <ng-container *ngFor="let insta of instagram.data">
     <ng-template carouselSlide>
       <div>

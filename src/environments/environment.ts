@@ -30,7 +30,9 @@ export const environment = {
     savePaymentDetails: 'payment/savePaymentDetails',    
     getBirthMonthOptionsUrl: 'Customer/getAttributeValues/customer_birth_month',
     getAnniversaryMonthOptionsUrl: 'Customer/getAttributeValues/customer_anniversary_month',
-    registerCustomerUrl: 'customers'
+    registerCustomerUrl: 'customers',
+    BASE_MEDIA_URL: 'https://www.riddlesjewelry.com/media/',
+    DYO_BASE_MEDIA_URL: 'https://www.riddlesjewelry.com/pub/media/DYO'
 };
 
 /*

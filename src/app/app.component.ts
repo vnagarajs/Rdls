@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
+  public themeLogo: string = 'assets/images/riddleslogoblack.png'; // Change Logo
   // For Progressbar
   loaders = this.loader.progress$.pipe(
     delay(1000),

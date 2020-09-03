@@ -300,3 +300,81 @@ p {
         }
 }
     }
+
+    .borderImg {
+        border: 1px solid #000;
+    }
+    .stoneActive {
+        border: 2px solid rgba(0, 0, 0, 0.6) !important;
+        border-radius: 50%;
+        padding: 1px;
+    }
+    #baseClipImage{pointer-events:none;}
+.dyo-design-view {
+    position:relative;
+    margin-top:3px;
+    .priceBoxHint {
+        border: 2px solid #d6d6d6;
+        border-radius: 50%;
+        font-size: 15px;
+        font-weight: 700;
+        height: 72px;
+        padding: 12px 5px 10px;
+        position: absolute;
+        right: 4px;
+        text-align: center;
+        top: 4px;
+        width: 72px;
+        z-index: 1;
+        background: #fff;
+         span {
+            font-weight: 600;
+            position: relative;
+            top: 11px;
+        }
+        &:before {
+            border: 1px solid #d6d6d6;
+            border-radius: 50%;
+            content: "";
+            height: 62px;
+            left: 3px;
+            position: absolute;
+            top: 3px;
+            width: 62px;
+        }
+    }
+}
+    
+@media only screen and (min-width : 320px) {
+    #container2d{
+      width: 290px;
+      height: 296px;
+    }
+	
+	#container2d label{
+		font-size:8px
+	 }
+}
+  
+@media only screen and (min-width : 480px) {
+    #container2d{
+       height: 300px;
+       width: 294px;
+    }	
+	#container2d label{
+	   font-size:9px
+	}
+}
+  
+@media only screen and (min-width : 640px) {
+    #container2d{
+		width: 510px;
+        height: 521px;      
+    }	
+	#container2d label{
+		font-size:15px
+	}
+	#dyo-1-stone-ul-leftA, #dyo-1-stone-ul-rightA{
+		display: none;
+	}
+}

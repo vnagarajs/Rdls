@@ -41,6 +41,7 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { CompareComponent } from './compare/compare.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SuccessComponent } from './checkout/success/success.component';
+import { DyoComponent } from './dyo/dyo.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { SuccessComponent } from './checkout/success/success.component';
     WishlistComponent,
     CompareComponent,
     CheckoutComponent,
-    SuccessComponent
+    SuccessComponent,
+    DyoComponent
   ],
   imports: [
     CommonModule,

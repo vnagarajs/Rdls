@@ -1,0 +1,85 @@
+
+<div class="container dyo-design-box">
+  <div class="row baseDetailsGroup"  *ngIf="baseDetails">
+    
+      <ng-container *ngFor="let baseDetailItem of baseDetails.options">
+          <div class="col-sm-4 baseDetailItem" *ngIf="baseDetailItem.type == 'drop_down'">
+              <div class="title">
+                  <h4 class="dyo-fil-head"><b>{{ getbaseDetailLabels(baseDetailItem.title).label }}</b></h4> 
+              </div>
+              <select (change)='changeBaseDetailsDropDown($event, this)' class="form-control"    attr.id="{{ getbaseDetailLabels(baseDetailItem.title).id }}">
+                
+                  <option  
+                   attr.data-sku="{{values.sku}}"
+                   attr.id="{{ getbaseDetailLabels(baseDetailItem.title).id }}_{{i}}" 
+                   *ngFor="let values of baseDetailItem.values; let i = index" [value]="values.title">
+                      {{values.title}}
+                  </option>
+               </select> 
+          </div>
+      </ng-container> 
+  </div>
+  <div class="dyo-design-view">
+      <div id="container2d">
+              
+      </div>
+</div>
+
+  
+  <div class="bottom-dyo-stones">
+      <div class="container">
+          <div id="iconListStones" *ngIf="fromDataArray.data.length > 0"> 
+                  <div  [attr.data-shape]="item.shape"  attr.id=dyo-stone_{{i}} *ngFor="let item of fromDataArray.data; let i = index"    class="stoneSection">
+                      <a onClick="return false;" attr.data-parentid="dyo-stone_{{i}}"    attr.data-shape=stone{{i}}_shape   href="#dyo-{{i}}-stone">
+                      <div class="dyo-select-opt">
+                      <label></label>
+                      </div>
+                      </a>
+                      <div attr.id=dyo-{{i}}-stone class="dyo-select-stones stonesSidebar">
+                      <ul attr.data-parentid=dyo-stone_{{i}} attr.id=dyo-{{i}}-stone-ul>
+                          <li  (click)="change2dItems(messageEl, $event);"  #messageEl  
+                          attr.id={{item.shape}}{{liIndex}} *ngFor="let list of item.stoneList.items; let liIndex = index"   
+                          attr.data-stoneulidx='{{liIndex}}'
+                          attr.data-productSku='{{list.sku}}'
+                          
+                          >
+                              <span class="stone-image" style="pointer-events: none;" >
+                                  <img width="32" class="img-responsive" src="{{BASE_URL_CDN}}{{list.dyo_2d_file_path}}" alt="image">
+                              </span>
+                              <span  style="pointer-events: none;" >{{list.short_name}}</span></li>
+                      </ul>
+                      </div>
+                      <div class="clearfix"></div>
+      </div> 
+  </div>
+
+
+
+  <div class="container">
+     
+      <!-- The Modal -->
+      <div class="modal" id="engPopupModal" [style.display]="showModal ? 'block' : 'none'">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          
+            
+            <!-- Modal body -->
+            <div class="modal-body" style="color:#000"> 
+               <p> Text To Engrave</p>
+               <input [(ngModel)]="engtext" name="name"/>
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-solid" data-dismiss="modal" (click) = "save()">Ok</button>
+              <button type="button" class="btn" data-dismiss="modal" (click) = "hide()">Cancel</button>
+            </div>
+            
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+    <div [style.display]="showModal ? 'block' : 'none'" class="modal-backdrop fade show"></div>
+</div>
