@@ -20,6 +20,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { SuccessComponent } from './checkout/success/success.component';
 
 import { Resolver } from '../shared/services/resolver.service';
+import { DyoComponent } from './dyo/dyo.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,10 @@ const routes: Routes = [
   {
     path: 'checkout/success/:orderId',
     component: SuccessComponent
+  },
+  {
+    path: 'design-your-own/:sku',
+    component: DyoComponent
   }
 ];
 

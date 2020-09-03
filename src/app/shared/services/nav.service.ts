@@ -76,7 +76,7 @@ export class NavService {
 		},
 		{
 			title: 'DESIGN YOUR OWN', type: 'sub', active: false, children: [
-				{ path: '/shop/collection/left/sidebar', title: 'Family Jewelry', type: 'link' },
+				{ path: '/shop/design-your-own/ST20560', title: 'Family Jewelry', type: 'link' },
 				{ path: '/shop/collection/right/sidebar', title: 'Ring Builder', type: 'link' },
 				{ path: '/shop/collection/no/sidebar', title: 'Loose Diamonds', type: 'link' },
 				{ path: '/shop/collection/no/sidebar', title: 'Stud Earrings Builder', type: 'link' },
