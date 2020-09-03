@@ -9,6 +9,7 @@ import { OrderService } from "../../shared/services/order.service";
 import { Cart, Item, CartResponse, ShippingAddress } from '../../shared/classes/cartGraphQl';
 import { GiftMessage } from '../../shared/classes/giftMessage';
 import { PlaceOrder, PaymentDetails } from '../../shared/classes/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -48,7 +49,7 @@ export class CheckoutComponent implements OnInit {
   public emailIdExistsAlready: boolean = false;
   public authorizeNetForm: FormGroup;
 
-  constructor(private fb: FormBuilder, public productService: ProductService, private orderService: OrderService) { 
+  constructor(private fb: FormBuilder, public productService: ProductService, private orderService: OrderService, private router: Router) { 
       this.checkoutForm = this.fb.group({
         firstname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
         lastname: ['', [Validators.required, Validators.pattern('[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')]],
@@ -290,7 +291,7 @@ export class CheckoutComponent implements OnInit {
         this.placeOrderResponse = response.data;
       });
     }
-    else if(this.selectedPaymentMethod == 'authorizenet_acceptjs') {
+    else if(this.selectedPaymentMethod == 'authorizedotnet') {
       let authorizeNetOrderDetails = {
         quote_details : {
           card_number: this.authorizeNetForm.controls["cardNumber"].value,
@@ -299,7 +300,14 @@ export class CheckoutComponent implements OnInit {
         }
       }
       this.productService.placeAuthorizeNetOrder(authorizeNetOrderDetails).subscribe(response => { 
-        console.log(response);
+        if(response.status == 1) {
+        localStorage.removeItem("quoteId");
+          
+        this.router.navigate(['/shop/checkout/success/', response.order_id]);       
+        }
+        else {
+          alert(response.msg);
+        }        
       });
     }
   }
