@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { CustomerDetails } from '../../../shared/classes/customer';
 
 @Component({
   selector: 'app-dashboard-account',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardAccountComponent implements OnInit {
 
+    @Input() customerDetails: CustomerDetails;
     ngOnInit() {
         
     }

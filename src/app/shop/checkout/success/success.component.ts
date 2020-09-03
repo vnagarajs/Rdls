@@ -13,12 +13,17 @@ export class SuccessComponent implements OnInit, AfterViewInit{
 
   public orderDetails : OrderDetails;
   public shippingDetails: Shipping;
+  public dispalyOrderSuccessMsg: boolean = true;
+
   constructor(private route: ActivatedRoute,
     private orderService: OrderService, public productService: ProductService) {
       
      }
 
   ngOnInit(): void {	
+    if(this.route.snapshot.paramMap.get('source') == 'myOrders') {
+      this.dispalyOrderSuccessMsg = false;
+    }
     this.orderService.getOrder(this.route.snapshot.params.orderId).subscribe(response => {
       console.log(response);
       this.orderDetails =  response;

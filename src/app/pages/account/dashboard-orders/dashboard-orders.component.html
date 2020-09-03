@@ -11,21 +11,17 @@
                                         <tr class="th-compare">
                                             <th class="item-row">Order #</th>
                                             <th class="item-row">Date</th>
-                                            <th class="item-row">Ship To</th>
                                             <th class="item-row">Order Total</th>
                                             <th class="item-row">Status</th>
                                             <th class="item-row">Action</th>
-                                            <th class="item-row"></th>
                                         </tr>
                                     </thead>
-                                    <tr *ngFor="let item of collection.data | paginate: config">
-                                        <td class="item-row">{{ item.orderid }}</td>
-                                        <td class="item-row">{{ item.orderdate }}</td>
-                                        <td class="item-row">{{ item.shipto }}</td>
-                                        <td class="item-row">{{ item.ordertotal }}</td>
+                                    <tr *ngFor="let item of customerDetails.customerOrders.items | paginate: config">
+                                        <td class="item-row">{{ item.id }}</td>
+                                        <td class="item-row">{{ item.created_at }}</td>
+                                        <td class="item-row">{{ item.grand_total }}</td>
                                         <td class="item-row">{{ item.status }}</td>
-                                        <td class="item-row"><div class="eye"></div></td>
-                                        <td class="item-row"><a href="javascript:void(0)">Reorder</a></td>
+                                        <td class="item-row"><button [routerLink]="['/shop/checkout/success/', item.id, {source:'myOrders'}]"  class="eye"></button></td>
                                     </tr>
                                 </table>
                             </div>

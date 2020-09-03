@@ -35,10 +35,14 @@
 
             <div class="col-lg-9">
                 <div *ngIf="dashboardTitle === 'MY ACCOUNT'">
-                    <app-dashboard-account></app-dashboard-account>
+                    <app-dashboard-account [customerDetails]="customerDetails" ></app-dashboard-account>
                 </div>
                 <div *ngIf="dashboardTitle === 'MY ORDERS'">
-                    <app-dashboard-orders></app-dashboard-orders>
+                    <app-dashboard-orders [customerDetails]="customerDetails"></app-dashboard-orders>
+                    
+                </div>
+                <div *ngIf="dashboardTitle === 'ADDRESS BOOK'">                    
+                    <app-dashboard-address-book [customerDetails]="customerDetails"></app-dashboard-address-book>
                 </div>
             </div>
 

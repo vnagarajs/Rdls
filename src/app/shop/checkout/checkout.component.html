@@ -140,9 +140,9 @@
                 </div>
                 <div></div>
                 <div class="row check-out" *ngIf="isShippingAddrContentVisible">
-                    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                    <div *ngIf="!isUserLoggedIn" class="form-group col-md-12 col-sm-12 col-xs-12">
                         <div class="field-label">Email Address</div>
-                        <input type="text" name="email" [formControl]="checkoutForm.controls['email']" value="" placeholder="" autocomplete="off">
+                        <input (blur)="checkIfEmailAddressRegistered()" type="text" name="email" [formControl]="checkoutForm.controls['email']" value="" placeholder="" autocomplete="off">
                         <div *ngIf="checkoutForm.controls.email.touched && checkoutForm.controls.email.errors?.required" class="text text-danger">
                          Email is required
                         </div>
@@ -150,7 +150,7 @@
                          Invalid Email
                         </div>
                     </div>
-
+                    <div *ngIf="emailIdExistsAlready"> You already have an account with us. <a [routerLink]="['/pages/login', {source:'checkout'}]">Sign in</a> or continue as guest.</div>
                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
                         <div class="field-label">First Name</div>
                         <input type="text" name="firstname" [formControl]="checkoutForm.controls['firstname']" value="" placeholder="" autocomplete="off">
@@ -272,6 +272,20 @@
                         <div *ngFor="let paymentmethod of cart.available_payment_methods">
                             <input type="radio" class="" value="{{paymentmethod.code}}" name="paymentmethod" [(ngModel)]="selectedPaymentMethod" (change)="setPaymentMethodOnCart()" >
                             <label class="custom-control-label" for="ground">{{ paymentmethod.title }}</label>
+                            <div *ngIf="paymentmethod.code == selectedPaymentMethod">
+                                <div>
+                                    Card Number<input type="text" [formControl]="authorizeNetForm.controls['cardNumber']">
+                                </div>
+                                <div>
+                                    Expiry Year <input type="text" [formControl]="authorizeNetForm.controls['expiryYear']">
+                                </div>
+                                <div>
+                                    Expiry Month <input type="text" [formControl]="authorizeNetForm.controls['expiryMonth']">
+                                </div>
+                                <div>
+                                    CVV <input type="text" [formControl]="authorizeNetForm.controls['cvv']">
+                                </div>
+                            </div>
                         </div>
                     </div>                    
                 </div>
