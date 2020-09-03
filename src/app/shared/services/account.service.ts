@@ -29,7 +29,7 @@ export class AccountService {
           password: password
         }
       });
-  }
+  }  
 
   public GetBirthMonthOptions(): Observable<any> {
     return this.http.get<any>(environment.product_base_url + environment.getBirthMonthOptionsUrl);
@@ -99,6 +99,9 @@ export class AccountService {
   }
 
   public mergeCarts(source_cart_id: string, destination_cart_id: string): Observable<any> {   
+    source_cart_id = source_cart_id.split('|')[0];
+    destination_cart_id = destination_cart_id.split('|')[0];
+    
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($source_cart_id: String!, $destination_cart_id: String!) {

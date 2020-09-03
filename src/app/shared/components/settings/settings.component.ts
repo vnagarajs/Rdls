@@ -61,8 +61,10 @@ export class SettingsComponent implements OnInit {
 
   logOut() {
     localStorage.removeItem("customerToken");
+    localStorage.removeItem("quoteId");  
+    this.productService.reCreateApolloAfterLoginLogOut();
   }
-  
+
   changeLanguage(code){
     if (isPlatformBrowser(this.platformId)) {
       this.translate.use(code)
