@@ -14,7 +14,6 @@ import { Cart, CartResponse } from '../../classes/cartGraphQl';
 export class SettingsComponent implements OnInit {
 
   public cart: Cart = { };
-  public userLoggedIn: boolean = false;
   public languages = [{ 
     name: 'English',
     code: 'en'
@@ -50,15 +49,20 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+  }
+
+  get userLoggedIn() {
     if(localStorage["customerToken"]) {
-      this.userLoggedIn = true;
+      return true;
     }
+    return false;
   }
 
   logOut() {
     localStorage.removeItem("customerToken");
-    this.userLoggedIn = false;
   }
+  
   changeLanguage(code){
     if (isPlatformBrowser(this.platformId)) {
       this.translate.use(code)

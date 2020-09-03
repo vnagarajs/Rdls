@@ -55,37 +55,23 @@ export class ProductService {
   public getProductBySku(sku: string): Observable<Product> {   
     const httpOptions = {
       headers: new HttpHeaders()
-    }
-    const token = localStorage.getItem('customerToken');
-    if(token) {
-      httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    }
-    //httpOptions.headers.set('content-type', 'application/json');
-    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    }    
     return this.http.get<Product>(environment.product_base_url + environment.get_product_url + sku);
   }
 
   public getQuoteId() {
-
     let quoteId: string = localStorage["quoteId"];
     if (quoteId) {
       return quoteId;
     }
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
-    const token = localStorage.getItem('customerToken');
-    if(token) {
-      httpOptions.headers.set('Authorization', 'Bearer ' + token);
-    }
-    //httpOptions.headers.set('content-type', 'application/json');
-    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    this.http.post(environment.product_base_url + environment.get_quote_id_url, null, httpOptions).subscribe(
+    const token = localStorage.getItem('customerToken');
+    let headers = new HttpHeaders();
+    if(token) {
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    }
+
+    this.http.post(environment.product_base_url + environment.get_quote_id_url, null, { headers }).subscribe(
       (response) => {
         quoteId = response.toString();
         if (quoteId) {
@@ -94,7 +80,6 @@ export class ProductService {
         return quoteId;
       }
     );
-
   }
 
   /*
@@ -340,17 +325,22 @@ export class ProductService {
     const httpOptions = {
       headers: new HttpHeaders()
     }
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+
     const token = localStorage.getItem('customerToken');
     let url = environment.add_to_cart_guest_url.replace('{0}', cart.cartItem.quote_id)
     if(token) {
-      httpOptions.headers.set('Authorization', 'Bearer ' + token);
+      //httpOptions.headers.set('Authorization', 'Bearer ' + token);
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');      
       url = environment.add_to_cart_customer_url;
     }
     httpOptions.headers.set('content-type', 'application/json');
     httpOptions.headers.set('Access-Control-Allow-Origin', '*');
     httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');    
-    return this.http.post(environment.product_base_url + url, cart, httpOptions);
+    return this.http.post(environment.product_base_url + url, cart, { headers: headers });
   }
 
   // Update Cart Quantity
@@ -770,15 +760,10 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
-    httpOptions.headers.set('content-type', 'application/json');
-    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.post(environment.product_base_url + environment.addGiftMessageUrl.replace('{0}', cart_id), giftMessage, httpOptions);
+    return this.http.post(environment.product_base_url + environment.addGiftMessageUrl.replace('{0}', cart_id), giftMessage, { headers: headers });
   }
 
   public placeOrder(): Observable<any> {
@@ -806,21 +791,16 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     authorizeNetOrderDetails.quote_details.quote_id = this.getQuoteId();
    
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
-
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');  
+   
     return this.http.post(environment.product_base_url + environment.authorize_net_order_url, authorizeNetOrderDetails, { headers: headers });   
   }
 
   public savePaymentDetails(paymentDetails: PaymentDetails): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
-    httpOptions.headers.set('content-type', 'application/json');
-    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Authorization', 'Bearer ' + environment.adminBearerToken);
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');  ;
 
-    return this.http.post(environment.product_base_url + environment.savePaymentDetails, paymentDetails, httpOptions);  
+    return this.http.post(environment.product_base_url + environment.savePaymentDetails, paymentDetails, { headers: headers });  
   }
 
   /*
