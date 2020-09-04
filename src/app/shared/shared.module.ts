@@ -190,16 +190,14 @@ export class SharedModule {
       },
     });
 
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
+    let headers = new HttpHeaders();
     const token = localStorage.getItem('customerToken');
     if(token) {
-      httpOptions.headers.set('Authorization', 'Bearer ' + token);
+      headers = headers.set('Authorization', 'Bearer ' + token);
     }
 
     apollo.create({
-      link: httpLink.create({uri: environment.api_host + environment.graphql_url, headers: httpOptions.headers}),
+      link: httpLink.create({uri: environment.api_host + environment.graphql_url, headers: headers}),
       cache: new InMemoryCache()
     });
   }

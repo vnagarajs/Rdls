@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { AccountService } from '../../../shared/services/account.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../shared/services/product.service';
@@ -19,21 +19,27 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login() {
-    this.accountService.login(this.email, this.password).subscribe(response => {
-      localStorage.setItem("customerToken", response.data.generateCustomerToken.token);
-      var guest_cart_id = localStorage["quoteId"];
-      var customer_cart_id = this.productService.getQuoteId();
-      if (guest_cart_id) {
-         this.accountService.mergeCarts(guest_cart_id, customer_cart_id).subscribe( response => {
+  async login() {
+    this.accountService.login(this.email, this.password).subscribe(async response => {
 
-         });
+      localStorage.setItem("customerToken", response.data.generateCustomerToken.token);      
+      this.productService.reCreateApolloAfterLoginLogOut();
+
+      let guest_cart_id = localStorage["quoteId"];
+      localStorage.removeItem('quoteId');
+
+      if (guest_cart_id) {
+        let customer_cart = await this.productService.getOrCreateQuoteId();
+        localStorage.setItem('quoteId', customer_cart.data.createEmptyCart);        
+        this.accountService.mergeCarts(guest_cart_id, customer_cart.data.createEmptyCart).subscribe(response => {
+        }); 
       }
-      if(this.route.snapshot.paramMap.get('source') == 'checkout') {
+
+      if (this.route.snapshot.paramMap.get('source') == 'checkout') {
         this.router.navigate(['/shop/checkout']);
       }
       else {
-        this.router.navigate(['/pages/dashboard']);        
+        this.router.navigate(['/pages/dashboard']);
       }
     });
   }

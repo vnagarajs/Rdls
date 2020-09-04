@@ -10,8 +10,11 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { CartResponse, Data, Item } from '../classes/cartGraphQl';
 import { ApolloQueryResult, ApolloCurrentQueryResult } from 'apollo-client';
+import { HttpLink } from 'apollo-angular-link-http';
 import { GiftMessage } from '../classes/giftMessage';
 import { PaymentDetails } from '../classes/order';
+import 'rxjs/add/observable/of';
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 const state = {
   products: JSON.parse(localStorage['products'] || '[]'),
@@ -30,7 +33,7 @@ export class ProductService {
   public Products
 
   constructor(private http: HttpClient,
-    private toastrService: ToastrService, private apollo: Apollo) {
+    private toastrService: ToastrService, private apollo: Apollo, private httpLink: HttpLink) {
   }
 
   /*
@@ -52,34 +55,63 @@ export class ProductService {
   }
 
   // Get Products By Slug
-  public getProductBySku(sku: string): Observable<Product> {   
+  public getProductBySku(sku: string): Observable<Product> {
     const httpOptions = {
       headers: new HttpHeaders()
-    }    
+    }
     return this.http.get<Product>(environment.product_base_url + environment.get_product_url + sku);
   }
 
-  public getQuoteId() {
-    let quoteId: string = localStorage["quoteId"];
-    if (quoteId) {
-      return quoteId;
-    }
+  public reCreateApolloAfterLoginLogOut() {
+    this.apollo.removeClient();
 
-    const token = localStorage.getItem('customerToken');
     let headers = new HttpHeaders();
+    const token = localStorage.getItem('customerToken');
     if(token) {
       headers = headers.set('Authorization', 'Bearer ' + token);
     }
 
-    this.http.post(environment.product_base_url + environment.get_quote_id_url, null, { headers }).subscribe(
-      (response) => {
-        quoteId = response.toString();
-        if (quoteId) {
-          localStorage.setItem("quoteId", quoteId);
+    this.apollo.create({
+      link: this.httpLink.create({uri: environment.api_host + environment.graphql_url, headers: headers}),
+      cache: new InMemoryCache()
+    });
+  }
+
+  public  getQuoteId() {
+    return localStorage["quoteId"];
+  }
+
+  public async getOrCreateQuoteId() {
+    let quoteId: string = localStorage["quoteId"];
+
+    if (quoteId) {
+      let response = {
+        data: {
+          createEmptyCart: quoteId
         }
-        return quoteId;
       }
-    );
+      return await Observable.of(response).toPromise();
+    }
+
+    return await this.apollo
+      .mutate<any>({
+        mutation: gql`mutation {
+          createEmptyCart
+        }`
+      }).toPromise();
+      
+      // .subscribe(
+      //   (response) => {
+      //     quoteId = response.data.createEmptyCart;
+      //     if (quoteId) {
+      //       localStorage.setItem("quoteId", quoteId);
+      //     }
+      //     console.log('3');
+      //     console.log(response);
+          
+      //     return Observable.of(quoteId);
+      //   }
+      // );
   }
 
   /*
@@ -166,8 +198,12 @@ export class ProductService {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
+
     return this.http.get<any>(environment.api_host + `graphql?query={
-      cart(cart_id: "`+ cart_id+ `") {
+      cart(cart_id: "`+ cart_id + `") {
         items {
           id
           product {
@@ -317,29 +353,27 @@ export class ProductService {
         }
       }
     }
-    `);    
+    `);
   }
 
   // Add to Cart
   public addToCart(cart: cartRestApi.Cart): any {
-    const httpOptions = {
-      headers: new HttpHeaders()
-    }
+    
+    cart.cartItem.quote_id = localStorage["quoteId"].split('|')[0];    
 
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
 
     const token = localStorage.getItem('customerToken');
     let url = environment.add_to_cart_guest_url.replace('{0}', cart.cartItem.quote_id)
-    if(token) {
-      //httpOptions.headers.set('Authorization', 'Bearer ' + token);
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');      
+    if (token) {
+      cart.cartItem.quote_id = localStorage["quoteId"].split('|')[1];  
+      
+      headers = headers.set('Authorization', 'Bearer ' + token);
       url = environment.add_to_cart_customer_url;
     }
-    httpOptions.headers.set('content-type', 'application/json');
-    httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-    httpOptions.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    httpOptions.headers.set('Access-Control-Allow-Headers', 'X-Requested-With,content-type');    
+    console.log(cart);
+    
     return this.http.post(environment.product_base_url + url, cart, { headers: headers });
   }
 
@@ -382,6 +416,10 @@ export class ProductService {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }  
+
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!, $cart_item_id: Int!, $quantity: Float!) {
@@ -445,17 +483,22 @@ export class ProductService {
           is_email_available
           }
           }`,
-          variables: {
-            email: email
-          }
-        });          
-  } 
+        variables: {
+          email: email
+        }
+      });
+  }
 
   public setGuestEmailOnCart(email: string): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
+
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($email: String!, $cart_id: String!) {
@@ -474,12 +517,16 @@ export class ProductService {
         }
       });
   }
-        
-public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
+
+  public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
+
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
@@ -556,7 +603,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          cart_id: cart_id,    
+          cart_id: cart_id,
           firstname: shippingAddress.firstname,
           lastname: shippingAddress.lastname,
           street: shippingAddress.street,
@@ -565,7 +612,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
           postcode: shippingAddress.postcode,
           telephone: shippingAddress.telephone,
           country_code: 'US',
-          save_in_address_book: false,    
+          save_in_address_book: false,
         }
       });
   }
@@ -575,6 +622,10 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
+
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!, $firstname: String!, $lastname: String!, $street: [String]!, $city: String!,
@@ -619,7 +670,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          cart_id: cart_id,    
+          cart_id: cart_id,
           firstname: shippingAddress.firstname,
           lastname: shippingAddress.lastname,
           street: shippingAddress.street,
@@ -628,7 +679,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
           postcode: shippingAddress.postcode,
           telephone: shippingAddress.telephone,
           country_code: 'US',
-          save_in_address_book: false,    
+          save_in_address_book: false,
         }
       });
   }
@@ -637,6 +688,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
+    }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
     }
     return this.apollo
       .mutate<any>({
@@ -665,7 +719,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
         }
         `,
         variables: {
-          cart_id: cart_id,    
+          cart_id: cart_id,
           carrier_code: carrier_code,
           method_code: method_code
         }
@@ -676,6 +730,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
+    }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
     }
     return this.apollo
       .mutate<any>({
@@ -696,7 +753,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
           } 
         `,
         variables: {
-          cart_id: cart_id,    
+          cart_id: cart_id,
           code: code
         }
       });
@@ -706,6 +763,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
+    }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
     }
     return this.apollo
       .mutate<any>({
@@ -726,7 +786,7 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
           } 
         `,
         variables: {
-          cart_id: cart_id,    
+          cart_id: cart_id,
           coupon_code: couponCode
         }
       });
@@ -736,6 +796,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     var cart_id = localStorage["quoteId"];
     if (!cart_id) {
       cart_id = this.getQuoteId();
+    }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
     }
     return this.apollo
       .mutate<any>({
@@ -760,6 +823,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');
 
@@ -771,6 +837,9 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
     if (!cart_id) {
       cart_id = this.getQuoteId();
     }
+    if (cart_id) {
+      cart_id = cart_id.split('|')[0];
+    }
     return this.apollo
       .mutate<any>({
         mutation: gql`mutation($cart_id: String!) {
@@ -781,26 +850,26 @@ public setShippingAddressesOnCart(shippingAddress: any): Observable<any> {
           }        
         }       
     `,
-      variables: {
-        cart_id: cart_id
-      }
-    });    
+        variables: {
+          cart_id: cart_id
+        }
+      });
   }
 
   public placeAuthorizeNetOrder(authorizeNetOrderDetails: any): Observable<any> {
-    authorizeNetOrderDetails.quote_details.quote_id = this.getQuoteId();
-   
+    authorizeNetOrderDetails.quote_details.quote_id = this.getQuoteId().split('|')[0];
+
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');  
-   
-    return this.http.post(environment.product_base_url + environment.authorize_net_order_url, authorizeNetOrderDetails, { headers: headers });   
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');
+
+    return this.http.post(environment.product_base_url + environment.authorize_net_order_url, authorizeNetOrderDetails, { headers: headers });
   }
 
   public savePaymentDetails(paymentDetails: PaymentDetails): Observable<any> {
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');  ;
+    headers = headers.set('Authorization', 'Bearer ' + environment.adminBearerToken).set('Content-Type', 'application/json; charset=utf-8');;
 
-    return this.http.post(environment.product_base_url + environment.savePaymentDetails, paymentDetails, { headers: headers });  
+    return this.http.post(environment.product_base_url + environment.savePaymentDetails, paymentDetails, { headers: headers });
   }
 
   /*

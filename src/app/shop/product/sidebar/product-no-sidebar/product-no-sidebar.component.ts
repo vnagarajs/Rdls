@@ -130,7 +130,7 @@ export class ProductNoSidebarComponent implements OnInit {
   }
 
   // Add to cart
-   addToCart() {
+   async addToCart() {
     this.formSubmitted = true;
     if(!this.cartFormGroup.valid)
     return;
@@ -141,7 +141,10 @@ export class ProductNoSidebarComponent implements OnInit {
     cart.cartItem.productOption.extensionAttributes.customOptions = [];
     cart.cartItem.productOption.extensionAttributes.configurable_item_options = [];
     cart.cartItem.sku = this.product.sku;
-    cart.cartItem.quote_id = this.productService.getQuoteId();    
+
+    let cart_quote = await this.productService.getOrCreateQuoteId();
+    localStorage.setItem('quoteId', cart_quote.data.createEmptyCart);
+    
     cart.cartItem.qty = this.counter || 1;
     cart.cartItem.product_type = this.product.type_id;
     this.product.options.forEach(option => {
